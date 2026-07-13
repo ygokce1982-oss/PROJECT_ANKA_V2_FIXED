@@ -1,0 +1,1 @@
+"""PROJECT ANKA kullanıcı arayüzü."""

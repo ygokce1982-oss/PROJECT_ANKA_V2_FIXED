@@ -1,0 +1,1 @@
+"""PROJECT ANKA test paketi."""

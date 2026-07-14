@@ -7,6 +7,7 @@ from typing import Any
 import requests
 
 from core.providers.forex_provider import ForexProvider
+from core.providers.crypto_provider import CryptoProvider
 
 LOGGER = logging.getLogger(__name__)
 
@@ -154,49 +155,8 @@ class MarketData:
         client: Any,
         values: dict[str, str],
     ) -> None:
-        source_errors: list[str] = []
+        provider = CryptoProvider()
+        provider.session = client
 
-        try:
-            payload = cls._request_json(
-                client,
-                cls.COINGECKO_BTC_URL,
-            )
-
-            bitcoin = payload.get("bitcoin", {})
-            amount = float(bitcoin["usd"])
-
-            values["btc"] = f"${amount:,.2f}"
-            return
-
-        except Exception as exc:
-            source_errors.append(
-                f"CoinGecko: {exc}"
-            )
-            LOGGER.info(
-                "CoinGecko kullanılamadı: %s",
-                exc,
-            )
-
-        try:
-            payload = cls._request_json(
-                client,
-                cls.BINANCE_BTC_URL,
-            )
-
-            amount = float(payload["price"])
-
-            values["btc"] = f"${amount:,.2f}"
-            return
-
-        except Exception as exc:
-            source_errors.append(
-                f"Binance: {exc}"
-            )
-            LOGGER.info(
-                "Binance kullanılamadı: %s",
-                exc,
-            )
-
-        raise RuntimeError(
-            " | ".join(source_errors)
-        )
+        parsed = provider.fetch()
+        values["btc"] = parsed["btc"]

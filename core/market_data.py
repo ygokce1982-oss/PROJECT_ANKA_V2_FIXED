@@ -6,6 +6,7 @@ from typing import Any
 
 import requests
 
+from core.providers.forex_provider import ForexProvider
 
 LOGGER = logging.getLogger(__name__)
 
@@ -139,26 +140,13 @@ class MarketData:
         client: Any,
         values: dict[str, str],
     ) -> None:
-        payload = cls._request_json(
-            client,
-            cls.EXCHANGE_RATES_URL,
-        )
+        provider = ForexProvider()
+        provider.session = client
 
-        if payload.get("result") != "success":
-            raise ValueError(
-                "Döviz servisi başarısız sonuç döndürdü"
-            )
+        parsed = provider.fetch()
 
-        rates = payload["rates"]
-
-        usdtry = float(rates["TRY"])
-        usdeur = float(rates["EUR"])
-
-        if usdeur <= 0:
-            raise ValueError("Geçersiz EUR kuru")
-
-        values["usdtry"] = f"₺{usdtry:,.2f}"
-        values["eurtry"] = f"₺{usdtry / usdeur:,.2f}"
+        values["usdtry"] = f"₺{parsed['usdtry']:,.2f}"
+        values["eurtry"] = f"₺{parsed['eurtry']:,.2f}"
 
     @classmethod
     def _load_btc_price(

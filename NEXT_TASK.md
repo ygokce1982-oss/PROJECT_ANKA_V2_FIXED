@@ -1,16 +1,16 @@
 # Sonraki Görev
 
-Görev: ANKA-002
-Başlık: Test altyapısını doğrulama ve BTC test uyumsuzluğunu düzeltme
+Görev: ANKA-007
+Başlık: CryptoProvider geliştirme ve çevrimdışı birim testleri
 
 Amaç:
-- Mevcut testleri çalıştırmak
-- Başarısız testleri kaydetmek
-- Testteki BTC yanıt biçimini gerçek CoinGecko veri biçimiyle uyumlu hâle getirmek
-- Ağ bağlantısı gerektirmeyen testler oluşturmak
+- CoinGecko birincil kaynak olarak kullanılacak bir `CryptoProvider` tasarlamak
+- Binance yedek kaynak mantığını tanımlamak
+- Gerçek internete bağlanmayan birim testler oluşturmak
+- Henüz `MarketData` entegrasyonu yapmamak
 
 Kabul ölçütleri:
-- Tüm birim testleri başarılı
-- Testler internete bağlanmadan çalışıyor
-- Python uygulama kaynak kodu gereksiz yere değiştirilmemiş
-- Değişiklikler kısa bir teknik notla açıklanmış
+- CryptoProvider sınıfı mantıklı bir iskelete sahip
+- Testler ağ bağlantısı olmadan çalışıyor
+- CoinGecko ve Binance kaynakları için ayrı kaynak senaryoları belirlendi
+- Üretim kodu ve UI değişiklikleri yapılmadı

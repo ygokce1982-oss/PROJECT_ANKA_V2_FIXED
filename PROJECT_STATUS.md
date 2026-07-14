@@ -9,11 +9,16 @@
   - USD/TRY ve EUR/TRY verileri gösteriliyor
   - Arka planda veri yenileme çalışıyor
   - Git ve GitHub bağlantısı kuruldu
+- Tamamlanan görevler:
+  - ANKA-001: Proje hafızası ve çalışma kayıt sistemi
+  - ANKA-002: Veri sağlayıcı klasörü ve sınıf iskeletleri
+  - ANKA-003: BaseProvider ve ProviderManager altyapısı
+  - ANKA-004: ForexProvider ve çevrimdışı birim testleri
+  - ANKA-005: ForexProvider'ın MarketData sistemine entegrasyonu
 - Açık sorunlar:
   - BTC servislerine ağ/SSL bağlantısı başarısız
   - XU100 gerçek verisi henüz yok
   - Altın gerçek verisi henüz yok
   - Grafik, Yapay Zekâ, Haberler, Portföy ve Ayarlar sayfaları yer tutucu
-  - Testlerde BTC JSON biçimiyle gerçek kod arasında uyumsuzluk olabilir
-- Sonraki görev: ANKA-002 — Test altyapısını doğrulama ve BTC test uyumsuzluğunu düzeltme
+- Sonraki görev: ANKA-007 — CryptoProvider geliştirme ve çevrimdışı birim testleri
 - Son güncelleme tarihi: 14 Temmuz 2026

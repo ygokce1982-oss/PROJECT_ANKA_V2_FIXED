@@ -30,12 +30,15 @@ Kullanıcı, çalışan bir prototip üzerinden veri akışını ve UI entegrasy
 - Arka plan veri yenileme mekanizması
 - Proje hata/bağlantı sorunlarına dair ön inceleme
 - Proje hafızası ve dokümantasyon dosyaları oluşturuldu
+- Veri sağlayıcı altyapısı oluşturuldu
+- ForexProvider geliştirildi ve MarketData sistemine bağlandı
+- Dört birim test başarıyla geçildi
 
 ## Açık sorunlar
 - BTC servisleri ile ağ/SSL bağlantısı problemi var
+- BTC hâlâ eski MarketData mantığında çalışıyor
 - XU100 ve altın verisi hâlen yer tutucu
 - `Grafik`, `Yapay Zekâ`, `Haberler`, `Portföy`, `Ayarlar` sayfaları gerçek işlevsellik taşımıyor
-- Testte BTC JSON biçimi gerçek kodla tutarsız olabilir
 - `toolbar.py` ve bazı klasörler boş veya eksik kullanılmakta
 
 ## Alınan kararlar
@@ -48,6 +51,10 @@ Kullanıcı, çalışan bir prototip üzerinden veri akışını ve UI entegrasy
 - Önce çalışan temel sistem, sonra simülasyon, daha sonra Yapay Zekâ Meclisi geliştirilecektir.
 - Finansal çıktılar kesin tahmin veya garanti olarak sunulmayacaktır.
 - ANKA bir karar destek sistemi olarak tasarlanacaktır.
+- USD/TRY ve EUR/TRY artık ForexProvider üzerinden alınıyor.
+
+## Sonraki görev
+- ANKA-007 — CryptoProvider geliştirme ve çevrimdışı birim testleri
 
 ## Yapılmaması gerekenler
 - Sohbet geçmişine tek başına güvenmek

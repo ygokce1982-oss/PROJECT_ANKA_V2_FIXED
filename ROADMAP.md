@@ -5,8 +5,8 @@
 - [x] GitHub deposu
 - [x] Çalışan PySide6 arayüzü
 - [x] Proje kayıt sistemi
-- [ ] Testlerin düzeltilmesi
-- [ ] Veri sağlayıcı mimarisi
+- [x] Testlerin düzeltilmesi
+- [x] Veri sağlayıcı mimarisi
 - [ ] Dosya tabanlı günlük kaydı
 
 ## Aşama 2 — Piyasa Terminali

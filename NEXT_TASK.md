@@ -1,16 +1,16 @@
 # Sonraki Görev
 
-Görev: ANKA-007
-Başlık: CryptoProvider geliştirme ve çevrimdışı birim testleri
+Görev: ANKA-011
+Başlık: Çoklu Yapay Zekâ Orkestrasyon Altyapısı
 
 Amaç:
-- CoinGecko birincil kaynak olarak kullanılacak bir `CryptoProvider` tasarlamak
-- Binance yedek kaynak mantığını tanımlamak
-- Gerçek internete bağlanmayan birim testler oluşturmak
-- Henüz `MarketData` entegrasyonu yapmamak
+- `core/ai/` içinde çoklu ajan orkestrasyon altyapısı kurmak
+- API anahtarı veya canlı model bağlantısı olmadan tasarlamak
+- Offline testler ile doğrulamak
 
 Kabul ölçütleri:
-- CryptoProvider sınıfı mantıklı bir iskelete sahip
+- `BaseAgent`, `AgentResult`, `MockAgent` ve `MultiAIOrchestrator` sınıfları tanımlanmış
+- Ajan ekleme, kaldırma, listeleme, görev dağıtımı ve role bazlı hedefleme destekleniyor
+- Hata veren ajan diğerlerini etkilemiyor
 - Testler ağ bağlantısı olmadan çalışıyor
-- CoinGecko ve Binance kaynakları için ayrı kaynak senaryoları belirlendi
-- Üretim kodu ve UI değişiklikleri yapılmadı
+- MarketData, UI ve sağlayıcı dosyaları değişmedi

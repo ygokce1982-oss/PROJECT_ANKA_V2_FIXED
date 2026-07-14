@@ -6,8 +6,10 @@ from core.market_data import MarketData
 
 
 class StubResponse:
-    def __init__(self, payload: object) -> None:
+    def __init__(self, payload: object, headers: dict | None = None) -> None:
         self.payload = payload
+        # Varsayılan olarak tests'in beklediği Content-Type'ı sağlar
+        self.headers = headers or {"Content-Type": "application/json"}
 
     def raise_for_status(self) -> None:
         return None
@@ -38,7 +40,7 @@ class MarketDataTests(unittest.TestCase):
                 MarketData.EXCHANGE_RATES_URL: StubResponse(
                     {"result": "success", "rates": {"TRY": 40.0, "EUR": 0.8}}
                 ),
-                MarketData.BTC_SPOT_URL: StubResponse({"data": {"amount": "62500.50"}}),
+                MarketData.BTC_SPOT_URL: StubResponse({"bitcoin": {"usd": 62500.50}}),
             }
         )
 
@@ -69,7 +71,7 @@ class MarketDataTests(unittest.TestCase):
         session = StubSession(
             {
                 MarketData.EXCHANGE_RATES_URL: StubResponse({"result": "error"}),
-                MarketData.BTC_SPOT_URL: StubResponse({"data": {"amount": "62000"}}),
+                MarketData.BTC_SPOT_URL: StubResponse({"bitcoin": {"usd": 62000}}),
             }
         )
 
@@ -82,3 +84,26 @@ class MarketDataTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ForexProviderTests(unittest.TestCase):
+    def test_forex_provider_parses_rates_without_network(self) -> None:
+        from core.providers.forex_provider import ForexProvider
+
+        # Stub oturum, gerçek HTTP isteği yapılmayacak
+        session = StubSession(
+            {
+                ForexProvider.EXCHANGE_RATES_URL: StubResponse(
+                    {"result": "success", "rates": {"TRY": 35.0, "EUR": 0.7}}
+                )
+            }
+        )
+
+        provider = ForexProvider()
+        # Sağlayıcıyı gerçek ağa bağlamamak için stub oturumu atıyoruz
+        provider.session = session
+
+        parsed = provider.fetch()
+
+        self.assertAlmostEqual(parsed["usdtry"], 35.0)
+        self.assertAlmostEqual(parsed["eurtry"], 35.0 / 0.7)

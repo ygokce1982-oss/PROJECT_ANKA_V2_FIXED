@@ -64,6 +64,7 @@ class OllamaAgent(BaseAgent):
             "model": self.model,
             "messages": messages,
             "stream": False,
+            "think": False,
         }
 
         try:

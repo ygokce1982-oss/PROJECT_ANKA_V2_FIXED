@@ -21,8 +21,12 @@ class StubResponse:
 class StubSession:
     def __init__(self, responses: dict[str, object]) -> None:
         self.responses = responses
+        self.last_request: dict[str, object] | None = None
+        self.last_url: str | None = None
 
     def post(self, url: str, **kwargs: object) -> StubResponse:
+        self.last_request = kwargs
+        self.last_url = url
         response = self.responses[url]
         if isinstance(response, Exception):
             raise response
@@ -80,6 +84,50 @@ class OllamaAgentTests(unittest.TestCase):
         self.assertTrue(result.success)
         self.assertEqual(result.output, "Done")
         self.assertEqual(context, {"topic": "finance"})
+
+    def test_payload_includes_think_false(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/chat": StubResponse(
+                    {"message": {"content": "Ready"}}
+                )
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            session=session,
+        )
+
+        result = agent.run("Prepare answer")
+
+        self.assertTrue(result.success)
+        self.assertEqual(result.output, "Ready")
+        self.assertIsNotNone(session.last_request)
+        self.assertEqual(session.last_request["json"]["think"], False)
+
+    def test_thinking_flag_ignored(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/chat": StubResponse(
+                    {"message": {"content": "Final answer", "thinking": True}}
+                )
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            session=session,
+        )
+
+        result = agent.run("Ask question")
+
+        self.assertTrue(result.success)
+        self.assertEqual(result.output, "Final answer")
 
     def test_empty_model_name_returns_error(self) -> None:
         agent = OllamaAgent(

@@ -1,17 +1,18 @@
 # Sonraki Görev
 
-Görev: ANKA-012
-Başlık: Ollama Yerel Yapay Zekâ Adaptörü
+Görev: ANKA-013
+Başlık: Çoklu Yapay Zekâ İş Akışı
 
 Amaç:
-- `core/ai/ollama_agent.py` içinde bir yerel Ollama adaptörü tanımlamak
-- Gerçek internete bağlanmadan, sadece API altyapısını hazırlamak
+- `core/ai/workflow.py` içinde bir iş akışı yönetimi eklemek
+- Coder, reviewer, researcher ve analyst adımlarını sıralı çalıştırmak
+- Önceki adım çıktısını sonraki adıma aktarmak
 - Offline testler ile doğrulamak
 
 Kabul ölçütleri:
-- OllamaAgent `BaseAgent`'dan türetilmiş
-- `run()` `AgentResult` sözleşmesine uygun dönüş sağlıyor
-- `health_check()` Ollama erişimini kontrol ediyor
-- `core/ai/__init__.py` OllamaAgent'i dışarı aktarıyor
+- `WorkflowStep` ve `WorkflowResult` veri modelleri tanımlandı
+- `MultiAIWorkflow` adım ekleme, kaldırma ve sıralı çalıştırma sağlıyor
+- Role uygun ajan bulunamazsa hata veriyor
+- Zorunlu adım başarısızsa duruyor, isteğe bağlı adım başarısızsa devam ediyor
 - Testler ağ bağlantısı olmadan çalışıyor
 - MarketData, UI ve sağlayıcı dosyaları değişmedi

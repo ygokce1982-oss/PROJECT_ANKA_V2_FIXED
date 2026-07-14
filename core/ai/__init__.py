@@ -5,6 +5,7 @@ from .models import AgentResult
 from .mock_agent import MockAgent
 from .ollama_agent import OllamaAgent
 from .orchestrator import MultiAIOrchestrator
+from .workflow import MultiAIWorkflow, WorkflowResult, WorkflowStep
 
 __all__ = [
     "BaseAgent",
@@ -12,4 +13,7 @@ __all__ = [
     "MockAgent",
     "OllamaAgent",
     "MultiAIOrchestrator",
+    "MultiAIWorkflow",
+    "WorkflowResult",
+    "WorkflowStep",
 ]

@@ -1,16 +1,17 @@
 # Sonraki Görev
 
-Görev: ANKA-011
-Başlık: Çoklu Yapay Zekâ Orkestrasyon Altyapısı
+Görev: ANKA-012
+Başlık: Ollama Yerel Yapay Zekâ Adaptörü
 
 Amaç:
-- `core/ai/` içinde çoklu ajan orkestrasyon altyapısı kurmak
-- API anahtarı veya canlı model bağlantısı olmadan tasarlamak
+- `core/ai/ollama_agent.py` içinde bir yerel Ollama adaptörü tanımlamak
+- Gerçek internete bağlanmadan, sadece API altyapısını hazırlamak
 - Offline testler ile doğrulamak
 
 Kabul ölçütleri:
-- `BaseAgent`, `AgentResult`, `MockAgent` ve `MultiAIOrchestrator` sınıfları tanımlanmış
-- Ajan ekleme, kaldırma, listeleme, görev dağıtımı ve role bazlı hedefleme destekleniyor
-- Hata veren ajan diğerlerini etkilemiyor
+- OllamaAgent `BaseAgent`'dan türetilmiş
+- `run()` `AgentResult` sözleşmesine uygun dönüş sağlıyor
+- `health_check()` Ollama erişimini kontrol ediyor
+- `core/ai/__init__.py` OllamaAgent'i dışarı aktarıyor
 - Testler ağ bağlantısı olmadan çalışıyor
 - MarketData, UI ve sağlayıcı dosyaları değişmedi

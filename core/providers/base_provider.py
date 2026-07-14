@@ -6,9 +6,18 @@ class BaseProvider:
     Bu sınıf, sağlayıcıların ortak yöntem ve özelliklerini tanımlar.
     """
 
-    def fetch(self):
-        """Veri sağlayıcıdan veri çeker.
+    def connect(self):
+        """Sağlayıcı ile bağlantı kurar."""
+        raise NotImplementedError
 
-        Alt sınıflar bu yöntemi uygulamalıdır.
-        """
+    def fetch(self):
+        """Veri sağlayıcıdan ham veri çeker."""
+        raise NotImplementedError
+
+    def parse(self, raw_data: object):
+        """Ham veriyi uygulamanın kullanabileceği biçime dönüştürür."""
+        raise NotImplementedError
+
+    def validate(self, parsed_data: object) -> bool:
+        """Ayrıştırılmış verinin geçerliliğini denetler."""
         raise NotImplementedError

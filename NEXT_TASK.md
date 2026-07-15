@@ -1,15 +1,19 @@
 # Sonraki Görev
 
-Görev: ANKA-019
-Başlık: AI Paneli Hızlı/Takım Modları
+Görev: ANKA-020
+Başlık: Otonom Agent Hub MVP
 
 Amaç:
-- Hızlı mod: görev yönlendiricisinin seçtiği tek ajan
-- Takım modu: dört ajanlı tam iş akışı
-- Model seçiminin kalıcı ayarlardan yönetilmesi
+- Kalıcı SQLite tabanlı görev kuyruğu oluşturmak
+- AgentRegistry ile role göre ajan seçimi sağlamak
+- Scheduler ile önceliğe göre görev atamak
+- Onay gerektiren görevleri bloke etmek
+- OllamaAdapter ile mevcut Ollama altyapısını kullanmak
 
 Kabul ölçütleri:
-- Kullanıcı hızlı modu ve takım modunu seçebilmeli
-- Hızlı mod tek ajanlı işleyişle çalışmalı
-- Takım modu dört ajanlı tam iş akışını kullanmalı
-- Model seçimi arayüzden kalıcı ayarlara kaydedilmeli
+- Görevler `queued`, `running`, `review`, `blocked`, `completed`, `failed`, `cancelled` durumlarını desteklemeli
+- Aynı görev iki kez çalışmamalı
+- Başarısız görevler `max_attempts` sınırına kadar yeniden denenmeli
+- Görevler program yeniden başladıktan sonra kaybolmamalı
+- Testler tamamen çevrimdışı çalışmalı
+- `logs/agent_hub.log` dosyasında günlük tutulmalı

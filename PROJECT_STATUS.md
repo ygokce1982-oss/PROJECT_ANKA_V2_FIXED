@@ -11,6 +11,7 @@
   - Yapay Zekâ paneli PySide6 arayüzüne bağlandı
   - AI iş yükü QThread tabanlı worker ile UI thread'inden ayrıldı
   - AI paneli gemma3:1b ile manuel testten geçti
+  - Agent Hub MVP tasarlandı ve çekirdek `core/agent_hub` paketine eklendi
   - Git ve GitHub bağlantısı kuruldu
 - Tamamlanan görevler:
   - ANKA-001: Proje hafızası ve çalışma kayıt sistemi
@@ -27,5 +28,5 @@
   - Altın için onaylanmış canlı kaynak eksik
   - qwen3 modelleri mevcut bilgisayarda yavaş çalışıyor
   - Grafik, Haberler, Portföy ve Ayarlar sayfaları hâlâ yer tutucu
-- Sonraki görev: ANKA-019 — AI Paneli Hızlı/Takım Modları
+- Sonraki görev: ANKA-020 — Otonom Agent Hub MVP
 - Son güncelleme tarihi: 15 Temmuz 2026

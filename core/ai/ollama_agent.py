@@ -18,7 +18,7 @@ class OllamaAgent(BaseAgent):
         role: str,
         model: str,
         base_url: str = "http://localhost:11434",
-        timeout: int = 8,
+        timeout: int = 120,
         session: requests.Session | None = None,
     ) -> None:
         self.name = name
@@ -32,6 +32,7 @@ class OllamaAgent(BaseAgent):
         """Varsa mevcut session kullanır, yoksa yeni bir oturum oluşturur."""
         if self.session is None:
             self.session = requests.Session()
+            self.session.trust_env = False
 
     def run(self, task: str, context: dict[str, Any] | None = None) -> AgentResult:
         if not self.model or not self.model.strip():
@@ -136,7 +137,7 @@ class OllamaAgent(BaseAgent):
         try:
             response = self.session.get(
                 f"{self.base_url}/api/tags",
-                timeout=self.timeout,
+                timeout=5,
             )
             response.raise_for_status()
             return True

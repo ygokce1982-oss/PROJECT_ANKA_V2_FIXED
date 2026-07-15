@@ -22,6 +22,7 @@ class StubSession:
     def __init__(self, responses: dict[str, object]) -> None:
         self.responses = responses
         self.last_request: dict[str, object] | None = None
+        self.last_get_request: dict[str, object] | None = None
         self.last_url: str | None = None
 
     def post(self, url: str, **kwargs: object) -> StubResponse:
@@ -33,6 +34,8 @@ class StubSession:
         return response
 
     def get(self, url: str, **kwargs: object) -> StubResponse:
+        self.last_get_request = kwargs
+        self.last_url = url
         response = self.responses[url]
         if isinstance(response, Exception):
             raise response
@@ -128,6 +131,83 @@ class OllamaAgentTests(unittest.TestCase):
 
         self.assertTrue(result.success)
         self.assertEqual(result.output, "Final answer")
+
+    def test_default_timeout_is_120(self) -> None:
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+        )
+
+        self.assertEqual(agent.timeout, 120)
+
+    def test_connect_sets_trust_env_false_for_created_session(self) -> None:
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+        )
+
+        agent.connect()
+
+        self.assertIsNotNone(agent.session)
+        self.assertFalse(agent.session.trust_env)
+
+    def test_external_session_not_modified(self) -> None:
+        session = requests.Session()
+        session.trust_env = True
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            session=session,
+        )
+
+        agent.connect()
+
+        self.assertIs(session, agent.session)
+        self.assertTrue(session.trust_env)
+
+    def test_health_check_uses_short_timeout(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/tags": StubResponse({"tags": []})
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="researcher",
+            model="llama-2",
+            session=session,
+        )
+
+        self.assertTrue(agent.health_check())
+        self.assertIsNotNone(session.last_get_request)
+        self.assertEqual(session.last_get_request["timeout"], 5)
+
+    def test_run_uses_normal_timeout(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/chat": StubResponse(
+                    {"message": {"content": "Ready"}}
+                )
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            session=session,
+        )
+
+        result = agent.run("Prepare answer")
+
+        self.assertTrue(result.success)
+        self.assertIsNotNone(session.last_request)
+        self.assertEqual(session.last_request["timeout"], 120)
 
     def test_empty_model_name_returns_error(self) -> None:
         agent = OllamaAgent(

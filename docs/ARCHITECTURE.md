@@ -28,6 +28,8 @@
 - `core/ai/orchestrator.py`: birden fazla ajanın koordine edildiği orkestratör
 - `core/ai/task_router.py`: gelen görevin içeriğine göre uygun yapay zekâ rolünü seçen görev yönlendiricisi
 - `core/ai/workflow.py`: sıralı iş akışı yönetimi
+- `ui/components/ai_panel.py`: kullanıcı tarafından görev girilen, analiz başlatılan ve sonuçların gösterildiği AI sayfası
+- `ui/ai_worker.py`: UI thread'ini kilitlemeden LocalAITeam işlemlerini yürüten QThread tabanlı işçi
 - Ajanlar `name` ve `role` alanına sahip
 - Görevler tüm ajanlara veya role göre gönderilebilir
 - Yönlendirme katmanı görev tipine göre `coder`, `reviewer`, `researcher`, `analyst` rollerini seçer

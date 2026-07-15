@@ -1,18 +1,20 @@
 # Sonraki Görev
 
-Görev: ANKA-013
-Başlık: Çoklu Yapay Zekâ İş Akışı
+Görev: ANKA-017
+Başlık: Yerel Yapay Zekâ Paneli Entegrasyonu
 
 Amaç:
-- `core/ai/workflow.py` içinde bir iş akışı yönetimi eklemek
-- Coder, reviewer, researcher ve analyst adımlarını sıralı çalıştırmak
-- Önceki adım çıktısını sonraki adıma aktarmak
-- Offline testler ile doğrulamak
+- `ui/components/ai_panel.py` ile mevcut PySide6 arayüzüne yapay zekâ görev paneli eklemek
+- `ui/ai_worker.py` ile arka plan işleyişini UI thread'den ayırmak
+- `core/ai/local_team.py` kullanarak yerel Ollama modelini çalıştırmak
+- Sonuçları, hata durumlarını ve model bilgisini kullanıcıya göstermek
 
 Kabul ölçütleri:
-- `WorkflowStep` ve `WorkflowResult` veri modelleri tanımlandı
-- `MultiAIWorkflow` adım ekleme, kaldırma ve sıralı çalıştırma sağlıyor
-- Role uygun ajan bulunamazsa hata veriyor
-- Zorunlu adım başarısızsa duruyor, isteğe bağlı adım başarısızsa devam ediyor
-- Testler ağ bağlantısı olmadan çalışıyor
-- MarketData, UI ve sağlayıcı dosyaları değişmedi
+- Kullanıcı çok satırlı görev metni girebilmeli
+- "Analiz Et" düğmesi ile işlem başlatılmalı
+- Analiz sürecinde düğme devre dışı kalmalı ve durum gösterilmeli
+- Sonuçlar salt okunur alanda ve yalnızca nihai Türkçe içerik olarak gösterilmeli
+- Boş görevde Türkçe uyarı verilmeli
+- Ollama erişim hatası açıklayıcı biçimde gösterilmeli
+- UI kapanırken çalışan thread güvenli şekilde sonlandırılmalı
+- Testler sahte `LocalAITeam` ile çalıştırılmalı

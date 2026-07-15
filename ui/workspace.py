@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QLabel, QStackedWidget, QVBoxLayout, QWidget
 
+from ui.components.ai_panel import AIPage
 from ui.components.dashboard import Dashboard
 
 
@@ -25,7 +26,7 @@ class Workspace(QStackedWidget):
 
         self.addWidget(Dashboard())
         self.addWidget(SimplePage("📊 Grafik"))
-        self.addWidget(SimplePage("🤖 Yapay Zeka"))
+        self.addWidget(AIPage())
         self.addWidget(SimplePage("📰 Haberler"))
         self.addWidget(SimplePage("💼 Portföy"))
         self.addWidget(SimplePage("⚙️ Ayarlar"))

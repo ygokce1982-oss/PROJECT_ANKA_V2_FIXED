@@ -26,8 +26,10 @@
 - `core/ai/mock_agent.py`: gerçek API bağımlılığı olmadan çalışan test ajanı
 - `core/ai/ollama_agent.py`: Ollama yerel model adaptörü
 - `core/ai/orchestrator.py`: birden fazla ajanın koordine edildiği orkestratör
+- `core/ai/task_router.py`: gelen görevin içeriğine göre uygun yapay zekâ rolünü seçen görev yönlendiricisi
 - `core/ai/workflow.py`: sıralı iş akışı yönetimi
 - Ajanlar `name` ve `role` alanına sahip
 - Görevler tüm ajanlara veya role göre gönderilebilir
+- Yönlendirme katmanı görev tipine göre `coder`, `reviewer`, `researcher`, `analyst` rollerini seçer
 - Hata veren ajan çalışmalarını durdurmaz, diğer sonuçlar dönmeye devam eder
 - İş akışı `WorkflowStep` ve `WorkflowResult` ile adımları yönetir

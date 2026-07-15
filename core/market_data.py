@@ -6,8 +6,8 @@ from typing import Any
 
 import requests
 
-from core.providers.forex_provider import ForexProvider
 from core.providers.crypto_provider import CryptoProvider
+from core.providers.forex_provider import ForexProvider
 
 LOGGER = logging.getLogger(__name__)
 

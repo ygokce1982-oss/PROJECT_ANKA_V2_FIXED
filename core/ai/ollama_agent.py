@@ -19,6 +19,8 @@ class OllamaAgent(BaseAgent):
         model: str,
         base_url: str = "http://localhost:11434",
         timeout: int = 120,
+        temperature: float = 0.2,
+        num_predict: int = 256,
         session: requests.Session | None = None,
     ) -> None:
         self.name = name
@@ -26,6 +28,8 @@ class OllamaAgent(BaseAgent):
         self.model = model
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
+        self.temperature = temperature
+        self.num_predict = num_predict
         self.session = session
 
     def connect(self) -> None:
@@ -66,6 +70,10 @@ class OllamaAgent(BaseAgent):
             "messages": messages,
             "stream": False,
             "think": False,
+            "options": {
+                "temperature": self.temperature,
+                "num_predict": self.num_predict,
+            },
         }
 
         try:

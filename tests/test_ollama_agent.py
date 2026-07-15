@@ -209,6 +209,52 @@ class OllamaAgentTests(unittest.TestCase):
         self.assertIsNotNone(session.last_request)
         self.assertEqual(session.last_request["timeout"], 120)
 
+    def test_payload_includes_options_temperature_and_num_predict(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/chat": StubResponse(
+                    {"message": {"content": "Ready"}}
+                )
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            session=session,
+        )
+
+        result = agent.run("Prepare answer")
+
+        self.assertTrue(result.success)
+        self.assertEqual(session.last_request["json"]["options"]["temperature"], 0.2)
+        self.assertEqual(session.last_request["json"]["options"]["num_predict"], 256)
+
+    def test_custom_options_are_applied_from_constructor(self) -> None:
+        session = StubSession(
+            {
+                "http://localhost:11434/api/chat": StubResponse(
+                    {"message": {"content": "Ready"}}
+                )
+            }
+        )
+
+        agent = OllamaAgent(
+            name="ollama1",
+            role="assistant",
+            model="llama-2",
+            temperature=0.7,
+            num_predict=128,
+            session=session,
+        )
+
+        result = agent.run("Prepare answer")
+
+        self.assertTrue(result.success)
+        self.assertEqual(session.last_request["json"]["options"]["temperature"], 0.7)
+        self.assertEqual(session.last_request["json"]["options"]["num_predict"], 128)
+
     def test_empty_model_name_returns_error(self) -> None:
         agent = OllamaAgent(
             name="ollama1",

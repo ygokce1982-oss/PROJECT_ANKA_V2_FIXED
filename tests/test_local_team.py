@@ -43,6 +43,10 @@ class LocalTeamTests(unittest.TestCase):
         self.assertTrue(result.success)
         # final output should be produced by last agent
         self.assertIsNotNone(result.final_output)
+        self.assertIn("Görevi sadece Türkçe, kısa ve somut yanıtla", team.workflow.steps[0].task_template)
+        self.assertIn("Kullanıcıdan ek bilgi isteme", team.workflow.steps[0].task_template)
+        self.assertIn("Ek soru sorma", team.workflow.steps[2].task_template)
+        self.assertIn("Takip sorusu veya seçenek teklifiyle bitir", team.workflow.steps[3].task_template)
 
     def test_ollama_unreachable_returns_safe_error(self) -> None:
         class BadAgent(MockAgent):

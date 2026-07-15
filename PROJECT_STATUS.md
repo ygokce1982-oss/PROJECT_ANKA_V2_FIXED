@@ -8,6 +8,9 @@
   - Piyasa paneli çalışıyor
   - USD/TRY ve EUR/TRY verileri gösteriliyor
   - Arka planda veri yenileme çalışıyor
+  - Yapay Zekâ paneli PySide6 arayüzüne bağlandı
+  - AI iş yükü QThread tabanlı worker ile UI thread'inden ayrıldı
+  - AI paneli gemma3:1b ile manuel testten geçti
   - Git ve GitHub bağlantısı kuruldu
 - Tamamlanan görevler:
   - ANKA-001: Proje hafızası ve çalışma kayıt sistemi
@@ -15,10 +18,14 @@
   - ANKA-003: BaseProvider ve ProviderManager altyapısı
   - ANKA-004: ForexProvider ve çevrimdışı birim testleri
   - ANKA-005: ForexProvider'ın MarketData sistemine entegrasyonu
+  - ANKA-007: CryptoProvider geliştirme ve çevrimdışı birim testleri
+  - ANKA-013: Çoklu Yapay Zekâ İş Akışı
+  - ANKA-017: Yerel Yapay Zekâ Paneli Entegrasyonu
 - Açık sorunlar:
-  - BTC servislerine ağ/SSL bağlantısı başarısız
-  - XU100 gerçek verisi henüz yok
-  - Altın gerçek verisi henüz yok
-  - Grafik, Yapay Zekâ, Haberler, Portföy ve Ayarlar sayfaları yer tutucu
-- Sonraki görev: ANKA-007 — CryptoProvider geliştirme ve çevrimdışı birim testleri
-- Son güncelleme tarihi: 14 Temmuz 2026
+  - BTC canlı kaynaklarında SSL/ağ sorunu
+  - XU100 gerçek veri kaynağı eksik
+  - Altın için onaylanmış canlı kaynak eksik
+  - qwen3 modelleri mevcut bilgisayarda yavaş çalışıyor
+  - Grafik, Haberler, Portföy ve Ayarlar sayfaları hâlâ yer tutucu
+- Sonraki görev: ANKA-019 — AI Paneli Hızlı/Takım Modları
+- Son güncelleme tarihi: 15 Temmuz 2026

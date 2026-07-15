@@ -1,20 +1,15 @@
 # Sonraki Görev
 
-Görev: ANKA-017
-Başlık: Yerel Yapay Zekâ Paneli Entegrasyonu
+Görev: ANKA-019
+Başlık: AI Paneli Hızlı/Takım Modları
 
 Amaç:
-- `ui/components/ai_panel.py` ile mevcut PySide6 arayüzüne yapay zekâ görev paneli eklemek
-- `ui/ai_worker.py` ile arka plan işleyişini UI thread'den ayırmak
-- `core/ai/local_team.py` kullanarak yerel Ollama modelini çalıştırmak
-- Sonuçları, hata durumlarını ve model bilgisini kullanıcıya göstermek
+- Hızlı mod: görev yönlendiricisinin seçtiği tek ajan
+- Takım modu: dört ajanlı tam iş akışı
+- Model seçiminin kalıcı ayarlardan yönetilmesi
 
 Kabul ölçütleri:
-- Kullanıcı çok satırlı görev metni girebilmeli
-- "Analiz Et" düğmesi ile işlem başlatılmalı
-- Analiz sürecinde düğme devre dışı kalmalı ve durum gösterilmeli
-- Sonuçlar salt okunur alanda ve yalnızca nihai Türkçe içerik olarak gösterilmeli
-- Boş görevde Türkçe uyarı verilmeli
-- Ollama erişim hatası açıklayıcı biçimde gösterilmeli
-- UI kapanırken çalışan thread güvenli şekilde sonlandırılmalı
-- Testler sahte `LocalAITeam` ile çalıştırılmalı
+- Kullanıcı hızlı modu ve takım modunu seçebilmeli
+- Hızlı mod tek ajanlı işleyişle çalışmalı
+- Takım modu dört ajanlı tam iş akışını kullanmalı
+- Model seçimi arayüzden kalıcı ayarlara kaydedilmeli

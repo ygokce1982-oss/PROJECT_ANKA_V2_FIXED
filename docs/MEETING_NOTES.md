@@ -42,3 +42,21 @@
 
 ### Sonraki görev:
 - ANKA-007 — CryptoProvider geliştirme ve çevrimdışı birim testleri
+
+## Tarih: 15 Temmuz 2026
+### Oturum: SESSION-003
+
+### Konular:
+- AI panelinin PySide6 arayüze entegrasyonu
+- QThread tabanlı AI worker yapısının eklenmesi
+- ANKA-017 görevinin tamamlanması
+- gemma3:1b ile manuel AI panel testi
+
+### Alınan kararlar:
+- AI paneli mevcut arayüze yerleştirildi; yeni pencere oluşturulmadı
+- Yapay zekâ çağrısı UI thread'den ayrıldı
+- Birim testler sahte `LocalAITeam` ile çalıştırıldı
+- ANKA-019 için hızlı ve takım modlarının planlanmasına geçilecek
+
+### Sonraki görev:
+- ANKA-019 — AI Paneli Hızlı/Takım Modları

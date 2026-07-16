@@ -35,3 +35,14 @@
 - Yönlendirme katmanı görev tipine göre `coder`, `reviewer`, `researcher`, `analyst` rollerini seçer
 - Hata veren ajan çalışmalarını durdurmaz, diğer sonuçlar dönmeye devam eder
 - İş akışı `WorkflowStep` ve `WorkflowResult` ile adımları yönetir
+
+## Agent Hub Katmanı
+- `core/agent_hub/models.py`: kalıcı görev kaydı ve durum modelleri
+- `core/agent_hub/task_store.py`: SQLite tabanlı kalıcı görev kuyruğu
+- `core/agent_hub/agent_registry.py`: role göre ajan seçimi ve benzersiz kayıt
+- `core/agent_hub/approval_policy.py`: onay gerektiren görevleri kontrollü olarak engelleme
+- `core/agent_hub/scheduler.py`: önceliğe göre görev seçme ve çalıştırma kontrolü
+- `core/agent_hub/hub.py`: başlatma, görev atama ve sonuç güncelleme
+- `core/agent_hub/adapters`: yerel ve test adaptörleri
+- Görev durumları `queued`, `running`, `review`, `blocked`, `completed`, `failed`, `cancelled`
+- Görevler tekrar başlatıldıktan sonra kaybolmaz; SQLite ile kalıcı depolama sağlanır

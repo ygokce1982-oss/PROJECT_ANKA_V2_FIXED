@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional
-
-from .models import TaskRecord, TaskStatus
+from .models import TaskRecord
 from .task_store import TaskStore
 
 
@@ -10,12 +8,17 @@ class Scheduler:
     def __init__(self, task_store: TaskStore) -> None:
         self.task_store = task_store
 
-    def select_next_task(self) -> TaskRecord | None:
-        self.task_store.recover_expired_leases(lease_duration_seconds=300)
-        return self.task_store.lock_next_task()
+    def select_next_task(
+        self,
+        worker_id: str = "agent-hub",
+        lease_seconds: int = 300,
+    ) -> TaskRecord | None:
+        self.task_store.recover_expired_tasks()
+        return self.task_store.claim_next_task(worker_id, lease_seconds)
 
     def mark_running(self, task: TaskRecord) -> TaskRecord:
-        return self.task_store.update_task(task.id, status=TaskStatus.RUNNING)
+        # Atomic claim already places the task in RUNNING state.
+        return self.task_store.get_task(task.id)
 
     def should_retry(self, task: TaskRecord) -> bool:
-        return task.attempts + 1 < task.max_attempts
+        return task.attempts < task.max_attempts

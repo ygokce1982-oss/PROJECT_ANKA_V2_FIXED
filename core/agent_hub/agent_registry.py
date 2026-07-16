@@ -28,20 +28,39 @@ class AgentRegistry:
             raise KeyError(f"Agent not found: {name}")
         return self._agents[name].agent
 
+    def get_agent_infos_by_role(self, role: str) -> list[AgentInfo]:
+        return [
+            info
+            for info in self._agents.values()
+            if getattr(info.agent, "role", None) == role
+        ]
+
+    def has_agents_for_role(self, role: str) -> bool:
+        return bool(self.get_agent_infos_by_role(role))
+
     def get_agents_by_role(self, role: str) -> list[Any]:
-        candidates = [info for info in self._agents.values() if getattr(info.agent, "role", None) == role and info.healthy]
-        return [info.agent for info in candidates]
+        infos = self.get_agent_infos_by_role(role)
+        for info in infos:
+            self._refresh_info(info)
+        return [info.agent for info in infos if info.healthy]
 
     def list_agents(self) -> list[str]:
         return list(self._agents)
 
     def refresh_health(self) -> None:
-        now = datetime.now(timezone.utc)
         for info in self._agents.values():
-            healthy = True
-            try:
-                healthy = info.agent.health_check()
-            except Exception:
-                healthy = False
-            info.healthy = healthy
-            info.last_checked = now
+            self._refresh_info(info)
+
+    @staticmethod
+    def _check_health(agent: Any) -> bool:
+        health_check = getattr(agent, "health_check", None)
+        if health_check is None:
+            return True
+        try:
+            return bool(health_check())
+        except Exception:
+            return False
+
+    def _refresh_info(self, info: AgentInfo) -> None:
+        info.healthy = self._check_health(info.agent)
+        info.last_checked = datetime.now(timezone.utc)

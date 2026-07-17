@@ -1,6 +1,8 @@
 """PROJECT ANKA piyasa veri işlemleri."""
 
 import logging
+import math
+from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -99,6 +101,63 @@ class MarketData:
 
         return cls.get_snapshot().values
 
+    @staticmethod
+    def _require_mapping(
+        value: object,
+        field_name: str,
+    ) -> Mapping[str, Any]:
+        if not isinstance(value, Mapping):
+            raise ValueError(
+                f"{field_name} nesne biçiminde olmalı"
+            )
+        return value
+
+    @staticmethod
+    def _positive_finite_number(
+        value: object,
+        field_name: str,
+    ) -> float:
+        if isinstance(value, bool):
+            raise ValueError(
+                f"{field_name} sayısal değil"
+            )
+
+        normalized = value
+        if isinstance(value, str):
+            text = (
+                value.strip()
+                .replace("\u00a0", "")
+                .replace(" ", "")
+                .replace("₺", "")
+                .replace("$", "")
+                .replace("€", "")
+            )
+
+            if "," in text and "." not in text:
+                integer_part, separator, decimal_part = text.rpartition(",")
+                if separator and integer_part and 0 < len(decimal_part) <= 2:
+                    text = f"{integer_part}.{decimal_part}"
+                else:
+                    text = text.replace(",", "")
+            else:
+                text = text.replace(",", "")
+
+            normalized = text
+
+        try:
+            number = float(normalized)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                f"{field_name} sayısal değil"
+            ) from exc
+
+        if not math.isfinite(number) or number <= 0:
+            raise ValueError(
+                f"{field_name} pozitif ve sonlu olmalı"
+            )
+
+        return number
+
     @classmethod
     def _request_json(
         cls,
@@ -144,10 +203,21 @@ class MarketData:
         provider = ForexProvider()
         provider.session = client
 
-        parsed = provider.fetch()
+        parsed = cls._require_mapping(
+            provider.fetch(),
+            "Döviz sağlayıcısı yanıtı",
+        )
+        usdtry = cls._positive_finite_number(
+            parsed.get("usdtry"),
+            "USD/TRY kuru",
+        )
+        eurtry = cls._positive_finite_number(
+            parsed.get("eurtry"),
+            "EUR/TRY kuru",
+        )
 
-        values["usdtry"] = f"₺{parsed['usdtry']:,.2f}"
-        values["eurtry"] = f"₺{parsed['eurtry']:,.2f}"
+        values["usdtry"] = f"₺{usdtry:,.2f}"
+        values["eurtry"] = f"₺{eurtry:,.2f}"
 
     @classmethod
     def _load_btc_price(
@@ -158,5 +228,13 @@ class MarketData:
         provider = CryptoProvider()
         provider.session = client
 
-        parsed = provider.fetch()
-        values["btc"] = parsed["btc"]
+        parsed = cls._require_mapping(
+            provider.fetch(),
+            "Kripto sağlayıcısı yanıtı",
+        )
+        btc_price = cls._positive_finite_number(
+            parsed.get("btc"),
+            "BTC/USD fiyatı",
+        )
+
+        values["btc"] = f"${btc_price:,.2f}"

@@ -1,0 +1,38 @@
+name: ANKA Kod Kontrolü
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test-ve-kontrol:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v4
+
+      - name: Python'u hazırla
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Gerekli paketleri kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Kod hatalarını kontrol et
+        run: ruff check .
+
+      - name: Biçimlendirmeyi kontrol et
+        run: ruff format --check .
+
+      - name: Testleri çalıştır
+        run: python -m unittest discover -s tests -v

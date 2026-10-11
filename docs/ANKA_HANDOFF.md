@@ -45,3 +45,8 @@ Her yeni ajan veya sohbet GitHub'dan `AGENTS.md` → bu dosya → `docs/ANKA_OPE
 - **Koruma:** Kullanıcının `Documents/ANKA_Finans/Professional_20261009` çalışma ağacındaki 28 mevcut değişiklik korunmuştur; `main` koduna bu aday birleştirilmemiştir.
 - **Açık blokajlar:** `FULL_AUTONOMY=BLOCKED` ve `PRODUCTION_ACCEPTANCE=BLOCKED`; gerçek otomatik geliştirme→deterministik test→bağımsız kaynak denetimi→rollback uçtan uca tamamlanmadı. Doğrudan Claude Code oturumu ve Figma Starter kullanım kotası ayrı engellerdir.
 - **Sonraki görev:** Yeni aday dalındaki gerçekten çalışan terminal üzerinden bağımsız QA ve otomatik onarım güvenlik kapılarını kur; önce Git diff, test kanıtı ve son kayıtları oku. Başarısız ajan görevi/model yanıtını PASS gösterme.
+
+### 2026-10-11 — Windows GUI gerçek başlatma kanıtı
+
+- Çift tıklanabilir `ANKA_Finans_Baslat.cmd` ile Windows masaüstünden uygulama başlatıldı; ayrı `python.exe` süreci çalışır görüldü.
+- Gerçek Windows pencere başlığı `ANKA Finans | Profesyonel Piyasa Terminali` olarak `MainWindowTitle` üzerinden doğrulandı. Bu yalnız **GUI_START=PASS** kanıtıdır; canlı veri, tam otonomi veya nihai üretim kabulü anlamına gelmez.

@@ -18,10 +18,11 @@ from PySide6.QtGui import QColor, QFont, QFontDatabase, QPainter, QPainterPath, 
 from PySide6.QtWidgets import (
     QApplication, QAbstractItemView, QDockWidget, QFrame, QGridLayout,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit, QMainWindow, QPushButton,
-    QSizePolicy, QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
+    QSizePolicy, QSplitter, QTableWidget, QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget,
 )
 from PySide6.QtUiTools import QUiLoader
 from core.chart_indicators import validate_ohlcv, ema_series, rsi_wilder_series
+from ui.multi_asset_performance import PerformancePanel
 
 BG = "#08121E"
 SURFACE = "#0D1A2A"
@@ -38,6 +39,10 @@ QMainWindow{background:#08121E;}
 QWidget{color:#E8F1FC;font-family:'Segoe UI';font-size:11px;}
 QLabel{background:transparent;border:none;}
 QWidget#ChartWorkbench,QWidget#DockContent{background:#08121E;}
+QWidget#MultiAssetPerformancePanel{background:#0B1B2C;border:0;}
+QDoubleSpinBox{background:#132B40;color:#D8E8F6;border:1px solid #34536B;border-radius:3px;padding:5px;min-width:95px;}
+QCheckBox{background:transparent;spacing:5px;}
+QCheckBox::indicator{width:13px;height:13px;}
 QMainWindow::separator{background:#1B2A3E;width:5px;height:5px;}
 QToolBar{background:#091A29;color:#D6E7F8;border:0;border-bottom:1px solid #233950;spacing:8px;padding:5px;}
 QToolButton{background:#102A3F;color:#D6E7F8;border:1px solid #23445F;border-radius:3px;padding:5px 7px;}
@@ -299,13 +304,19 @@ class Terminal(QMainWindow):
         self.symbol_change=form.findChild(QLabel,"symbolChange")
         slot=form.findChild(QWidget,"chartSlot")
         slot.layout().addWidget(self.chart)
-        self.setCentralWidget(form)
+        self.workspace_tabs=QTabWidget()
+        self.workspace_tabs.setObjectName("AnkaWorkspaceTabs")
+        self.workspace_tabs.addTab(form, "Piyasa ve Mum Grafiği")
+        self.performance_panel=PerformancePanel()
+        self.workspace_tabs.addTab(self.performance_panel, "Çoklu Varlık · Getiri ve Sharpe")
+        self.setCentralWidget(self.workspace_tabs)
         self._create_toolbars()
         self._create_watchlist()
         self._create_depth()
         self._create_risk()
         self._create_news()
         self._create_analysis()
+        self.workspace_tabs.currentChanged.connect(self._on_workspace_changed)
         form.findChild(QPushButton,"saveLayoutButton").clicked.connect(self.save_layout)
         for val,visible in ((1,48),(2,78),(3,100),(4,125)):
             form.findChild(QPushButton,f"range{val}").clicked.connect(
@@ -329,8 +340,12 @@ class Terminal(QMainWindow):
         self.symbolSearch.returnPressed.connect(self.search_enter)
         bar.addWidget(self.symbolSearch)
         bar.addSeparator()
-        for item in ("Piyasa","Grafik","Tarayıcı","Portföy","Risk","Haberler","ANKA AI"):
+        for item in ("Piyasa","Grafik","Varlık Performansı","Tarayıcı","Portföy","Risk","Haberler","ANKA AI"):
             action=bar.addAction(item)
+            if item=="Varlık Performansı":
+                action.triggered.connect(lambda checked=False:self.workspace_tabs.setCurrentIndex(1))
+            if item=="Piyasa":
+                action.triggered.connect(lambda checked=False:self.workspace_tabs.setCurrentIndex(0))
             if item=="Risk":action.triggered.connect(lambda checked=False:self._dock["Portföy ve Risk"].raise_())
             if item=="Haberler":action.triggered.connect(lambda checked=False:self._dock["Haber ve Araştırma"].raise_())
         spacer=QWidget()
@@ -513,6 +528,15 @@ class Terminal(QMainWindow):
         self.statusBar().showMessage("Varsayılan çalışma alanına dönüldü; kayıtlı düzen temizlendi", 7500)
         return True
 
+    def _on_workspace_changed(self,index):
+        active=(index==1)
+        for name in ("Haber ve Araştırma","ANKA AI / Denetim"):
+            self._dock[name].setVisible(not active)
+        if active:
+            self.statusBar().showMessage(
+                "Çoklu varlık performansı · kaynak: sentetik / demo · gerçek veri bağlı değil"
+            )
+
     def _settings_file(self):
         supplied = os.environ.get("ANKA_LAYOUT_FILE", "").strip()
         if supplied:
@@ -572,7 +596,7 @@ class Terminal(QMainWindow):
 
 
 def main():
-    offscreen = "--screenshot" in sys.argv or "--multi-screenshot" in sys.argv
+    offscreen = any(x in sys.argv for x in ("--screenshot","--multi-screenshot","--performance-screenshot"))
     os.environ.setdefault("QT_QPA_PLATFORM","offscreen" if offscreen else "windows")
     app=QApplication([])
     fonts=Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts'
@@ -587,6 +611,18 @@ def main():
     win=Terminal()
     win.show()
     app.processEvents()
+    if "--performance-screenshot" in sys.argv:
+        win.resize(1740,1060)
+        win.workspace_tabs.setCurrentIndex(1)
+        app.processEvents()
+        dest=ROOT/"docs"/"previews"/"ANKA_MultiAsset_Returns_RollingSharpe_20261011.png"
+        dest.parent.mkdir(parents=True,exist_ok=True)
+        if not win.grab().save(str(dest),"PNG"):
+            raise SystemExit("PERFORMANCE_SCREENSHOT_SAVE_FAILED")
+        print("MULTI_ASSET_SCREENSHOT_PASS="+str(dest),flush=True)
+        print("SERIES="+str(len(win.performance_panel.comparison.series))+";SHARPE_WINDOW="+str(win.performance_panel.comparison.window),flush=True)
+        win.close()
+        return 0
     if "--screenshot" in sys.argv:
         dest=ROOT/"docs"/"previews"/"ANKA_QtDesigner_DockChart_Real_20261011.png"
         dest.parent.mkdir(parents=True,exist_ok=True)

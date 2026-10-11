@@ -17,3 +17,13 @@ Bu belge insan tarafından okunabilen kalıcı özet içindir. Makine kayıtlar�
 | 2026-10-11 | Ajan erişim V2 | Codex Windows süreç ağacı temizliği ve Antigravity Gemini/Claude geçidi aday dalda f1fbd07 olarak yayımlandı; 40 birim test, Codex canlı görev ve iki model bağlantısı PASS. Doğrudan Claude Code girişi ve Figma kotası BLOCKED. | KISMİ | Bağımsız denetim, gerçek süreç stres testi ve otomatik kod değişikliği/rollback kapısı. |
 
 **Kural:** Her gerçek geliştirme, test, denetim, hata veya geri alma sonrası yukarıdaki tabloya özet ekle; ayrıntıyı `scripts/record_operation.py` ile JSONL dosyasına kaydet. Başarısız doğrulamayı gizleme veya geçmiş kaydı silme.
+
+## 2026-10-11 — Çoklu varlık performansı ve Sharpe ekranı
+
+- **Dal:** `feature/anka-multi-asset-performance-20261011` (bağımsız Windows worktree).
+- **İşlem:** Kümülatif getiri grafiği + ortak günlük kapanışlardan yıllıklandırılmış hareketli 90 günlük Sharpe, 30/60/90/120 pencere seçenekleri; 2 grafik aynı gerçek Qt sekmesinde.
+- **Kaynak kontrolü:** Sıralı ISO tarihler, sonlu/pozitif kapanışlar, zorunlu veri-kaynağı ve dosya zamanı; farklı dövizler engellenir; eksik tarihler sessizce doldurulmaz. Sentetik örnek ve kullanıcı yerel CSV kaynağı ayrı etiketlenir.
+- **Test kanıtı:** Tam çevrimdışı regresyon `python -B -m unittest discover -s tests -p test_*.py -q`, `Ran 322 tests`, `OK`, exit 0. Özel hesap/CSV/Qt testleri PASS. Gerçek `QWidget.grab()` ekran görüntüsü ayrıca kaydedildi.
+- **Bağımsız inceleme:** **BLOCKED/PENDING**, henüz PASS kanıtı yok; ana dala birleştirme ve üretim kullanımı onaylanmış değildir. Yetkili gerçek Matriks/BIST veri akışı ve gerçek emir kapısı da BLOCKED.
+- **Geri alma:** Ayrı feature commit'i geri alınabilir, feature worktree kaldırılabilir; korunan 28 kullanıcı düzenlemesi bulunan ana yerel çalışma projesine dokunulmadı.
+- **Sabah programı:** ANKA Finans Tamamlama saatlik koşullu görev etkin, 2026-10-12 08:00 Türkiye saati için bağımsız sabah durum raporu oluşturuldu; aynı dosyalara paralel yazma yapılmaması şart.

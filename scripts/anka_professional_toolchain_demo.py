@@ -13,7 +13,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from PySide6.QtCore import Qt, QPointF, QRectF, QRect
+from PySide6.QtCore import Qt, QPointF, QRectF, QRect, QSettings
 from PySide6.QtGui import QColor, QFont, QFontDatabase, QPainter, QPainterPath, QPen, QShortcut, QKeySequence, QPixmap
 from PySide6.QtWidgets import (
     QApplication, QAbstractItemView, QDockWidget, QFrame, QGridLayout,
@@ -267,7 +267,9 @@ class Terminal(QMainWindow):
         self.setDockOptions(QMainWindow.DockOption.AllowNestedDocks | QMainWindow.DockOption.AllowTabbedDocks | QMainWindow.DockOption.AnimatedDocks)
         self.chart=Canvas()
         self._dock={}
+        self._layout_file = self._settings_file()
         self._build()
+        self._load_layout()
         self.statusBar().showMessage("SİMÜLASYON · GERÇEK VERİ YOK · EMİR GÖNDERİMİ KAPALI     |     Paneller sürüklenebilir, ayrılabilir ve kaydedilebilir.")
         QShortcut(QKeySequence("Ctrl+K"),self,activated=self.symbolSearch.setFocus)
 
@@ -472,13 +474,81 @@ class Terminal(QMainWindow):
         self.statusBar().showMessage("Paneller ayrıldı. Diğer monitöre sürükleyebilir veya başlığa çift tıklayarak yerleştirebilirsiniz.")
 
     def restore_default(self):
+        try:
+            if self._layout_file.is_file():
+                self._layout_file.unlink()
+        except OSError:
+            self.statusBar().showMessage("Kayıtlı düzen temizlenemedi; geçerli görünüm korunuyor", 7500)
+            return False
         for dock in self._dock.values():
             dock.setFloating(False)
             dock.show()
-        self.statusBar().showMessage("Paneller ana pencereye geri getirildi")
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._dock["İzleme Listesi"])
+        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self._dock["Piyasa Derinliği"])
+        self.splitDockWidget(
+            self._dock["Piyasa Derinliği"],
+            self._dock["Portföy ve Risk"],
+            Qt.Orientation.Vertical,
+        )
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._dock["Haber ve Araştırma"])
+        self.tabifyDockWidget(self._dock["Haber ve Araştırma"], self._dock["ANKA AI / Denetim"])
+        self._dock["Haber ve Araştırma"].raise_()
+        self.choose_symbol("THYAO")
+        self.set_chart_zoom(78)
+        self.statusBar().showMessage("Varsayılan çalışma alanına dönüldü; kayıtlı düzen temizlendi", 7500)
+        return True
+
+    def _settings_file(self):
+        supplied = os.environ.get("ANKA_LAYOUT_FILE", "").strip()
+        if supplied:
+            return Path(supplied).expanduser()
+        profile = os.environ.get("APPDATA") or str(Path.home() / ".config")
+        return Path(profile) / "ANKA Finans" / "workstation-layout.ini"
+
+    def _load_layout(self):
+        if not self._layout_file.is_file():
+            return False
+        try:
+            config = QSettings(str(self._layout_file), QSettings.Format.IniFormat)
+            if config.value("layout/schema", 0, type=int) != 1:
+                return False
+            geometry = config.value("layout/geometry")
+            state = config.value("layout/state")
+            if geometry is None or state is None:
+                return False
+            # QT restores native dock positions, floating states and visibility.
+            restored = self.restoreState(state, 1)
+            if not restored:
+                return False
+            self.restoreGeometry(geometry)
+            sym = str(config.value("layout/symbol", "THYAO"))
+            if sym in {row[0] for row in TICKERS}:
+                self.choose_symbol(sym)
+            zoom = config.value("layout/chart_count", 78, type=int)
+            if isinstance(zoom, int) and 32 <= zoom <= 125:
+                self.set_chart_zoom(zoom)
+            return config.status() == QSettings.Status.NoError
+        except (OSError, TypeError, ValueError, RuntimeError):
+            return False
 
     def save_layout(self):
-        self.statusBar().showMessage("Bu örnekte mevcut düzen RAM içinde; kullanıcı dosyasına kaydetme henüz etkin değil.")
+        try:
+            self._layout_file.parent.mkdir(parents=True, exist_ok=True)
+            config = QSettings(str(self._layout_file), QSettings.Format.IniFormat)
+            config.setAtomicSyncRequired(True)
+            config.setValue("layout/schema", 1)
+            config.setValue("layout/geometry", self.saveGeometry())
+            config.setValue("layout/state", self.saveState(1))
+            config.setValue("layout/symbol", self.chart.symbol)
+            config.setValue("layout/chart_count", self.chart.visible)
+            config.sync()
+            if config.status() != QSettings.Status.NoError:
+                raise OSError("Layout persistence I/O failed")
+            self.statusBar().showMessage("Çalışma alanı kaydedildi; bir sonraki açılışta geri yüklenecek", 7500)
+            return True
+        except (OSError, TypeError, ValueError, RuntimeError):
+            self.statusBar().showMessage("Çalışma alanı kaydedilemedi; geçerli düzen korunuyor", 7500)
+            return False
 
     def closeEvent(self,event):
         for d in self._dock.values():

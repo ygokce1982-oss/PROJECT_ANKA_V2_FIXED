@@ -1,0 +1,128 @@
+{
+  "created_utc": "2026-10-11T14:23:03.051780+00:00",
+  "purpose": "ANKA Finans created UI screenshot inventory and provenance",
+  "limitations": [
+    "Includes actual image files available on the user's Windows ANKA project; not invisible chat-only generated images.",
+    "Historical AI concept images without accessible source bytes cannot be asserted to be archived.",
+    "All market data in saved terminal screenshots is synthetic, not live."
+  ],
+  "total_source_image_files": 10,
+  "unique_images": 7,
+  "files": [
+    {
+      "file": "ilk_terminal__ANKA_Finans_Terminal_20261011.png",
+      "sha256": "e0f72c1fa5924f95a94c742033c8a77789d8d841789950bf2eddf5aa0600097c",
+      "bytes": 80978,
+      "dimensions": [
+        1480,
+        890
+      ]
+    },
+    {
+      "file": "ilk_terminal__ANKA_Finans_Yapay_Zeka_20261011.png",
+      "sha256": "55bb1c06aa76d7eda777cc6a8dfbfb90c95815cd6d4f6c9d52e74c33df949b0b",
+      "bytes": 61167,
+      "dimensions": [
+        1480,
+        890
+      ]
+    },
+    {
+      "file": "profesyonel__ANKA_Finans_Terminal_1366x768.png",
+      "sha256": "3c13b168251aa4ce340eedae7e04e192e54edab42e2a2f3e4f2b55242aa90728",
+      "bytes": 133442,
+      "dimensions": [
+        1366,
+        768
+      ]
+    },
+    {
+      "file": "profesyonel__ANKA_Finans_Terminal_20261011.png",
+      "sha256": "64d1baa3fa9a8d95d6c911de7181f93311abeb8816b5db000f8861e4a662acc8",
+      "bytes": 141336,
+      "dimensions": [
+        1480,
+        890
+      ]
+    },
+    {
+      "file": "profesyonel__ANKA_Finans_Yapay_Zeka_20261011.png",
+      "sha256": "3c33eece1552fb4293ca46df490ddaa3d9a0c4e872255e7b120d37aeaeccd6f8",
+      "bytes": 43698,
+      "dimensions": [
+        1366,
+        768
+      ]
+    },
+    {
+      "file": "gercek_araclar__ANKA_QtDesigner_DockChart_Real_20261011.png",
+      "sha256": "fd5200b12d957a86740fb5d0607825fd1b3052b541517c57d86f09b035259e5c",
+      "bytes": 165800,
+      "dimensions": [
+        1660,
+        980
+      ]
+    },
+    {
+      "file": "gercek_araclar__ANKA_QtDock_MultiMonitor_Real_20261011.png",
+      "sha256": "15ed791c187d94b20f783e9baba4d29038c09211ba570105214be60f84c6173c",
+      "bytes": 202340,
+      "dimensions": [
+        2780,
+        990
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source": "ANKA_FINANS_RELEASE_CANDIDATE_20261011/docs/previews/ANKA_Finans_Terminal_20261011.png",
+      "sha256": "e0f72c1fa5924f95a94c742033c8a77789d8d841789950bf2eddf5aa0600097c",
+      "archive_file": "ilk_terminal__ANKA_Finans_Terminal_20261011.png"
+    },
+    {
+      "source": "ANKA_FINANS_RELEASE_CANDIDATE_20261011/docs/previews/ANKA_Finans_Yapay_Zeka_20261011.png",
+      "sha256": "55bb1c06aa76d7eda777cc6a8dfbfb90c95815cd6d4f6c9d52e74c33df949b0b",
+      "archive_file": "ilk_terminal__ANKA_Finans_Yapay_Zeka_20261011.png"
+    },
+    {
+      "source": "ANKA_TERMINAL_PRO_20261011/docs/previews/ANKA_Finans_Terminal_1366x768.png",
+      "sha256": "3c13b168251aa4ce340eedae7e04e192e54edab42e2a2f3e4f2b55242aa90728",
+      "archive_file": "profesyonel__ANKA_Finans_Terminal_1366x768.png"
+    },
+    {
+      "source": "ANKA_TERMINAL_PRO_20261011/docs/previews/ANKA_Finans_Terminal_20261011.png",
+      "sha256": "64d1baa3fa9a8d95d6c911de7181f93311abeb8816b5db000f8861e4a662acc8",
+      "archive_file": "profesyonel__ANKA_Finans_Terminal_20261011.png"
+    },
+    {
+      "source": "ANKA_TERMINAL_PRO_20261011/docs/previews/ANKA_Finans_Yapay_Zeka_20261011.png",
+      "sha256": "3c33eece1552fb4293ca46df490ddaa3d9a0c4e872255e7b120d37aeaeccd6f8",
+      "archive_file": "profesyonel__ANKA_Finans_Yapay_Zeka_20261011.png"
+    },
+    {
+      "source": "ANKA_TOOLCHAIN_DEMO_20261011/docs/previews/ANKA_Finans_Terminal_1366x768.png",
+      "sha256": "3c13b168251aa4ce340eedae7e04e192e54edab42e2a2f3e4f2b55242aa90728",
+      "archive_file": "profesyonel__ANKA_Finans_Terminal_1366x768.png"
+    },
+    {
+      "source": "ANKA_TOOLCHAIN_DEMO_20261011/docs/previews/ANKA_Finans_Terminal_20261011.png",
+      "sha256": "64d1baa3fa9a8d95d6c911de7181f93311abeb8816b5db000f8861e4a662acc8",
+      "archive_file": "profesyonel__ANKA_Finans_Terminal_20261011.png"
+    },
+    {
+      "source": "ANKA_TOOLCHAIN_DEMO_20261011/docs/previews/ANKA_Finans_Yapay_Zeka_20261011.png",
+      "sha256": "3c33eece1552fb4293ca46df490ddaa3d9a0c4e872255e7b120d37aeaeccd6f8",
+      "archive_file": "profesyonel__ANKA_Finans_Yapay_Zeka_20261011.png"
+    },
+    {
+      "source": "ANKA_TOOLCHAIN_DEMO_20261011/docs/previews/ANKA_QtDesigner_DockChart_Real_20261011.png",
+      "sha256": "fd5200b12d957a86740fb5d0607825fd1b3052b541517c57d86f09b035259e5c",
+      "archive_file": "gercek_araclar__ANKA_QtDesigner_DockChart_Real_20261011.png"
+    },
+    {
+      "source": "ANKA_TOOLCHAIN_DEMO_20261011/docs/previews/ANKA_QtDock_MultiMonitor_Real_20261011.png",
+      "sha256": "15ed791c187d94b20f783e9baba4d29038c09211ba570105214be60f84c6173c",
+      "archive_file": "gercek_araclar__ANKA_QtDock_MultiMonitor_Real_20261011.png"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
     QSizePolicy, QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
 )
 from PySide6.QtUiTools import QUiLoader
+from core.chart_indicators import validate_ohlcv, ema_series, rsi_wilder_series
 
 BG = "#08121E"
 SURFACE = "#0D1A2A"
@@ -197,6 +198,13 @@ class Canvas(QWidget):
         vol_h=(height-top-52)*.13
         rsi_top=volume_top+vol_h+15
         rsi_h=max(32,(height-45)-rsi_top)
+        # Indicators use the *full* candle history, independent of zoom.
+        closes = validate_ohlcv(self.series)
+        ema_tracks = {
+            period: ema_series(closes, period)[-self.visible:]
+            for period in (12, 26, 48)
+        }
+        rsi_track = rsi_wilder_series(closes, 14)[-self.visible:]
         series=self.series[-self.visible:]
         maxp=max(x[1] for x in series)*1.025
         minp=min(x[2] for x in series)*.975
@@ -210,18 +218,19 @@ class Canvas(QWidget):
             p.setFont(QFont("Segoe UI",8))
             p.drawText(int(width-right+10),int(y)+3,f"{maxp-i*(maxp-minp)/5:.2f}")
         for k,name,color in ((12,"EMA 12",CYAN),(26,"EMA 26",AMBER),(48,"EMA 48","#745EEE")):
-            values=[x[3] for x in series]
-            smooth=[]
-            prev=values[0]
-            for v in values:
-                prev=prev+(2/(k+1))*(v-prev)
-                smooth.append(prev)
             path=QPainterPath()
-            for i,v in enumerate(smooth):
+            started=False
+            for i,v in enumerate(ema_tracks[k]):
+                if v is None:
+                    started=False
+                    continue
                 x=left+(i+.5)*step
                 y=ys(v)
-                if i==0:path.moveTo(x,y)
-                else:path.lineTo(x,y)
+                if not started:
+                    path.moveTo(x,y)
+                    started=True
+                else:
+                    path.lineTo(x,y)
             p.setPen(QPen(QColor(color),1.5))
             p.drawPath(path)
         for i,(o,h,l,c,v) in enumerate(series):
@@ -242,14 +251,20 @@ class Canvas(QWidget):
             y=rsi_top+i*rsi_h/3
             p.setPen(QPen(QColor("#213B50"),1,Qt.PenStyle.DashLine))
             p.drawLine(left,int(y),width-right,int(y))
-        p.setPen(QColor("#718DA6"));p.drawText(left,int(rsi_top+12),"RSI (14)  /  SİMÜLE")
+        p.setPen(QColor("#718DA6"));p.drawText(left,int(rsi_top+12),"RSI (14) / DEMO FİYATLARDAN HESAP")
         path=QPainterPath()
-        for i,z in enumerate(series):
+        started=False
+        for i,val in enumerate(rsi_track):
+            if val is None:
+                started=False
+                continue
             x=left+(i+.5)*step
-            val=50+16*math.sin(i*.13)+11*math.sin(i*.041+1)
             y=rsi_top+rsi_h*(1-val/100)
-            if i==0:path.moveTo(x,y)
-            else:path.lineTo(x,y)
+            if not started:
+                path.moveTo(x,y)
+                started=True
+            else:
+                path.lineTo(x,y)
         p.setPen(QPen(QColor("#C178D9"),1.4))
         p.drawPath(path)
         if self.cursor_x is not None and left<self.cursor_x<width-right:

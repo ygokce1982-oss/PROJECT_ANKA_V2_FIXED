@@ -1,7 +1,7 @@
-"""Explicit, bounded Codex CLI integration for isolated ANKA tasks.
+"""Bounded Codex CLI adapter; rejects unverified execution as acceptance.
 
-Installing a CLI is not proof of account access or task success.
-No finance orders, provider credentials, approvals, or Git publishing here.
+Windows timeout handling kills the CMD wrapper *and* descendant model/Node
+processes. Each role still requires deterministic tests and independent review.
 """
 from __future__ import annotations
 
@@ -21,6 +21,28 @@ class CodexRunResult:
     error: str | None = None
 
 
+def _stop_process_tree(process: subprocess.Popen[str]) -> None:
+    """Bounded best-effort cleanup after timeout. Never kill unrelated PIDs."""
+    if os.name == "nt" and getattr(process, "pid", None):
+        try:
+            subprocess.run(
+                ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                shell=False, check=False, capture_output=True,
+                timeout=8,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    if process.poll() is None:
+        try:
+            process.kill()
+        except OSError:
+            pass
+    try:
+        process.communicate(timeout=3)
+    except (OSError, subprocess.TimeoutExpired):
+        pass
+
+
 class CodexAdapter(BaseAdapter):
     def __init__(
         self, name: str, role: str, *,
@@ -38,22 +60,22 @@ class CodexAdapter(BaseAdapter):
         self.executable = executable
 
     def health_check(self) -> bool:
-        # A functioning CLI/login is checked by a separate live test gate.
+        """Installed executable is not proof of successful login."""
         return shutil.which(self.executable) is not None and (
             self.workspace is None or self.workspace.is_dir()
         )
 
     @staticmethod
     def _minimal_environment() -> dict[str, str]:
-        """Avoid forwarding provider keys from the parent process."""
-        allow = (
+        """No automatic forwarding of API keys / provider secrets."""
+        allowed = (
             "PATH", "PATHEXT", "SYSTEMROOT", "WINDIR", "COMSPEC",
             "USERPROFILE", "HOMEDRIVE", "HOMEPATH", "APPDATA",
             "LOCALAPPDATA", "TEMP", "TMP", "HOME", "LANG",
         )
-        result = {key: os.environ[key] for key in allow if key in os.environ}
-        result["GIT_TERMINAL_PROMPT"] = "0"
-        return result
+        value = {key: os.environ[key] for key in allowed if key in os.environ}
+        value["GIT_TERMINAL_PROMPT"] = "0"
+        return value
 
     def run(self, task: str, **kwargs: object) -> CodexRunResult:
         if not isinstance(task, str) or not task.strip() or len(task) > 12000:
@@ -66,30 +88,38 @@ class CodexAdapter(BaseAdapter):
             return CodexRunResult(False, error="Not configured: isolated workspace required")
         if not (self.workspace / ".git").exists():
             return CodexRunResult(False, error="Validation failed: workspace must be a Git worktree")
-
-        sandbox = "workspace-write" if self.allow_writes else "read-only"
         resolved = shutil.which(self.executable)
-        if resolved is None:
+        if not resolved:
             return CodexRunResult(False, error="Adapter unavailable: CLI not found")
         command = [
-            resolved, "exec", "--sandbox", sandbox,
+            resolved, "exec", "--sandbox",
+            "workspace-write" if self.allow_writes else "read-only",
             "--cd", str(self.workspace), "-",
         ]
+        flags = (
+            getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+            if os.name == "nt" else 0
+        )
         try:
-            completed = subprocess.run(
-                command, input=task, text=True, capture_output=True,
-                encoding="utf-8", errors="replace", check=False,
-                timeout=self.timeout_seconds, cwd=str(self.workspace),
-                env=self._minimal_environment(),
+            process = subprocess.Popen(
+                command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, text=True, encoding="utf-8",
+                errors="replace", shell=False, cwd=str(self.workspace),
+                env=self._minimal_environment(), creationflags=flags,
             )
-        except subprocess.TimeoutExpired:
-            return CodexRunResult(False, error="Agent execution timed out")
         except OSError:
             return CodexRunResult(False, error="Adapter unavailable: failed to start CLI")
-
-        if completed.returncode:
-            return CodexRunResult(False, error=f"Codex CLI failed: exit {completed.returncode}")
-        content = (completed.stdout or "").strip()
+        try:
+            output, _stderr = process.communicate(input=task, timeout=self.timeout_seconds)
+        except subprocess.TimeoutExpired:
+            _stop_process_tree(process)
+            return CodexRunResult(False, error="Agent execution timed out; process tree terminated")
+        except OSError:
+            _stop_process_tree(process)
+            return CodexRunResult(False, error="Agent execution failed during subprocess I/O")
+        if process.returncode:
+            return CodexRunResult(False, error=f"Codex CLI failed: exit {process.returncode}")
+        content = (output or "").strip()
         if not content:
             return CodexRunResult(False, error="Codex CLI returned no result")
         return CodexRunResult(True, output=content[-16000:])

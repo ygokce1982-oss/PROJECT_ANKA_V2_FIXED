@@ -12,4 +12,6 @@ Bu belge insan tarafından okunabilen kalıcı özet içindir. Makine kayıtlar�
 
 | 2026-10-11 | GitHub yayın ve erişim | Ortak ajan sözleşmesi, devir kaydı, günlük ve kayıt aracı 80f11e9 commit'iyle main dalına gönderildi; uzaktan commit eşleşti, GitHub bağlantısıyla dosyalar okundu. GitHub eklentisinin özel izin ayarı kullanıcı isteği üzerine Allow all actions olarak değiştirildi. | PASS | Gelecek her görevde günlük tutma ve kanıtlı test kapılarını uygula. |
 
+| 2026-10-11 | Codex erişim onarımı | Kod ve 32 PASS test `repair/codex-adapter-20261011` dalına `40f6b72` ile kaydedildi; gerçek CLI salt-okunur görev çalıştı. Claude girişsiz, Gemini istemcisi uyumsuz, Figma kullanım sınırında, Ollama reviewer zaman aşımında. | KISMİ | Bağımsız inceleme, gerçek kod değişikliği zinciri, otomatik geri alma ve güvenli entegrasyon. |
+
 **Kural:** Her gerçek geliştirme, test, denetim, hata veya geri alma sonrası yukarıdaki tabloya özet ekle; ayrıntıyı `scripts/record_operation.py` ile JSONL dosyasına kaydet. Başarısız doğrulamayı gizleme veya geçmiş kaydı silme.

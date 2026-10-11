@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChartWorkbench</class>
+ <widget class="QWidget" name="ChartWorkbench">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>930</width><height>710</height></rect></property>
+  <layout class="QVBoxLayout" name="workbenchLayout">
+   <property name="spacing"><number>0</number></property>
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
+   <item>
+    <widget class="QFrame" name="SymbolHeader">
+     <property name="minimumSize"><size><width>0</width><height>72</height></size></property>
+     <layout class="QHBoxLayout" name="symbolHeaderLayout">
+      <property name="leftMargin"><number>20</number></property>
+      <property name="rightMargin"><number>16</number></property>
+      <item><widget class="QLabel" name="symbolTitle"><property name="text"><string>THYAO   TÜRK HAVA YOLLARI</string></property></widget></item>
+      <item><spacer name="symbolSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+      <item><widget class="QLabel" name="symbolPrice"><property name="text"><string>312,75</string></property></widget></item>
+      <item><widget class="QLabel" name="symbolChange"><property name="text"><string>+2,18%</string></property></widget></item>
+      <item><widget class="QLabel" name="symbolDemo"><property name="text"><string>● ÖRNEK VERİ · EMİR KAPALI</string></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="ChartToolbar">
+     <layout class="QHBoxLayout" name="chartToolbarLayout">
+      <property name="leftMargin"><number>15</number></property>
+      <property name="rightMargin"><number>15</number></property>
+      <item><widget class="QLabel" name="chartModeLabel"><property name="text"><string>GRAFİK  /  MUM</string></property></widget></item>
+      <item><widget class="QPushButton" name="range1"><property name="text"><string>1G</string></property></widget></item>
+      <item><widget class="QPushButton" name="range2"><property name="text"><string>1H</string></property></widget></item>
+      <item><widget class="QPushButton" name="range3"><property name="text"><string>3A</string></property></widget></item>
+      <item><widget class="QPushButton" name="range4"><property name="text"><string>1Y</string></property></widget></item>
+      <item><spacer name="toolbarSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>25</width><height>20</height></size></property></spacer></item>
+      <item><widget class="QLabel" name="indicatorLabel"><property name="text"><string>EMA 20 · EMA 50 · HACİM · RSI (14)</string></property></widget></item>
+      <item><widget class="QPushButton" name="saveLayoutButton"><property name="text"><string>Düzeni Kaydet</string></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="chartSlot">
+     <property name="minimumSize"><size><width>440</width><height>330</height></size></property>
+     <layout class="QVBoxLayout" name="chartSlotLayout">
+      <property name="leftMargin"><number>0</number></property>
+      <property name="topMargin"><number>0</number></property>
+      <property name="rightMargin"><number>0</number></property>
+      <property name="bottomMargin"><number>0</number></property>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="ChartFooter">
+     <layout class="QHBoxLayout" name="chartFooterLayout">
+      <item><widget class="QLabel" name="legendLabel"><property name="text"><string>Çizim ve göstergeler gerçek Qt çizim bileşenidir</string></property></widget></item>
+      <item><spacer name="footerSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>25</width><height>20</height></size></property></spacer></item>
+      <item><widget class="QLabel" name="dataSourceLabel"><property name="text"><string>VERİ: SİMÜLASYON  |  SAAT: TEMSİLİ</string></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

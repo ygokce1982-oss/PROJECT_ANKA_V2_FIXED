@@ -33,3 +33,8 @@
 5. Figma Starter sınırı ve Matriks test lisansını ayrı engeller olarak tut; ANKA Finans uygulamasının geliştirilmesi bu harici sınırlar nedeniyle toptan durmaz.
 
 **Durum:** `PARTIAL_AGENT_ACCESS`; `FULL_AUTONOMY=BLOCKED`. Dört rolün yanıt üretmesi, tam otonom yazılım geliştirme anlamına gelmez.
+
+## Ek bağımsız denetim denemesi
+
+- Ayrı salt-okunur Codex denetçi görevi **90 saniyede zaman aşımına uğradı**; kanıt: izole Windows eports/codex_independent_review.json (success=false).
+- Bu hata *uygulama PASS* veya *bağımsız reviewer PASS* değildir. Dört aşamalı otomasyon bu nedenle hâlâ BLOCKED'dır.

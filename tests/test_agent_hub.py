@@ -2,7 +2,6 @@ import os
 import sqlite3
 import tempfile
 import threading
-import time
 import unittest
 from datetime import datetime, timedelta, timezone
 
@@ -273,9 +272,17 @@ class AgentHubTests(unittest.TestCase):
         self.assertEqual(self.store.get_task(task.id).status, TaskStatus.COMPLETED)
 
     def test_adapter_timeout_returns_promptly(self) -> None:
+        entered = threading.Event()
+        release = threading.Event()
+        adapter_finished = threading.Event()
+        returned = threading.Event()
+        outcomes = []
+
         class SlowAdapter(MockAdapter):
             def run(self, task: str, **kwargs: object) -> object:
-                time.sleep(1.0)
+                entered.set()
+                release.wait(timeout=10)
+                adapter_finished.set()
                 return type("Result", (), {"success": True, "output": "done"})
 
         self.registry.register(
@@ -293,13 +300,29 @@ class AgentHubTests(unittest.TestCase):
             role="researcher",
         )
 
-        started = time.monotonic()
-        result = hub.run_next()
-        elapsed = time.monotonic() - started
+        def invoke_hub() -> None:
+            try:
+                outcomes.append(hub.run_next())
+            finally:
+                returned.set()
+
+        runner = threading.Thread(target=invoke_hub, daemon=True)
+        runner.start()
+        try:
+            self.assertTrue(entered.wait(timeout=5), "Adapter did not start")
+            self.assertTrue(returned.wait(timeout=5), "Hub waited for the blocked adapter")
+            self.assertFalse(adapter_finished.is_set())
+        finally:
+            release.set()
+            runner.join(timeout=5)
+            self.assertTrue(adapter_finished.wait(timeout=5))
+
+        self.assertEqual(len(outcomes), 1)
+        result = outcomes[0]
 
         self.assertFalse(result.success)
         self.assertEqual(result.status, TaskStatus.QUEUED)
-        self.assertLess(elapsed, 0.5)
+        self.assertIn("timed out", result.error)
         self.assertEqual(self.store.get_task(task.id).attempts, 1)
 
     def test_failed_task_does_not_block_other_tasks(self) -> None:

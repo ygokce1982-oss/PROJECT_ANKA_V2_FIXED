@@ -22,6 +22,8 @@ class OllamaAgent(BaseAgent):
         temperature: float = 0.2,
         num_predict: int = 256,
         session: requests.Session | None = None,
+        num_ctx: int | None = None,
+        num_gpu: int | None = None,
     ) -> None:
         self.name = name
         self.role = role
@@ -31,6 +33,12 @@ class OllamaAgent(BaseAgent):
         self.temperature = temperature
         self.num_predict = num_predict
         self.session = session
+        if num_ctx is not None and (type(num_ctx) is not int or num_ctx < 128):
+            raise ValueError("num_ctx must be an integer of at least 128")
+        if num_gpu is not None and (type(num_gpu) is not int or num_gpu < 0):
+            raise ValueError("num_gpu must be a non-negative integer")
+        self.num_ctx = num_ctx
+        self.num_gpu = num_gpu
 
     def connect(self) -> None:
         """Varsa mevcut session kullanır, yoksa yeni bir oturum oluşturur."""
@@ -75,6 +83,11 @@ class OllamaAgent(BaseAgent):
                 "num_predict": self.num_predict,
             },
         }
+
+        if self.num_ctx is not None:
+            payload["options"]["num_ctx"] = self.num_ctx
+        if self.num_gpu is not None:
+            payload["options"]["num_gpu"] = self.num_gpu
 
         try:
             response = self.session.post(

@@ -5,14 +5,14 @@ from typing import Any, Dict
 
 from .ollama_agent import OllamaAgent
 from .orchestrator import MultiAIOrchestrator
-from .workflow import MultiAIWorkflow
-from .workflow import WorkflowStep, WorkflowResult
+from .workflow import MultiAIWorkflow, WorkflowResult, WorkflowStep
 
 
 class LocalAITeam:
     """Yerel Ollama ajanlarından oluşan bir takım ve iş akışı yönetimi."""
 
-    DEFAULT_MODEL = "qwen3:4b"
+    DEFAULT_MODEL = "gemma3:1b"
+    DEFAULT_CODER_MODEL = "qwen2.5-coder:1.5b"
     DEFAULT_BASE_URL = "http://localhost:11434"
 
     def __init__(
@@ -20,9 +20,16 @@ class LocalAITeam:
         model: str | None = None,
         base_url: str | None = None,
         agents: Dict[str, object] | None = None,
+        num_ctx: int | None = 512,
+        num_gpu: int | None = 0,
     ) -> None:
-        self.model = model or os.getenv("ANKA_OLLAMA_MODEL", self.DEFAULT_MODEL)
+        self.model = model or os.getenv("ANKA_OLLAMA_MODEL") or self.DEFAULT_MODEL
         self.base_url = base_url or os.getenv("ANKA_OLLAMA_URL", self.DEFAULT_BASE_URL)
+        self.coder_model = (
+            self.model if model or os.getenv("ANKA_OLLAMA_MODEL") else self.DEFAULT_CODER_MODEL
+        )
+        self.num_ctx = num_ctx
+        self.num_gpu = num_gpu
 
         self.orchestrator = MultiAIOrchestrator()
 
@@ -33,13 +40,21 @@ class LocalAITeam:
         if agents is None:
             # create OllamaAgent instances per role
             for role in self.roles:
-                agent = OllamaAgent(name=role, role=role, model=self.model, base_url=self.base_url)
+                agent = OllamaAgent(
+                    name=role,
+                    role=role,
+                    model=self.coder_model if role == "coder" else self.model,
+                    base_url=self.base_url,
+                    num_ctx=self.num_ctx,
+                    num_gpu=self.num_gpu,
+                )
                 self.orchestrator.add_agent(agent)
         else:
             for role in self.roles:
                 if role in agents:
                     agent = agents[role]
-                    # register injected agent under the role name so workflow step uses role as agent_name
+                    # Register injected agent under the role name for
+                    # consistent workflow step routing.
                     try:
                         agent.name = role
                     except Exception:
@@ -47,7 +62,14 @@ class LocalAITeam:
                     self.orchestrator.add_agent(agent)
                 else:
                     # if not provided, create a default OllamaAgent
-                    agent = OllamaAgent(name=role, role=role, model=self.model, base_url=self.base_url)
+                    agent = OllamaAgent(
+                        name=role,
+                        role=role,
+                        model=self.coder_model if role == "coder" else self.model,
+                        base_url=self.base_url,
+                        num_ctx=self.num_ctx,
+                        num_gpu=self.num_gpu,
+                    )
                     self.orchestrator.add_agent(agent)
 
         # default workflow
@@ -98,7 +120,8 @@ class LocalAITeam:
                 role="analyst",
                 task_template=(
                     "Görevi sadece Türkçe, kısa ve somut şekilde sonuca bağla. "
-                    "Önceki sonuçları birleştir. Kullanıcıya gösterilecek nihai Türkçe cevabı üret. "
+                    "Önceki sonuçları birleştir. "
+                    "Kullanıcıya gösterilecek nihai Türkçe cevabı üret. "
                     "Takip sorusu veya seçenek teklifiyle bitir. En fazla 150 kelime kullan. "
                     "previous_output:\n{previous_output}\nTask: {task}"
                 ),
@@ -120,11 +143,21 @@ class LocalAITeam:
 
     def run(self, task: str, context: Dict[str, Any] | None = None) -> WorkflowResult:
         if not task or not task.strip():
-            return WorkflowResult(success=False, step_results=(), final_output=None, errors=("Görev metni boş olamaz",))
+            return WorkflowResult(
+                success=False,
+                step_results=(),
+                final_output=None,
+                errors=("Görev metni boş olamaz",),
+            )
 
         # do health check first
         if not self.health_check():
-            return WorkflowResult(success=False, step_results=(), final_output=None, errors=("Ollama servisine ulaşılamıyor veya bazı ajanlar sağlıksız",))
+            return WorkflowResult(
+                success=False,
+                step_results=(),
+                final_output=None,
+                errors=("Ollama servisine ulaşılamıyor veya bazı ajanlar sağlıksız",),
+            )
 
         # ensure context not mutated
         context_copy = dict(context) if context is not None else None

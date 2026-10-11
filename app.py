@@ -11,7 +11,7 @@ def main() -> None:
     configure_logging()
 
     app = QApplication(sys.argv)
-    app.setApplicationName("PROJECT ANKA V2")
+    app.setApplicationName("ANKA Finans")
     app.setStyleSheet(STYLE)
 
     window = MainWindow()

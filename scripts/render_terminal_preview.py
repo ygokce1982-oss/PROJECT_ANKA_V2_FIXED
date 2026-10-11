@@ -45,6 +45,15 @@ def main() -> int:
         print("IMAGE_BYTES=" + str(target.stat().st_size))
         print("TITLE=" + window.windowTitle())
         print("WORKSPACES=" + str(window.workspace.count()))
+        window.resize(1366, 768)
+        app.processEvents()
+        reference_image = target.with_name("ANKA_Finans_Terminal_1366x768.png")
+        if not window.grab().save(str(reference_image), "PNG"):
+            print("REFERENCE_SCREENSHOT=FAIL")
+            window.close()
+            return 4
+        print("REFERENCE_SCREENSHOT=PASS")
+        print("REFERENCE_IMAGE=" + str(reference_image))
         window.workspace.setCurrentIndex(2)
         app.processEvents()
         ai_image = target.with_name("ANKA_Finans_Yapay_Zeka_20261011.png")

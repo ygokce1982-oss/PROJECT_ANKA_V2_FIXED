@@ -1,0 +1,57 @@
+{
+  "name": "ANKA Finans / Professional Workstation",
+  "figmaFileUrl": "https://www.figma.com/design/ijVC43Q32AeaHDjrwSjCgP",
+  "figmaLayerStatus": "NOT_CREATED: Figma Starter MCP tool call limit",
+  "source": "user-provided screenshot dated 2026-10-09; screenshot is design acceptance reference",
+  "referenceViewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "qtImplementation": {
+    "mainWindow": "ui/main_window.py",
+    "dashboard": "ui/components/dashboard.py",
+    "theme": "ui/styles.py",
+    "preview": "docs/previews/ANKA_Finans_Terminal_20261011.png"
+  },
+  "palette": {
+    "background": "#0B1420",
+    "topBar": "#0D1725",
+    "panel": "#101C2C",
+    "panelHeader": "#132438",
+    "border": "#253B54",
+    "textPrimary": "#E1EFFF",
+    "muted": "#8298B3",
+    "positive": "#34D5A2",
+    "negative": "#F27A86",
+    "accent": "#3D9FD2",
+    "selected": "#214462"
+  },
+  "layout": {
+    "railWidth": 72,
+    "topBarHeight": 66,
+    "tickerHeight": 36,
+    "symbolQuoteHeight": 74,
+    "columns": "watchlist 27% / screeners 49% / insight 24%",
+    "panels": [
+      "watchlist searchable",
+      "market scanner sorted by mode",
+      "relative volume table",
+      "technical indicators demo",
+      "example news ticker"
+    ],
+    "splitters": "3 adjustable columns; two adjustable rows in the middle and right"
+  },
+  "interaction": {
+    "symbolSelect": "updates quote and values",
+    "search": "filters watchlist by symbol or company",
+    "screenerModes": [
+      "Hacim artışı",
+      "Momentum",
+      "Gerileyenler"
+    ],
+    "nav": "links to six real app pages",
+    "refresh": "offline does not call network"
+  },
+  "marketDataPolicy": "All example quotes and news are labelled DEMO/ÖRNEK; no real order execution",
+  "acceptance": "Figma nodes to be authored/synced when MCP quota or authorized editor access becomes available; Qt implementation tests and screenshots required meanwhile"
+}

@@ -1,111 +1,52 @@
-"""Dark professional desktop terminal design tokens and Qt styling."""
-
+"""Reference-driven design tokens for ANKA Finans terminal (Figma sync pending)."""
 STYLE = """
 QMainWindow, QWidget {
-    background-color: #0D1420;
-    color: #E9F1FB;
-    font-family: "Segoe UI";
-    font-size: 11pt;
+  background:#0B1420; color:#DCE8F7; font-family:"Segoe UI";
+  font-size:11px;
 }
-QWidget#TerminalRoot { background: #0D1420; }
-QFrame#TerminalTopBar {
-    background: #101C2A;
-    border-bottom: 1px solid #263548;
+QWidget#TerminalRoot {background:#0B1420;}
+QFrame#TerminalTopBar {background:#0D1725;border:none;border-bottom:1px solid #203449;border-radius:0;}
+QLabel#Mark {background:#0B655D;color:#60F7C6;font-size:20px;font-weight:900;border-radius:7px;}
+QLabel#BrandLabel {color:#E9F3FF;font-size:21px;font-weight:900;letter-spacing:1px;}
+QLabel#UserBadge {background:#294465;color:#DCEBFF;border-radius:16px;font-weight:800;}
+QFrame#TopDivider {background:#253B52;border:0;}
+QFrame#PriceStrip {background:#0C1B2B;border:0;border-bottom:1px solid #1B3147;border-radius:0;}
+QLabel#TickerItem {font-size:10px;color:#D4E4F6;font-weight:650;}
+QListWidget#TerminalSidebar {background:#0C1828;border:0;border-right:1px solid #1D3147;padding:14px 5px;outline:none;}
+QListWidget#TerminalSidebar::item {color:#7199C3;border-radius:4px;margin:2px;padding:11px 2px;}
+QListWidget#TerminalSidebar::item:selected {background:#103C41;color:#5DF0BC;border-left:2px solid #22C7A4;font-weight:900;}
+QListWidget#TerminalSidebar::item:hover {background:#1B334C;}
+QStackedWidget {background:#0B1420;padding:0px;border:0;}
+QFrame#SymbolQuote {background:#111E30;border:1px solid #233A56;border-radius:4px;}
+QFrame#TerminalPanel {background:#101C2C;border:1px solid #253B54;border-radius:5px;}
+QFrame#PanelHeader {background:#132438;border:0;border-bottom:1px solid #263B52;border-radius:0;}
+QFrame#MetricDivider {background:#243950;border:0;}
+QFrame#DayRangeTrack {background:qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #127F67,stop:0.45 #28BA93,stop:0.65 #67797F,stop:1 #946A35);border-radius:1px;}
+QSplitter::handle {background:#0B1420;}
+QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QDoubleSpinBox, QSpinBox {
+    background:#101E30;color:#E6F0FC;border:1px solid #30465E;
+    border-radius:3px;padding:5px;selection-background-color:#274D70;
 }
-QLabel#BrandLabel {
-    font-size: 21pt; font-weight: 800; color: #E5F6FF; letter-spacing: 1px;
-}
-QLabel#BrandSubTitle { font-size: 9pt; color: #7897AF; }
-QLabel#OfflineBadge {
-    color: #E8BA70;
-    background-color: #322A25;
-    border: 1px solid #67553D;
-    padding: 9px 15px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 9pt;
-}
-QListWidget#TerminalSidebar {
-    background: #121E2D;
-    border: none;
-    border-right: 1px solid #27384A;
-    padding: 20px 8px;
-    outline: none;
-}
-QListWidget#TerminalSidebar::item {
-    padding: 15px 12px;
-    margin: 2px 4px;
-    color: #AABDD0;
-    border-radius: 8px;
-}
-QListWidget#TerminalSidebar::item:selected {
-    background: #1C3C4B;
-    border-left: 3px solid #56CBE1;
-    color: #E7FCFF;
-    font-weight: bold;
-}
-QListWidget#TerminalSidebar::item:hover {
-    background: #203449;
-    color: #FFFFFF;
-}
-QStackedWidget { background: #0D1420; border: none; padding: 16px; }
-QFrame {
-    background-color: #162437;
-    border: 1px solid #27374A;
-    border-radius: 10px;
-}
-QLabel { color: #EAF2FC; border: none; }
+QLineEdit:focus,QComboBox:focus {border:1px solid #3F95BD;}
+QLineEdit#SymbolSearch {background:#0C1928;border:1px solid #2B4964;min-height:23px;padding-left:9px;}
 QPushButton {
-    color: #061A27;
-    background-color: #63D1E4;
-    border: 1px solid #4DBCCD;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-weight: 700;
-    min-height: 17px;
+    background:#1B324B;color:#CDDFEF;border:1px solid #304860;
+    border-radius:4px;min-height:20px;padding:5px 11px;font-weight:650;
 }
-QPushButton:hover { background-color: #82E4EE; }
-QPushButton:pressed { background-color: #4EB9CB; }
-QPushButton:disabled { background-color: #314354; color: #96A4B1; }
-QPushButton#SecondaryButton {
-    color: #D9EAF5;
-    background-color: #213144;
-    border: 1px solid #354B62;
-}
-QPushButton#SecondaryButton:hover { background-color: #2B4258; }
-QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox, QComboBox {
-    color: #EFF6FD;
-    background-color: #111D2C;
-    border: 1px solid #35465B;
-    border-radius: 7px;
-    padding: 8px;
-    selection-background-color: #275A70;
-}
-QLineEdit:focus, QComboBox:focus {
-    border: 1px solid #58CEE0;
-}
-QTableWidget, QTableView {
-    background-color: #111C2A;
-    alternate-background-color: #16283A;
-    color: #EAF4FE;
-    border: 1px solid #2A4054;
-    gridline-color: #26384A;
-    selection-background-color: #244A5B;
-}
-QHeaderView::section {
-    background-color: #22354A; color: #C2D9E8;
-    border: none; padding: 8px; font-weight: bold;
-}
-QScrollBar:vertical {
-    width: 9px; background: #12202E;
-}
-QScrollBar::handle:vertical { background: #395168; border-radius: 4px; }
-QStatusBar {
-    background: #0F1A28; border-top: 1px solid #263849;
-    color: #91B5C8; font-size: 9pt;
-}
-QToolTip {
-    background: #1C3447; color: white;
-    border: 1px solid #4F6F84;
-}
+QPushButton:hover {background:#234562;color:#F0F8FF;}
+QPushButton:pressed {background:#26577B;}
+QPushButton#SecondaryButton {background:#122438;border-color:#2A4159;}
+QPushButton#WorkspaceShortcut {background:#11243A;border-color:#213950;color:#8DB8E3;padding:3px 8px;}
+QPushButton#ScreenerFilter {background:#102135;color:#8298B3;border-color:#2E4155;padding:3px 6px;font-size:10px;}
+QPushButton#ScreenerFilter:checked {background:#123D39;color:#40E6AF;border-color:#27695E;}
+QTableWidget#MarketGrid {background:#101C2C;alternate-background-color:#16283C;gridline-color:#233750;border:0;color:#DCE9F8;selection-background-color:#214462;selection-color:#FFFFFF;}
+QHeaderView::section {background:#102136;color:#8DA6BE;padding:4px;border:0;border-bottom:1px solid #2C425B;font-size:10px;font-weight:700;}
+QTableCornerButton::section {background:#102136;border:0;}
+QScrollBar:vertical {width:8px;background:#101C2C;}
+QScrollBar::handle:vertical {background:#36516D;border-radius:3px;min-height:18px;}
+QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical {height:0px;}
+QScrollBar:horizontal {height:7px;background:#101C2C;}
+QScrollBar::handle:horizontal {background:#36516D;}
+QStatusBar {background:#0C1828;color:#7C9BB5;border-top:1px solid #21374E;font-size:10px;}
+QToolTip {background:#183048;color:#FFFFFF;border:1px solid #47718F;}
 """

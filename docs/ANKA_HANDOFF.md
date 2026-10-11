@@ -50,3 +50,14 @@ Her yeni ajan veya sohbet GitHub'dan `AGENTS.md` → bu dosya → `docs/ANKA_OPE
 
 - Çift tıklanabilir `ANKA_Finans_Baslat.cmd` ile Windows masaüstünden uygulama başlatıldı; ayrı `python.exe` süreci çalışır görüldü.
 - Gerçek Windows pencere başlığı `ANKA Finans | Profesyonel Piyasa Terminali` olarak `MainWindowTitle` üzerinden doğrulandı. Bu yalnız **GUI_START=PASS** kanıtıdır; canlı veri, tam otonomi veya nihai üretim kabulü anlamına gelmez.
+
+## 2026-10-11 — Figma referansına göre profesyonel terminal yeniden yapıldı
+
+**Yeni kod dalı:** `feature/anka-professional-terminal-20261011` / commit `4c33c96e89d533c0aebc2b58b02d2ed96e26bbf0` (Windows GitHub push + uzak SHA eşleşmesi PASS).
+**Referans:** Kullanıcının 9 Ekim 2026 tarihli ANKA Finans ekran görüntüsündeki gerçek terminal düzeni; eski büyük piyasa kartlı taslak kullanıcı beklentisini karşılamıyordu, **kullanım için yeni dal tercih edilmeli**.
+**Somut arayüz:** 72 px sol gezinme, üst piyasa bandı, seçili hisse fiyat/bilgi özeti, filtrelenebilir izleme listesi, hacim/momentum/gerileyenler taraması, sektör göreli hacim paneli, teknik görünüm, kaydırılabilir haber akışı ve ayarlanabilir QSplitter panelleri. Sembol seçimi ve filtreler gerçekten çalışır; rakamlar ÖRNEK/DEMO olarak etiketli, gerçek emir kapalı.
+**Doğrulama:** Windows izole dalda tüm `281/281` çevrimdışı `unittest` PASS, exit 0; 1366 × 768 ve 1480 × 890 Qt QWidget ekran görüntüleri başarıyla alınıp incelendi. Uygulama bilgisayarda açık; `python.exe` süreç kimliği ve pencere başlığı doğrulandı. Windows masaüstünde `ANKA Finans - PROFESYONEL ONIZLEME.lnk` kısayolu oluşturuldu.
+**Figma:** Yeni dosya oluşturuldu: https://www.figma.com/design/ijVC43Q32AeaHDjrwSjCgP. Figma `whoami` hesabı Starter plan, View seat. `use_figma` düzenleme çağrısı **Starter MCP kullanım kotası** nedeniyle reddedildi. **Figma dosyası boş**, düzenlenebilir katmanlar yapılmış gibi gösterme. Hedef tasarım ile Qt kodunu bağlamak için özellik dalında `docs/FIGMA_SYNC_DESIGN_SPEC_20261011.json` ve `docs/ANKA_REFERENCE_DESIGN_ACCEPTANCE_20261011.md` var. Kotu yenilendiğinde/izinli editör erişimi sağlandığında bunlardan düzenlenebilir Figma sistemini kurup tasarım bağlamıyla Qt'yi çapraz doğrula.
+**Önemli sınırlar:** `FULL_AUTONOMY=BLOCKED` ve nihai ürün kabulü henüz sağlanmadı; aday kod GitHub main'e birleştirilmedi. Kullanıcıya ait Windows ana projesindeki 28 yerel değişiklik korundu. Matriks ve canlı alım-satım yetkisi ayrı engel olarak durur.
+
+[Profesyonel sürüm](https://github.com/ygokce1982-oss/PROJECT_ANKA_V2_FIXED/tree/feature/anka-professional-terminal-20261011) · [1366×768 ekran](https://github.com/ygokce1982-oss/PROJECT_ANKA_V2_FIXED/blob/feature/anka-professional-terminal-20261011/docs/previews/ANKA_Finans_Terminal_1366x768.png).

@@ -34,3 +34,14 @@ Her yeni ajan veya sohbet GitHub'dan `AGENTS.md` → bu dosya → `docs/ANKA_OPE
 - 40/40 ilgili birim test PASS, Codex gerçek görev PASS, Gemini ve Claude gerçek model bağlantısı PASS. Bağlantı PASS = otonom geliştirme PASS değildir.
 - Doğrudan Claude Code OAuth loggedIn:false; Figma Starter/View MCP kullanım kotası dolu. Matriks ayrı engel olarak tutulur.
 - Kod main dalına birleştirilmedi. Bağımsız kod denetimi ve gerçek kod değişikliği→test→review→rollback uçtan uca kapısı henüz BLOCKED.
+
+## 2026-10-11 — ANKA Finans çalışır terminal adayı (en yeni doğrulanmış teslim)
+
+- **Kod dalı:** `feature/anka-finans-terminal-20261011`, commit `61e32e0e3d1ccf1a719016f8796d860ca3a70ebd`. Windows Git üzerinden gönderim yapıldı, uzak SHA eşleşmesi doğrulandı. [GitHub'da aç](https://github.com/ygokce1982-oss/PROJECT_ANKA_V2_FIXED/tree/feature/anka-finans-terminal-20261011).
+- **Test kanıtı:** Windows izole Git çalışma ağacında `276/276` çevrimdışı bütünleşik Python unittest PASS. Qt pencere, kontrol paneli yönlendirmeleri, piyasa durumunun dürüst gösterimi ve bulut modeli seçimi testleri kapsandı.
+- **Somut uygulama:** Altı ekranlı koyu profesyonel PySide6 terminali; örnek/CSV grafik ve analiz, araştırma kayıtları, sanal portföy, kontrollü piyasa merkezi ve Yapay Zekâ. Gemini planlayıcı ve Claude inceleyici seçildiğinde Antigravity kullanılır; varsayılan yerel Ollama'dır.
+- **Ekran kanıtları:** `docs/previews/ANKA_Finans_Terminal_20261011.png` ve `docs/previews/ANKA_Finans_Yapay_Zeka_20261011.png` aday dalda; Qt QWidget görüntüsünden oluşturuldu.
+- **Windows kullanımı:** `Documents/ANKA_Overnight/ANKA_FINANS_RELEASE_CANDIDATE_20261011/ANKA_Finans_Baslat.cmd` veya masaüstündeki `ANKA Finans - Cevrimdisi Onizleme` kısayolu. Gerçek emir gönderimi kapalı, canlı BIST lisansı ve fiyat doğrulanmamış.
+- **Koruma:** Kullanıcının `Documents/ANKA_Finans/Professional_20261009` çalışma ağacındaki 28 mevcut değişiklik korunmuştur; `main` koduna bu aday birleştirilmemiştir.
+- **Açık blokajlar:** `FULL_AUTONOMY=BLOCKED` ve `PRODUCTION_ACCEPTANCE=BLOCKED`; gerçek otomatik geliştirme→deterministik test→bağımsız kaynak denetimi→rollback uçtan uca tamamlanmadı. Doğrudan Claude Code oturumu ve Figma Starter kullanım kotası ayrı engellerdir.
+- **Sonraki görev:** Yeni aday dalındaki gerçekten çalışan terminal üzerinden bağımsız QA ve otomatik onarım güvenlik kapılarını kur; önce Git diff, test kanıtı ve son kayıtları oku. Başarısız ajan görevi/model yanıtını PASS gösterme.

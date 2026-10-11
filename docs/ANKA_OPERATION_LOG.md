@@ -16,4 +16,6 @@ Bu belge insan tarafından okunabilen kalıcı özet içindir. Makine kayıtlar�
 
 | 2026-10-11 | Ajan erişim V2 | Codex Windows süreç ağacı temizliği ve Antigravity Gemini/Claude geçidi aday dalda f1fbd07 olarak yayımlandı; 40 birim test, Codex canlı görev ve iki model bağlantısı PASS. Doğrudan Claude Code girişi ve Figma kotası BLOCKED. | KISMİ | Bağımsız denetim, gerçek süreç stres testi ve otomatik kod değişikliği/rollback kapısı. |
 
+| 2026-10-11 | ANKA Finans terminal V1 | GitHub feature/anka-finans-terminal-20261011 commit 61e32e0; 276 birim test PASS; gerçek Qt kontrol paneli ve yapay zekâ ekranı görüntüleri; Gemini/Claude seçenekleri kontrollü olarak bağlandı. | KISMİ | Bağımsız kabul, güvenli otomatik kod değişikliği/rollback, ana dala birleştirme; full_autonomy BLOCKED. |
+
 **Kural:** Her gerçek geliştirme, test, denetim, hata veya geri alma sonrası yukarıdaki tabloya özet ekle; ayrıntıyı `scripts/record_operation.py` ile JSONL dosyasına kaydet. Başarısız doğrulamayı gizleme veya geçmiş kaydı silme.

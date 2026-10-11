@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication,
     QHBoxLayout,
     QLabel,
+    QComboBox,
     QPushButton,
     QPlainTextEdit,
     QVBoxLayout,
@@ -13,6 +16,7 @@ from PySide6.QtWidgets import (
 )
 
 from core.ai.local_team import LocalAITeam
+from core.ai.remote_read_only_team import RemoteReadOnlyTeam
 from core.ai.workflow import WorkflowResult
 from ui.ai_worker import AIWorker
 
@@ -27,14 +31,29 @@ class AIPage(QWidget):
         layout = QVBoxLayout(self)
         layout.setSpacing(16)
 
-        title = QLabel("🤖 YAPAY ZEKA")
+        title = QLabel("ANKA YAPAY ZEKÂ MERKEZİ")
         title.setStyleSheet("font-size:28px;font-weight:bold;")
         layout.addWidget(title)
 
         model_name = getattr(self.local_team, "model", LocalAITeam().model)
-        model_label = QLabel(f"Kullanılan model: {model_name}")
+        model_label = QLabel(f"Varsayılan yerel model: {model_name}")
         model_label.setStyleSheet("font-size:14px;color:#BBBBBB;padding-bottom:8px;")
         layout.addWidget(model_label)
+
+        self.model_selector = QComboBox()
+        self.model_selector.addItems([
+            "Yerel Ollama (dört ajan)",
+            "Gemini — Planlama (bulut)",
+            "Claude — Bağımsız İnceleme (bulut)",
+        ])
+        layout.addWidget(self.model_selector)
+        privacy_note = QLabel(
+            "Bulut modeli seçerseniz görev metni ilgili sağlayıcıya gönderilir. "
+            "Şifre, API anahtarı veya özel finansal bilgi paylaşmayın."
+        )
+        privacy_note.setWordWrap(True)
+        privacy_note.setStyleSheet("font-size:11px;color:#E0B67B;")
+        layout.addWidget(privacy_note)
 
         instruction_label = QLabel("Yapılmasını istediğiniz görevi Türkçe olarak yazın ve Analiz Et düğmesine basın.")
         instruction_label.setStyleSheet("font-size:13px;color:#CCCCCC;")
@@ -91,7 +110,16 @@ class AIPage(QWidget):
         self._set_status("Analiz ediliyor...", "#FFEB3B")
         self.result_output.clear()
 
-        self._worker = AIWorker(task=task, local_team=self.local_team)
+        selected = self.model_selector.currentIndex()
+        if selected in (1, 2):
+            role = "planner" if selected == 1 else "reviewer"
+            chosen_team = RemoteReadOnlyTeam(
+                role=role, workspace=Path(__file__).resolve().parents[2]
+            )
+        else:
+            chosen_team = self.local_team
+
+        self._worker = AIWorker(task=task, local_team=chosen_team)
         self._worker.setParent(self)
         self._worker.result_ready.connect(self._on_result_ready)
         self._worker.finished.connect(self._worker_finished)

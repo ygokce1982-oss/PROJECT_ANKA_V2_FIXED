@@ -36,3 +36,13 @@ Uygulama `ANKA_OFFLINE=1` ve `ANKA_DISABLE_LIVE=1` ile açılır. Gerçek piyasa
 ## Kabul politikası
 
 `PASS` yalnızca dosya, test ve gözlenmiş çalışma kanıtına uygulanır. Gerçek emir, bakiye değiştirme, ödeme, API anahtarı güncelleme ve gizli verileri açık GitHub deposuna gönderme yasaktır.
+
+## Ajan bağlantısı ve arayüz güncellemesi (11 Ekim 2026)
+
+- `core/agent_hub/adapters/codex_adapter.py` ve `antigravity_adapter.py` izole onarım dalından kontrollü aktarıldı.
+- Antigravity Gemini planlayıcı ve Claude inceleyici ANKA'nın Yapay Zekâ sayfasında **açık kullanıcı seçimiyle** kullanılabilir. Varsayılan seçenek yerel Ollama'dır. Bu değişiklik bağımsız kod geliştirme otonomisi sağlamaz.
+- `core/ai/remote_read_only_team.py` üzerinden yalnızca analiz/inceleme yetkisi kullanılır. Gizli bilgiler ve gerçek finansal emirler paylaşılmamalıdır.
+- Yeni `tests/test_remote_read_only_team.py` ve `tests/test_ai_provider_selection.py` testleri eklendi.
+- İlgili tüm çevrimdışı/regresyon birim testlerinin son çalışması **276/276 PASS**, exit 0.
+- İki Qt görüntüsü: `docs/previews/ANKA_Finans_Terminal_20261011.png` ve `docs/previews/ANKA_Finans_Yapay_Zeka_20261011.png`. Bu görseller canlı fiyat veya gerçek hesap içermez.
+- `FULL_AUTONOMY=BLOCKED`: gerçek kod yazan geliştirici + bağımsız denetim + otomatik geri alma uçtan uca doğrulanmadı; GitHub `main` birleştirilmedi.

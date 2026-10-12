@@ -44,3 +44,8 @@ Testler, proje/sağlayıcı importlarından önce Python audit ağ çağrıları
 Sistem UTC saati referanstır. Resmî borsa takvimleri, tüm varlıkların birlikte eksik günleri, fiyat eskiliği, düzeltilmiş kapanış/temettü/bölünme kökeni ve FX dönüşümü bu düzeltmenin kapsamında doğrulanmadı. Veri sentetik veya kullanıcı CSV'sidir. 1366×768 görüntüsü yalnız bu akışın çizildiğini kanıtlar; tam ürün yerleşimi/fiziksel çoklu monitör kabulü değildir. Gerçek emir, lisans, ödeme ve gizli anahtar işlemi yapılmadı.
 
 Bu kayıt commit öncesi hazırlanmıştır; uzak gönderim ancak uzak dal SHA'sı yerel commit ile eşleştiğinde tamamlanır. Kaynak hashleri ve ayrıntılı ölçümler [kanıt JSON](ANKA_DATE_RECOVERY_EVIDENCE_20261012.json), [bağımsız inceleme](ANKA_DATE_RECOVERY_REVIEW_20261012.json) ve [güvenlik incelemesi](ANKA_DATE_RECOVERY_SAFETY_20261012.json) içindedir.
+
+
+### 12 Ekim 2026 — Uzak gönderim kanıtı
+
+Yerel kod commit `5d24fb729ce70019bc719574768d826d2e2f8ccd`, `origin/fix/anka-price-date-recovery-20261012` ile tam SHA eşleşmesiyle doğrulandı (2026-10-12T12:26:52.705922+00:00). Gönderim başarılı; ana kullanıcı projesi 28/28 dosya özetiyle korundu. Bu ek kayıt yalnız belgelendirmedir. `FULL_AUTONOMY=BLOCKED`, `PRODUCTION_ACCEPTANCE=BLOCKED`.

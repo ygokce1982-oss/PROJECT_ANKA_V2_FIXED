@@ -238,8 +238,18 @@
   },
   "independent_review_verdict": "PASS_WITH_LIMITS",
   "safety_verdict": "PASS_WITH_LIMITS",
-  "publication_status": "PENDING_PUSH_AT_COMMIT_TIME; verify branch head independently",
+  "publication_status": "CODE_COMMIT_PUSH_VERIFIED; subsequent documentation receipt commit has no source changes",
   "FULL_AUTONOMY": "BLOCKED",
   "PRODUCTION_ACCEPTANCE": "BLOCKED",
-  "diagnosis": "Exact historical approval-denial reason unavailable; upstream gate only inferred. No policy weakened."
+  "diagnosis": "Exact historical approval-denial reason unavailable; upstream gate only inferred. No policy weakened.",
+  "remote_code_verification": {
+    "status": "PASS",
+    "verified_utc": "2026-10-12T12:26:52.705922+00:00",
+    "branch": "fix/anka-price-date-recovery-20261012",
+    "local_code_commit": "5d24fb729ce70019bc719574768d826d2e2f8ccd",
+    "remote_code_commit": "5d24fb729ce70019bc719574768d826d2e2f8ccd",
+    "method": "git ls-remote --heads origin exact branch",
+    "FULL_AUTONOMY": "BLOCKED",
+    "PRODUCTION_ACCEPTANCE": "BLOCKED"
+  }
 }

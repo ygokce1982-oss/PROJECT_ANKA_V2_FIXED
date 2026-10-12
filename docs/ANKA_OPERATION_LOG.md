@@ -18,6 +18,14 @@ Bu belge insan tarafından okunabilen kalıcı özet içindir. Makine kayıtlar�
 
 **Kural:** Her gerçek geliştirme, test, denetim, hata veya geri alma sonrası yukarıdaki tabloya özet ekle; ayrıntıyı `scripts/record_operation.py` ile JSONL dosyasına kaydet. Başarısız doğrulamayı gizleme veya geçmiş kaydı silme.
 
+## 2026-10-12 — Sharpe veri güvenliği için izole düzeltme
+
+- Ayrı dal: `fix/anka-sharpe-guards-20261012`. Bilinen ortak işlem seansı boşluğu tek bir günlük getiriyi oluşturmaz; ilgili hareketli Sharpe değeri `None` olarak kalır, kümülatif fiyat getirisi korunur. Geleceğe tarihli kaynak damgası reddedilir.
+- Hedefli testler **26/26**, tüm çevrimdışı regresyon ve Qt smoke testleri **326/326 PASS**, `git diff --check` ve AST kontrolü **PASS**.
+- Bağımsız Antigravity Gemini denetimi: **PASS_WITH_LIMITS**, kaynak takvimi ve düzeltilmiş kapanış fiyatlarının doğrulanmadığı açık. Claude inceleme istemine yalnız plan yanıtı verdi, bağımsız karar değil. Ollama iki model ile **0xc0000005** yerel llama-server çöküşü yaşadı; tekrar aynı yöntemi deneme.
+- **Üretim kullanımı, Matriks canlı verisi, otomatik emir ve tam otonomi BLOCKED.** Korunan ana yerel 28 dosyaya dokunulmadı. Bu kayıt `main` dalının kabulü değildir.
+
+
 ## 2026-10-11 — Çoklu varlık performansı ve Sharpe ekranı
 
 - **Dal:** `feature/anka-multi-asset-performance-20261011` (bağımsız Windows worktree).

@@ -8,7 +8,7 @@ Undefined zero-volatility Sharpe is None, never infinity or artificial zero.
 """
 from __future__ import annotations
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timezone, timedelta
 from collections.abc import Sequence
 import math
 
@@ -77,6 +77,8 @@ def compare_assets(
                 raise ValueError
         except (TypeError, ValueError) as exc:
             raise ValueError(f"{item.symbol}: asof_utc must include a timezone") from exc
+        if parsed_ts.astimezone(timezone.utc) > datetime.now(timezone.utc) + timedelta(minutes=5):
+            raise ValueError(f"{item.symbol}: FUTURE_SOURCE_TIMESTAMP")
 
         checked = {}
         last_day = None
@@ -106,6 +108,16 @@ def compare_assets(
     if len(aligned) < 2:
         raise ValueError("NO_COMMON_RETURN_INTERVAL")
 
+    # If any other asset traded between two matched closes, the change
+    # spans multiple known observations and is not one daily Sharpe return.
+    # Real exchange calendars still require separate source verification.
+    union_days = sorted(set().union(*(set(mapping) for mapping in clean)))
+    session_index = {day: i for i, day in enumerate(union_days)}
+    valid_intervals = tuple(
+        session_index[right] - session_index[left] == 1
+        for left, right in zip(aligned, aligned[1:])
+    )
+
     daily_rf = math.expm1(math.log1p(risk_free_annual) / periods_per_year)
     annualizer = math.sqrt(periods_per_year)
     output = []
@@ -118,8 +130,11 @@ def compare_assets(
             if not math.isfinite(value):
                 raise ValueError("cumulative return not representable")
             cumulative.append(value)
-        excess = []
-        for previous, current in zip(prices, prices[1:]):
+        excess: list[float | None] = []
+        for valid, previous, current in zip(valid_intervals, prices[:-1], prices[1:], strict=True):
+            if not valid:
+                excess.append(None)
+                continue
             daily = current / previous - 1.0
             if not math.isfinite(daily):
                 raise ValueError("daily return not representable")
@@ -127,6 +142,8 @@ def compare_assets(
         sharpe: list[float | None] = [None] * len(prices)
         for end in range(window, len(prices)):
             block = excess[end-window:end]
+            if any(value is None for value in block):
+                continue
             mean = math.fsum(block) / window
             squares = math.fsum((value - mean)**2 for value in block)
             std = math.sqrt(squares / (window - 1))
@@ -141,6 +158,9 @@ def compare_assets(
         "Same displayed currency; currency conversion must happen upstream.",
         f"Rolling Sharpe: {window} common daily returns; sample volatility; {periods_per_year} trading sessions/year.",
     ]
+    if not all(valid_intervals):
+        warnings.append("KNOWN_MISSING_SESSIONS: rolling Sharpe remains undefined for windows spanning observed calendar gaps.")
+    warnings.append("Exchange calendar and adjusted-close provenance are not independently verified.")
     if len(aligned) <= window:
         warnings.append(f"Insufficient aligned history: Sharpe needs {window + 1} common closes.")
     if any(item.demo for item in histories):

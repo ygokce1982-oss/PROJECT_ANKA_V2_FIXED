@@ -60,3 +60,8 @@ Yerel kod commit `5d24fb729ce70019bc719574768d826d2e2f8ccd`, `origin/fix/anka-pr
 - Üç 1366×768 gerçek Qt görüntüsü incelendi. Mevcut başlık kırpılması/ikon eksikleri; fiziksel ekran, canlı sağlayıcı, paket/kurulum ve tam ürün kabulü açık kaldı.
 - **FULL_AUTONOMY=BLOCKED; PRODUCTION_ACCEPTANCE=BLOCKED.** Bu kayıt anında uzak gönderim beklemededir; sonraki SHA makbuzu ayrı kayıttır.
 - [Kabul kanıtı](ANKA_INTEGRATION_EVIDENCE_20261012.json), [bağımsız inceleme](ANKA_INTEGRATION_REVIEW_20261012.json), [19 Ekim çalışma hedefi](ANKA_V1_DELIVERY_PLAN_20261012.md).
+
+
+### 12 Ekim — Terminal entegrasyonu uzak gönderim kanıtı
+
+Kod commit `98866f12d52fa100610b6804b4de46f1cbaba9ed`, uzak `feature/anka-integrated-terminal-20261012` ile tam SHA eşleşmesiyle doğrulandı (2026-10-12T16:51:53.362496+00:00). Ana kullanıcı projesinin 28 dosyası değişmedi. Bu ek yalnız gönderim makbuzudur. `FULL_AUTONOMY=BLOCKED`, `PRODUCTION_ACCEPTANCE=BLOCKED`.

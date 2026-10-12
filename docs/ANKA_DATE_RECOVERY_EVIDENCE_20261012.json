@@ -1,0 +1,245 @@
+{
+  "timestamp": "2026-10-12T15:24:39+03:00",
+  "scope": "Narrow offline future price date recovery; no main merge or production approval",
+  "branch": "fix/anka-price-date-recovery-20261012",
+  "base_sha": "0d8318d4171254ad8d25b3f791076b16a63ce9c5",
+  "source_sha256": {
+    "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+    "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+  },
+  "red_green": {
+    "new_tests": 18,
+    "red_exit": 1,
+    "expected_assertion_failures": 11,
+    "green_exit": 0
+  },
+  "checks": {
+    "targeted": {
+      "mode": "targeted",
+      "started_utc": "2026-10-12T07:49:55.933535+00:00",
+      "finished_utc": "2026-10-12T07:49:57.520832+00:00",
+      "elapsed_seconds": 1.586,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "source_sha256_after": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "status": "PASS"
+    },
+    "full": {
+      "mode": "full",
+      "started_utc": "2026-10-12T07:50:58.828449+00:00",
+      "finished_utc": "2026-10-12T07:53:11.333226+00:00",
+      "elapsed_seconds": 132.499,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 344,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "source_sha256_after": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "status": "PASS"
+    },
+    "smoke": {
+      "mode": "smoke",
+      "started_utc": "2026-10-12T07:53:45.955963+00:00",
+      "finished_utc": "2026-10-12T07:54:18.120140+00:00",
+      "elapsed_seconds": 32.163,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "source_sha256_after": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "status": "PASS"
+    },
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-12T12:22:45.817965+00:00",
+      "finished_utc": "2026-10-12T12:22:46.524705+00:00",
+      "elapsed_seconds": 0.677,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "core/multi_asset_comparison.py": "b823fa9cd856d8c539d15e131461d1a403e70c7235b7281047c09f7f7183bde2"
+      },
+      "source_sha256_after": {
+        "core/multi_asset_comparison.py": "b823fa9cd856d8c539d15e131461d1a403e70c7235b7281047c09f7f7183bde2"
+      },
+      "status": "PASS"
+    }
+  },
+  "old_restore": {
+    "status": "PASS",
+    "head": "0d8318d4171254ad8d25b3f791076b16a63ce9c5",
+    "old_branch": "fix/anka-future-ohlcv-date-20261012",
+    "old_git_status": "clean",
+    "source_git_blob": "2747f8f32983375c1f6945b51f04528f0380894e",
+    "source_worktree_sha256": "b823fa9cd856d8c539d15e131461d1a403e70c7235b7281047c09f7f7183bde2",
+    "source_base_sha256": "a7d72b4e3b1dd4fff27ba8cc0ca938a93ca681d57436626cd34b0627c26963d9",
+    "preserved_files": [
+      {
+        "path": "core/multi_asset_comparison.py",
+        "sha256": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "base_sha256": "a7d72b4e3b1dd4fff27ba8cc0ca938a93ca681d57436626cd34b0627c26963d9"
+      },
+      {
+        "path": "tests/test_multi_asset_future_date_guards.py",
+        "sha256": "018dce3ccea2a98e7e736418aecbc3dac045a4ffa61a5a321e93bb60fbe650e9",
+        "base_sha256": null
+      }
+    ],
+    "primary_preservation": "28/28 SHA256, branch, HEAD and status unchanged",
+    "correction": "First clean-status check failed on LF worktree; converted exact baseline to verified repository CRLF format; premature journal PASS explicitly corrected by subsequent FAIL record"
+  },
+  "candidate_roundtrip": {
+    "status": "PASS",
+    "base": "0d8318d4171254ad8d25b3f791076b16a63ce9c5",
+    "rollback": "source equals original Git blob; no code diff; new test preserved",
+    "baseline_tests": 19,
+    "baseline_status": "PASS",
+    "restored_candidate_sha256": {
+      "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+      "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+    },
+    "primary": "28/28 hashes, branch, HEAD and status unchanged",
+    "post_reinstatement_tests": {
+      "mode": "targeted",
+      "started_utc": "2026-10-12T12:23:21.372100+00:00",
+      "finished_utc": "2026-10-12T12:23:23.439800+00:00",
+      "elapsed_seconds": 2.066,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "source_sha256_after": {
+        "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+        "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+      },
+      "status": "PASS"
+    },
+    "verified_utc": "2026-10-12T12:24:22.685067+00:00"
+  },
+  "qt": {
+    "status": "PASS",
+    "platform": "Qt offscreen",
+    "guard_denied_events": [],
+    "font_registration": {
+      "segoeui.ttf": 0,
+      "segoeuib.ttf": 1,
+      "arial.ttf": 2,
+      "arialbd.ttf": 3
+    },
+    "screens": [
+      {
+        "file": "ANKA_Qt_1366x768_20261012.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "b853b1ae19e5f148df6f1185f16ef1f287dc4ffd92b83e1b7226444fe7a67894"
+      },
+      {
+        "file": "ANKA_Qt_1920x1080_20261012.png",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "637aa898e302babef6f70ff7cfcf6825b4bd9176389daae34f6d8089d86fb78d"
+      }
+    ],
+    "future_csv": "rejected with FUTURE_PRICE_DATE; last DEMO remains explicitly labeled",
+    "orders": "AL / SAT disabled",
+    "scope": "offline rendering only; not physical monitor or live acceptance",
+    "source_sha256": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df"
+  },
+  "prior_reviewer_command": {
+    "reviewer_run": true,
+    "started_utc": "2026-10-12T07:58:09.286883+00:00",
+    "finished_utc": "2026-10-12T07:58:09.584464+00:00",
+    "elapsed_seconds": 0.296,
+    "python": "3.14.6",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "command": "C:/Users/Asus/AppData/Local/Programs/Python/Python314/python.exe -B work/anka_independent_review_verify.py",
+    "project_imports_after_guard": true,
+    "guard_scope": "Python audited network and real child starts only; not OS firewall or arbitrary native-code sandbox",
+    "guard_self_checks": [
+      {
+        "operation": "dns",
+        "denied_event": "socket.getaddrinfo",
+        "status": "PASS"
+      },
+      {
+        "operation": "child_process",
+        "denied_event": "subprocess.Popen",
+        "status": "PASS"
+      }
+    ],
+    "unexpected_denied_events": [],
+    "tests_run": 42,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source_sha256_before": {
+      "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+      "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+    },
+    "source_sha256_after": {
+      "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+      "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+    },
+    "status": "PASS",
+    "exit_code": 0
+  },
+  "independent_review_verdict": "PASS_WITH_LIMITS",
+  "safety_verdict": "PASS_WITH_LIMITS",
+  "publication_status": "PENDING_PUSH_AT_COMMIT_TIME; verify branch head independently",
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED",
+  "diagnosis": "Exact historical approval-denial reason unavailable; upstream gate only inferred. No policy weakened."
+}

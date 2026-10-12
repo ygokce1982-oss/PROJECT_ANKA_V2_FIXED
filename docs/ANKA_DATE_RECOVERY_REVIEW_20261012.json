@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "report_type": "independent_source_review",
+  "reviewed_at_utc": "2026-10-12T12:21:59.9782570Z",
+  "verdict": "PASS_WITH_LIMITS",
+  "reviewer": "final_independent_gate",
+  "scope": "Offline canonical UTC observation-date guard on isolated candidate only",
+  "branch": "fix/anka-price-date-recovery-20261012",
+  "base_head": "0d8318d4171254ad8d25b3f791076b16a63ce9c5",
+  "source_sha256": {
+    "core/multi_asset_comparison.py": "60fe7f44fda09456aea33056eb8eb34ac0fc5c7ae37d5ffc5a29f2fdd5db56df",
+    "tests/test_multi_asset_future_date_guards.py": "729f275982052516f05b7e43188e57019df58d931f9bea74db40896ae196518b"
+  },
+  "source_hashes_freshly_verified": true,
+  "requirements": [
+    {
+      "id": "ONE_UTC_SAMPLE",
+      "status": "PASS",
+      "evidence": "compare_assets samples datetime.now(timezone.utc) once after argument checks and before traversing histories; all source and observation checks reuse now_utc."
+    },
+    {
+      "id": "FUTURE_ROWS_BEFORE_ALIGNMENT",
+      "status": "PASS",
+      "evidence": "Every observation in every AssetHistory is checked against now_utc.date() before it is stored in checked and before common-date intersection. Future non-common rows cannot disappear through alignment."
+    },
+    {
+      "id": "CANONICAL_DATE_AT_COMPARISON_BOUNDARY",
+      "status": "PASS",
+      "evidence": "date.fromisoformat is followed by isinstance(raw_day,str) and raw_day == day.isoformat(); basic ISO and week dates are rejected. Existing CSV date.strip() is intentionally retained and is outside the raw-whitespace rejection scope."
+    },
+    {
+      "id": "FIVE_MINUTE_SOURCE_TOLERANCE",
+      "status": "PASS",
+      "evidence": "Source timestamps are normalized to UTC and rejected only when strictly greater than now_utc + timedelta(minutes=5), preserving the inclusive exact boundary."
+    },
+    {
+      "id": "NARROW_SCOPE_AND_NO_POLICY_WEAKENING",
+      "status": "PASS",
+      "evidence": "Observed source diff is core/multi_asset_comparison.py +6/-1 plus new 18-test module. Existing currency, provenance, price, calendar-gap, and no-fill behavior remains intact. The separately observed docs/ANKA_OPERATIONS.jsonl changes are operation records, not app code."
+    }
+  ],
+  "findings": [],
+  "blocking_findings": [],
+  "own_review": {
+    "independent_of_implementation": true,
+    "source_and_test_module_read": true,
+    "actual_git_diff_read": true,
+    "branch_base_status_and_empty_index_checked": true,
+    "git_diff_check": "No whitespace errors observed; repository CRLF warning only for existing operation ledger",
+    "tests_run": 0,
+    "source_or_git_mutations": false,
+    "primary_access": false,
+    "network_or_model_cli_calls": false,
+    "actual_rollback_executed": false
+  },
+  "author_test_evidence": [
+    {
+      "role": "author",
+      "mode": "targeted",
+      "tests_run": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "finished_utc": "2026-10-12T07:49:57.520832+00:00",
+      "json": "work/recovery_evidence/targeted.json",
+      "log": "work/recovery_evidence/targeted.log",
+      "matching_before_after_hashes": true,
+      "log_summary_checked": true,
+      "run_by_this_reviewer": false
+    },
+    {
+      "role": "author",
+      "mode": "full",
+      "tests_run": 344,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "finished_utc": "2026-10-12T07:53:11.333226+00:00",
+      "json": "work/recovery_evidence/full.json",
+      "log": "work/recovery_evidence/full.log",
+      "matching_before_after_hashes": true,
+      "log_summary_checked": true,
+      "run_by_this_reviewer": false
+    },
+    {
+      "role": "author",
+      "mode": "Qt smoke",
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "status": "PASS",
+      "finished_utc": "2026-10-12T07:54:18.120140+00:00",
+      "json": "work/recovery_evidence/smoke.json",
+      "log": "work/recovery_evidence/smoke.log",
+      "matching_before_after_hashes": true,
+      "log_summary_checked": true,
+      "run_by_this_reviewer": false
+    }
+  ],
+  "author_red_green_evidence": {
+    "red": "18 tests, 11 assertion failures, 0 errors, saved exit 1",
+    "green": "18 tests, 0 failures/errors, saved exit 0",
+    "logs_checked": true,
+    "report": "work/recovery_evidence/date_guard_developer_report.json",
+    "run_by_this_reviewer": false
+  },
+  "previous_reviewer_command_evidence": {
+    "role": "previous independent reviewer",
+    "status": "PASS",
+    "tests_run": 42,
+    "composition": "37 existing targeted tests plus 5 reviewer-specific boundary probes",
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "finished_utc": "2026-10-12T07:58:09.584464+00:00",
+    "json": "work/recovery_evidence/independent_reviewer_targeted.json",
+    "log": "work/recovery_evidence/independent_reviewer_targeted.log",
+    "helper": "work/anka_independent_review_verify.py",
+    "matching_before_after_hashes": true,
+    "log_summary_checked": true,
+    "guard_self_checks": "Saved evidence records DNS and child-process denial self-checks, then zero unexpected denied events.",
+    "run_by_this_reviewer": false,
+    "final_verdict_from_that_session": "NOT_COMPLETED",
+    "probes": [
+      "UTC midnight rollover uses one clock sample",
+      "Third-asset non-common future row is rejected",
+      "Negative UTC offset exact 5-minute boundary and one-microsecond excess",
+      "UTC today with older Z and offset source metadata",
+      "9999-12-31 future row rejected before alignment"
+    ]
+  },
+  "limits": [
+    "Narrow offline observation-date patch only; not production, live-provider, trading, or autonomy acceptance.",
+    "This reviewer performed an independent source and helper review plus fresh read-only source hash validation; this reviewer did not run the 37, 344, 19, or 42 test suites.",
+    "Author and previous reviewer results are saved command evidence, checked against logs and the current frozen source hashes; the interrupted previous reviewer did not finish a final acceptance report.",
+    "No primary files were accessed by this reviewer. Historical primary preservation claims are attributed to saved author evidence and are not fresh independent primary verification.",
+    "Python audit hooks constrain audited Python network and child-process events; they are not an OS firewall or arbitrary native-code sandbox.",
+    "Exchange calendars, adjusted-close provenance, licensed live data, and market execution remain unverified.",
+    "Actual candidate rollback, fresh baseline tests, and exact-byte reinstatement have not been performed by this reviewer and remain pending for the coordinator."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED",
+  "candidate_roundtrip": "PENDING",
+  "sanitization": "No secrets, host identifiers, absolute personal paths, or raw sensitive logs included."
+}

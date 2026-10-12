@@ -61,6 +61,7 @@ def compare_assets(
     if len(histories) < 2:
         raise ValueError("at least two assets are required")
 
+    now_utc = datetime.now(timezone.utc)
     names, currencies, clean = set(), set(), []
     for item in histories:
         if not isinstance(item, AssetHistory):
@@ -77,7 +78,7 @@ def compare_assets(
                 raise ValueError
         except (TypeError, ValueError) as exc:
             raise ValueError(f"{item.symbol}: asof_utc must include a timezone") from exc
-        if parsed_ts.astimezone(timezone.utc) > datetime.now(timezone.utc) + timedelta(minutes=5):
+        if parsed_ts.astimezone(timezone.utc) > now_utc + timedelta(minutes=5):
             raise ValueError(f"{item.symbol}: FUTURE_SOURCE_TIMESTAMP")
 
         checked = {}
@@ -87,6 +88,10 @@ def compare_assets(
                 day = date.fromisoformat(raw_day)
             except (TypeError, ValueError) as exc:
                 raise ValueError(f"{item.symbol}: invalid ISO date") from exc
+            if not isinstance(raw_day, str) or raw_day != day.isoformat():
+                raise ValueError(f"{item.symbol}: date must be YYYY-MM-DD")
+            if day > now_utc.date():
+                raise ValueError(f"{item.symbol}: FUTURE_PRICE_DATE")
             if last_day is not None and day <= last_day:
                 raise ValueError(f"{item.symbol}: dates must be strictly increasing")
             if isinstance(raw_price, bool) or not isinstance(raw_price, (int, float)):

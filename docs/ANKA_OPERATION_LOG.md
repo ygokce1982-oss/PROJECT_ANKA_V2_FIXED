@@ -35,3 +35,12 @@ Bu belge insan tarafından okunabilen kalıcı özet içindir. Makine kayıtlar�
 - **Bağımsız inceleme:** **BLOCKED/PENDING**, henüz PASS kanıtı yok; ana dala birleştirme ve üretim kullanımı onaylanmış değildir. Yetkili gerçek Matriks/BIST veri akışı ve gerçek emir kapısı da BLOCKED.
 - **Geri alma:** Ayrı feature commit'i geri alınabilir, feature worktree kaldırılabilir; korunan 28 kullanıcı düzenlemesi bulunan ana yerel çalışma projesine dokunulmadı.
 - **Sabah programı:** ANKA Finans Tamamlama saatlik koşullu görev etkin, 2026-10-12 08:00 Türkiye saati için bağımsız sabah durum raporu oluşturuldu; aynı dosyalara paralel yazma yapılmaması şart.
+
+
+## 2026-10-12 — Gelecek fiyat tarihini reddetme ve güvenli kurtarma
+
+- Yeni izole dal: `fix/anka-price-date-recovery-20261012`, taban `0d8318d`. Önceki adayın iki dosyası yedeklendi ve eski dal temiz tabana döndürüldü. Ana kullanıcı projesi 28/28 SHA256 ile korundu.
+- 18 yeni sabit-saat testi; hedefli37/37, tam344/344, Qt19/19 PASS. Ayrı kaynak reviewer `PASS_WITH_LIMITS`; geri alma provasında taban19/19 PASS, aday dosya hashleri geri yüklendi.
+- Gelecek UTC fiyat günleri ve temel/hafta ISO biçimleri reddedilir. CSV çevre boşluklarını kırpma ve dosya mtime anlamı korunur. Gerçek emir kapalıdır.
+- İlk CRLF temizlik hatası, font eksikliği ve kesilen reviewer oturumları günlükte korunur. Özgün eski izin reddinin kesin nedeni kayıt eksikliği nedeniyle doğrulanamadı; politika değiştirilmedi.
+- **FULL_AUTONOMY=BLOCKED; PRODUCTION_ACCEPTANCE=BLOCKED.** Uzak gönderim bu belgenin commit anında beklemededir; dal HEAD doğrulaması gerekir. [Ayrıntılı kabul kaydı](ANKA_DATE_RECOVERY_ACCEPTANCE_20261012.md).

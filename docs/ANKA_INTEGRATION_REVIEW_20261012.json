@@ -1,0 +1,151 @@
+{
+  "verdict": "PASS_WITH_LIMITS",
+  "reviewer": "integration_independent_gate",
+  "review_date": "2026-10-12",
+  "scope": "Independent bounded source and safety review of normal MainWindow access to the existing offline Demo/CSV advanced terminal; one additional guarded lifecycle probe.",
+  "candidate": "C:/Users/Asus/Documents/ANKA_Overnight/ANKA_INTEGRATED_TERMINAL_20261012",
+  "branch": "feature/anka-integrated-terminal-20261012",
+  "base": "7bffbebf0ef607c4a334c7e5d249aeece88327d1",
+  "source_sha256": {
+    "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+    "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+    "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+  },
+  "source_integrity": "Independently read and hashed all three files; hashes equal frozen candidate and independent probe before/after hashes. No candidate source mutations by reviewer.",
+  "blocking_findings": [],
+  "findings": [
+    {
+      "id": "I1",
+      "severity": "informational",
+      "subject": "Bounded integration meets reviewed requirements",
+      "detail": "MainWindow adds a discoverable QAction, lazily imports AdvancedTerminal only on invocation, and does not invoke the standalone launcher. Adapter reuses Terminal within the existing QApplication, establishes an owned top-level window, restores geometry after parenting, applies QSS locally, and uses WA_DeleteOnClose. Accepted closure releases the reference synchronously; identity checks prevent an old deferred destruction from clearing a replacement. Main close cascades to its terminal and auxiliary windows. Existing six-page construction is unchanged. Existing Demo/CSV provenance and disabled orders remain in reused implementation.",
+      "evidence": [
+        "ui/main_window.py",
+        "ui/advanced_terminal.py",
+        "scripts/anka_professional_toolchain_demo.py",
+        "tests/test_integrated_terminal.py",
+        "work/integration_evidence/independent_parent_destroy_probe.json"
+      ]
+    },
+    {
+      "id": "I2",
+      "severity": "limit",
+      "subject": "Native desktop and full product acceptance excluded",
+      "detail": "Offscreen lifecycle/state and raise/activate calls do not establish visible Windows foreground focus, physical monitor behavior, packaging, clean installation, live providers, licenses, real orders, or full product readiness. Root reports visual inspection of captures; this reviewer inspected capture metadata only. Existing compact-header/icon limitations reported by root are not closed by this review."
+    },
+    {
+      "id": "I3",
+      "severity": "limit",
+      "subject": "Rollback is statically reviewed, not executed by reviewer",
+      "detail": "Roundtrip script is suitable for the frozen, isolated candidate under listed conditions. Actual rollback, fresh baseline, reinstatement, protected-primary comparison, and post-reinstatement verification remain coordinator gates; this report is not their completion evidence."
+    }
+  ],
+  "evidence_attribution": {
+    "own_review": {
+      "actions": [
+        "Read applicable AGENTS.md, handoff, operation records, project/context documents, local history/status/branch/remotes, delivery plan, actual source diff and all new tests.",
+        "Inspected existing Terminal construction, explicit layout persistence, close behavior and standalone launcher; inspected unchanged app.py and relevant prior layout/UI tests.",
+        "Read guarded runner, roundtrip helper and reused anka_evidence.py without executing rollback or protected-primary helper.",
+        "Ran git diff --check: exit 0; only root-owned operation journal CRLF advisory.",
+        "Executed exactly one fresh-process offscreen lifecycle probe with actual app STYLE, mocked dashboard refresh, isolated temporary state/layout, Python audit guard before project imports, and explicit callback error capture."
+      ],
+      "probe": {
+        "script": "work/integration_evidence/independent_parent_destroy_probe.py",
+        "report": "work/integration_evidence/independent_parent_destroy_probe.json",
+        "log": "work/integration_evidence/independent_parent_destroy_probe.log",
+        "command": "C:/Users/Asus/AppData/Local/Programs/Python/Python314/python.exe -B -X utf8 work/integration_evidence/independent_parent_destroy_probe.py",
+        "started_utc": "2026-10-12T12:52:13.090736+00:00",
+        "finished_utc": "2026-10-12T12:52:24.660270+00:00",
+        "verdict": "PASS",
+        "exit_code": 0,
+        "probe_count": 1,
+        "checks": [
+          "Fresh-process MainWindow construction leaves advanced module unloaded.",
+          "Actual menu action opens owned terminal within the same QApplication with normal application STYLE.",
+          "Deleting parent via deleteLater without close destroys terminal and all floating docks, clears owner reference, and produces no callback exception.",
+          "Application stylesheet/font/style/name/organization remain unchanged and no implicit layout file is written."
+        ],
+        "guard_denied_events": [],
+        "callback_errors": [],
+        "source_hashes_unchanged": true
+      }
+    },
+    "author_tests_read_not_rerun": {
+      "red": {
+        "report": "work/integration_evidence/red.json",
+        "tests": 8,
+        "failures": 7,
+        "errors": 1,
+        "exit_code": 1
+      },
+      "first_green_attempt": {
+        "report": "work/integration_evidence/green1.json",
+        "tests": 8,
+        "failures": 1,
+        "errors": 0,
+        "exit_code": 1
+      },
+      "corrected_green": {
+        "report": "work/integration_evidence/green.json",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "exit_code": 0
+      },
+      "assessment": "Logs and reports support missing-action red failure and final eight-test pass. Intermediate failure incorrectly expected DEMO instead of existing ORNEK VERI label; only test expectation changed. First failure remains preserved. Final hashes match reviewed source; zero denied audit events."
+    },
+    "coordinator_evidence_read_not_rerun": {
+      "full_regression": {
+        "report": "work/integration_evidence/full.json",
+        "status": "PASS",
+        "tests": 352,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "elapsed_seconds": 214.286,
+        "finished_utc": "2026-10-12T12:52:13.729398+00:00",
+        "guard_denied_events": [],
+        "frozen_hashes_match": true
+      },
+      "qt_capture": {
+        "report": "work/integration_evidence/qt_capture.json",
+        "status": "PASS",
+        "images": 3,
+        "dimensions": "1366x768",
+        "scope": "Actual offscreen MainWindow QAction route; image metadata read here, visual inspection attributed to coordinator."
+      }
+    }
+  },
+  "safety_review": {
+    "status": "PASS_WITH_LIMITS",
+    "helper_sha256": {
+      "work/anka_integration_verify.py": "77ca33508f89fb7ff78108dc12860c26c65e5fbcaff454177c5d5fbd47790139",
+      "work/anka_integration_roundtrip.py": "6af0475076561c23652febcc835db90598ed03d93e66bf4cc0794273cc15a2f9",
+      "work/anka_evidence.py": "74b4c551a7bab3f1f368112c90b13f1dd81c599d8e46de897b6733ddb11de502"
+    },
+    "guard": "Genuine OS metadata resolves before audit installation. Audit hooks are installed before project/provider imports and deny audited socket/network and real process starts. This is Python audit coverage, not an OS-level sandbox or proof against native-library networking. Inspected integration adds no provider, network, credential, process or order path.",
+    "state_isolation": "Runner uses task-owned state/layout; new tests and independent probe use temporary state/layout. Terminal uses explicit INI settings and local QSS; implicit open/close does not write layout. Existing explicit save/reset behavior remains scoped to the terminal layout file.",
+    "protected_primary": "Reviewer did not open, modify or execute code in protected primary. Reused check_primary reads its Git status/HEAD/branch and SHA256 manifest and compares against recovery_evidence/primary_before.json; fresh preservation verification remains coordinator-owned. It is not a whole-tree hash or protection against arbitrary external concurrent changes.",
+    "reviewer_prohibited_actions": "No network/provider/model CLI/credentials/payments/email/Git mutations, protected-primary mutations, source changes or full-suite rerun performed."
+  },
+  "rollback_conditions": [
+    "Keep source freeze and exclusive candidate ownership throughout rehearsal; no concurrent source writer or background test importing candidate while files move.",
+    "Require exact base HEAD, feature branch, core.autocrlf=true, no optimization, protected-primary manifest unchanged, no staged files and exact frozen hashes.",
+    "Before mutation preserve byte-exact backups of all three files; new adapter and test must remain untracked; verify resolved candidate targets remain within candidate root and are not symlinks.",
+    "Restore main_window.py from base with expected CRLF normalization and verify Git blob identity and no application diff; move only two named new files into retained task evidence, without deletion.",
+    "Run fresh guarded baseline after rollback timestamp: exactly 19 tests, no failures/errors/skips/denied events, stable restored-base hash.",
+    "Reinstate only from verified retained backups/retired originals; verify all three exact frozen hashes and protected-primary manifest afterward; coordinator must complete post-reinstatement check.",
+    "If any check fails, stop phase, preserve original and partial evidence, record failure, and resolve explicitly rather than deleting evidence or assuming successful restoration."
+  ],
+  "delivery_plan_review": {
+    "file": "docs/ANKA_V1_DELIVERY_PLAN_20261012.md",
+    "assessment": "19 October is a working target and prioritization plan, not completed delivery or guaranteed production acceptance. Plan preserves external provider/licensing/device dependencies and distinguishes the current menu integration from full UI completion. No future milestone is accepted by this report."
+  },
+  "acceptance": {
+    "bounded_source_review": "PASS_WITH_LIMITS",
+    "actual_rollback_rehearsal": "PENDING_COORDINATOR_EVIDENCE",
+    "FULL_AUTONOMY": "BLOCKED",
+    "PRODUCTION_ACCEPTANCE": "BLOCKED"
+  }
+}

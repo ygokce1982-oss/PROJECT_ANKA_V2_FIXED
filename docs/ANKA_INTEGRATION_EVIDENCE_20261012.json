@@ -1,0 +1,172 @@
+{
+  "scope": "Normal MainWindow action to existing offline Demo/CSV terminal",
+  "branch": "feature/anka-integrated-terminal-20261012",
+  "base": "7bffbebf0ef607c4a334c7e5d249aeece88327d1",
+  "source_sha256": {
+    "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+    "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+    "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+  },
+  "tests": {
+    "green": {
+      "mode": "green",
+      "started_utc": "2026-10-12T12:47:30.487445+00:00",
+      "finished_utc": "2026-10-12T12:47:43.701012+00:00",
+      "elapsed_seconds": 13.214,
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "guard_denied_events": [],
+      "guard": "Python audited external network and real child process starts denied before project imports",
+      "source_sha256_before": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "source_sha256_after": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "failure_ids": [],
+      "error_ids": [],
+      "status": "PASS",
+      "exit_code": 0
+    },
+    "full": {
+      "mode": "full",
+      "started_utc": "2026-10-12T12:48:39.441347+00:00",
+      "finished_utc": "2026-10-12T12:52:13.729398+00:00",
+      "elapsed_seconds": 214.286,
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 352,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "source_sha256_after": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "status": "PASS"
+    },
+    "targeted": {
+      "mode": "targeted",
+      "started_utc": "2026-10-12T12:59:32.835178+00:00",
+      "finished_utc": "2026-10-12T13:00:23.988378+00:00",
+      "elapsed_seconds": 51.15,
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "source_sha256_after": {
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d",
+        "ui/advanced_terminal.py": "dec44b68dbff27c3f1fe7fc17a466540b9403bc871f76fd58fb6b0f1ec38aaf3",
+        "tests/test_integrated_terminal.py": "669a289c5a16fd73f2fe3e8309b38bcc7d920e2d9015fc0fc9d488c9141c5a31"
+      },
+      "status": "PASS"
+    },
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-12T12:57:48.738754+00:00",
+      "finished_utc": "2026-10-12T12:58:33.402821+00:00",
+      "elapsed_seconds": 44.657,
+      "guard": "deny all Python audited network and real child process starts before project imports",
+      "guard_denied_events": [],
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "source_sha256_before": {
+        "ui/main_window.py": "487ea6bd7b43f853ebeacecb8c7fab5837b188516879d228a72d4cb76a165235"
+      },
+      "source_sha256_after": {
+        "ui/main_window.py": "487ea6bd7b43f853ebeacecb8c7fab5837b188516879d228a72d4cb76a165235"
+      },
+      "status": "PASS"
+    }
+  },
+  "rollback": {
+    "status": "PASS",
+    "baseline_tests": 19,
+    "completed_at_utc": "2026-10-12T12:59:15.873091+00:00",
+    "exact_hash_reinstatement": true,
+    "primary": "28/28 unchanged"
+  },
+  "independent_review": "PASS_WITH_LIMITS",
+  "reviewer": "integration_independent_gate",
+  "independent_probe": {
+    "script": "work/integration_evidence/independent_parent_destroy_probe.py",
+    "report": "work/integration_evidence/independent_parent_destroy_probe.json",
+    "log": "work/integration_evidence/independent_parent_destroy_probe.log",
+    "command": "C:/Users/Asus/AppData/Local/Programs/Python/Python314/python.exe -B -X utf8 work/integration_evidence/independent_parent_destroy_probe.py",
+    "started_utc": "2026-10-12T12:52:13.090736+00:00",
+    "finished_utc": "2026-10-12T12:52:24.660270+00:00",
+    "verdict": "PASS",
+    "exit_code": 0,
+    "probe_count": 1,
+    "checks": [
+      "Fresh-process MainWindow construction leaves advanced module unloaded.",
+      "Actual menu action opens owned terminal within the same QApplication with normal application STYLE.",
+      "Deleting parent via deleteLater without close destroys terminal and all floating docks, clears owner reference, and produces no callback exception.",
+      "Application stylesheet/font/style/name/organization remain unchanged and no implicit layout file is written."
+    ],
+    "guard_denied_events": [],
+    "callback_errors": [],
+    "source_hashes_unchanged": true
+  },
+  "qt_capture": {
+    "status": "PASS",
+    "route": "Gelişmiş grafikler (Demo / CSV)",
+    "screens": [
+      {
+        "file": "ANKA_Normal_Uygulama_20261012.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "fcc2e2e8ad88feec08e64d66e46ad68d0c49665a51094d724056251160747fe6"
+      },
+      {
+        "file": "ANKA_Entegre_Grafik_20261012.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "9f700ae80d9d3edb1710b8fcc55f4ac7cc2c77c8ad913652b4cabac098d2cde9"
+      },
+      {
+        "file": "ANKA_Entegre_Sharpe_20261012.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "43541d41844a3b106bfbcf2f3be0e1eecf48eb902e712387e502f57d4e985fe6"
+      }
+    ],
+    "font_registration": {
+      "segoeui.ttf": 0,
+      "segoeuib.ttf": 1,
+      "arial.ttf": 2,
+      "arialbd.ttf": 3
+    },
+    "guard_denied_events": [],
+    "scope": "Actual Qt offscreen capture through MainWindow QAction; offline demo/CSV only"
+  },
+  "limitations": [
+    "Offscreen does not prove physical monitor focus or clean installer acceptance.",
+    "Existing header clipping and icon glyph limitations remain.",
+    "Live provider data, licensing, physical devices and full product readiness are unverified.",
+    "Python audit guard covers audited network/process starts, not a universal OS sandbox."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}

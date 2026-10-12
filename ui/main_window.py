@@ -1,6 +1,7 @@
 """ANKA Finans workspace shell — reference-driven market terminal."""
 from __future__ import annotations
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
     QApplication, QFrame, QHBoxLayout, QLabel, QMainWindow,
     QPushButton, QVBoxLayout, QWidget,
@@ -18,8 +19,14 @@ class MainWindow(QMainWindow):
         self.resize(1440, 900)
         self.setMinimumSize(1080, 680)
         self._auxiliary_windows = []
+        self._advanced_terminal = None
         self._build_ui()
         self.setStatusBar(StatusBar())
+        tools_menu = self.menuBar().addMenu("Araçlar")
+        advanced_action = QAction("Gelişmiş grafikler (Demo / CSV)", self)
+        advanced_action.setObjectName("openAdvancedTerminalAction")
+        advanced_action.triggered.connect(self.open_advanced_terminal)
+        tools_menu.addAction(advanced_action)
 
     def _build_ui(self):
         root = QWidget()
@@ -95,6 +102,29 @@ class MainWindow(QMainWindow):
         self.sidebar.currentRowChanged.connect(self.workspace.setCurrentIndex)
         self.workspace.currentChanged.connect(self.sidebar.setCurrentRow)
 
+    def open_advanced_terminal(self):
+        if self._advanced_terminal is None:
+            # Load the existing workstation only when requested; never run its launcher.
+            from ui.advanced_terminal import AdvancedTerminal
+
+            terminal = AdvancedTerminal(self)
+            self._advanced_terminal = terminal
+            terminal.closed.connect(lambda: self._release_advanced_terminal(terminal))
+            terminal.destroyed.connect(lambda: self._release_advanced_terminal(terminal))
+        terminal = self._advanced_terminal
+        if terminal.isMinimized():
+            terminal.showNormal()
+        else:
+            terminal.show()
+        terminal.raise_()
+        terminal.activateWindow()
+        return terminal
+
+    def _release_advanced_terminal(self, terminal):
+        # A deferred deletion from an older window must not clear a newly opened one.
+        if self._advanced_terminal is terminal:
+            self._advanced_terminal = None
+
     def open_workspace_window(self):
         visible = [
             w for w in QApplication.topLevelWidgets()
@@ -110,6 +140,8 @@ class MainWindow(QMainWindow):
         return window
 
     def closeEvent(self, event):
+        if self._advanced_terminal is not None:
+            self._advanced_terminal.close()
         for window in self._auxiliary_windows:
             window.close()
         super().closeEvent(event)

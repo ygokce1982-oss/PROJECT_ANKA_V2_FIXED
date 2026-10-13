@@ -1,0 +1,237 @@
+{
+  "schema": 1,
+  "verdict": "PASS_WITH_LIMITS",
+  "reviewer": "Independent read-only Codex reviewer",
+  "scope": "Local persisted alert history and explicit all-symbol refresh on the frozen isolated candidate; source and helper review plus one independently executed offline probe.",
+  "branch": "feature/anka-alert-history-20261013",
+  "base": "d78485bdd064028ed6add5fcdbb92789df474de0",
+  "reviewed_head": "d78485bdd064028ed6add5fcdbb92789df474de0",
+  "candidate_state": "Uncommitted frozen changes reviewed against base; no reviewer source or Git mutations.",
+  "source_sha256": {
+    "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+    "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+    "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+  },
+  "blocking_findings": [],
+  "strengths": [
+    {
+      "file": "core/offline_workbench.py",
+      "line": 376,
+      "detail": "Reuses the existing alerts/alert_events tables without a migration. SELECT-only history validates a strict integer limit of 1..500 and returns symbol, threshold, observed price and bar time."
+    },
+    {
+      "file": "core/offline_workbench.py",
+      "line": 388,
+      "detail": "A bounded heap compares parsed aware datetimes, preserving offset and microsecond ordering; alert ID and timestamp string make ties deterministic. Existing crossing and timestamp suppression code is unchanged."
+    },
+    {
+      "file": "ui/components/local_workbench.py",
+      "line": 351,
+      "detail": "The new four-column history table is read-only. Construction loads persisted history with require_latest=False and does not call check_alerts."
+    },
+    {
+      "file": "ui/components/local_workbench.py",
+      "line": 437,
+      "detail": "Manual refresh iterates latest_by_symbol() independently of the selected combo item; every locally recorded symbol is evaluated. Trade validation, cash, holdings and conversion code are unchanged."
+    },
+    {
+      "file": "tests/test_alert_history.py",
+      "line": 226,
+      "detail": "Real SQLite and Qt tests cover two-symbol refresh, selection independence, reopen, duplicate and older timestamps, read-only loading and paper-account preservation; tests do not replace the feature with mocks."
+    }
+  ],
+  "findings": [
+    {
+      "severity": "Minor",
+      "file": "core/offline_workbench.py",
+      "line": 384,
+      "blocking": false,
+      "title": "Row limit does not bound the amount of historical work",
+      "detail": "alert_history scans and parses all persisted events before retaining the newest limit rows. The result and heap memory are bounded, but refresh/reopen time is O(event count * log(limit)) on the Qt thread.",
+      "impact": "A large long-lived local history may pause the interface. No incorrect ordering or loss was found, and the current publication helper already discloses the full cursor scan.",
+      "recommendation": "Keep this explicit limitation for this slice; measure a realistic large-history case before a production-size claim. A future indexed canonical timestamp column would need a deliberate compatibility/migration design."
+    }
+  ],
+  "issue_categories": {
+    "critical": [],
+    "important": [],
+    "minor": [
+      "Row count is bounded; total event scanning time is not."
+    ]
+  },
+  "recommendations": [
+    "Proceed with the bounded isolated candidate only after root completes rollback/reinstatement, the post-reinstatement targeted gate, publication allowlist checks and exact remote SHA verification.",
+    "Retain both initial failed evidence and the corrected author guard attribution; do not present the rejected socket-construction probe as product failure or erase it.",
+    "Describe the UI as manual local history, with native/mobile notifications and live feed unaccepted.",
+    "Use non-optimized Python for assert-based capture/rollback/publication helpers, ensure no concurrent writer is active, and retain byte-exact backups until final acceptance."
+  ],
+  "test_attribution": {
+    "author_targeted": {
+      "evidence": "work/alert_evidence/author_green.json",
+      "executed_by": "author, not reviewer",
+      "status": "PASS",
+      "tests_run": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "started_utc": "2026-10-13T08:06:12.485632+03:00",
+      "finished_utc": "2026-10-13T08:06:23.404601+03:00",
+      "source_hashes_match_review": true,
+      "limitation": "Recorded evidence was read, not rerun. Audit scope permits socket construction and a recorded ::1:0 capability bind; it is not an OS sandbox."
+    },
+    "root_full_regression": {
+      "evidence": "work/alert_evidence/full.json",
+      "executed_by": "root, not reviewer",
+      "status": "PASS",
+      "tests_run": 364,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "guard_denied_events": [],
+      "started_utc": "2026-10-13T08:06:58.284861+03:00",
+      "finished_utc": "2026-10-13T08:08:29.503144+03:00",
+      "elapsed_seconds": 91.216,
+      "source_hashes_match_review": true,
+      "limitation": "JSON report and verification helper were read; reviewer did not repeat the suite or claim to execute it."
+    },
+    "root_ui_capture": {
+      "evidence": "work/alert_evidence/capture.json",
+      "executed_by": "root, not reviewer",
+      "status": "PASS",
+      "route": "MainWindow -> Portfolio -> explicit local refresh",
+      "dimensions": [
+        [
+          1366,
+          768
+        ],
+        [
+          1920,
+          1080
+        ]
+      ],
+      "persisted_events": 2,
+      "repeat_new_events": 0,
+      "source_hashes_match_review": true,
+      "limitation": "Reviewer read capture code and JSON; root supplied visual inspection. Capture patches Dashboard.refresh and uses offscreen Qt with synthetic bars; this does not prove live-provider, physical-device or full UI acceptance."
+    },
+    "reviewer_probe": {
+      "executed_by": "this independent reviewer",
+      "command": "Python314/python.exe -B -X utf8 -c <single guarded inline probe>",
+      "exit_code": 0,
+      "command_output_evidence": "functions exec chunk 2c8ce0",
+      "result": {
+        "status": "PASS",
+        "probe": "history_without_analysis_runs_remains_bounded_readonly_and_reloads",
+        "started_utc": "2026-10-13T08:10:49.868513+03:00",
+        "finished_utc": "2026-10-13T08:10:52.983515+03:00",
+        "stored_events": 101,
+        "displayed_events": 100,
+        "analysis_runs": 0,
+        "manual_refresh_new_events": 0,
+        "restart_alert_and_event_state_unchanged": true,
+        "paper_trades": 0,
+        "guard_denied_events": [],
+        "guard_scope": "All Python socket audit events and listed process starts denied before temporary state and project imports; not an OS sandbox",
+        "python_optimized": 0,
+        "source_sha256_before": {
+          "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+          "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+          "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+        },
+        "source_sha256_after": {
+          "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+          "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+          "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+        }
+      },
+      "purpose": "Close the uncovered combined case of persisted event history with zero analysis runs and more than 100 valid crossings. Verify constructor/reopen/refresh remain read-only for alert state and display only the newest 100.",
+      "limitations": "One bounded single-process Qt/SQLite probe; no main-window capture, no full suite, no native device or performance benchmark."
+    },
+    "reviewed_test_inventory": {
+      "new_test_count": 12,
+      "store_tests": 7,
+      "qt_tests": 5
+    },
+    "preserved_failure_attribution": {
+      "author_red": "Parent reported 12 red tests: one failure, ten errors and one preexisting behavior pass. Current journal corroborates missing history and selected-symbol-only refresh; reviewer did not execute the red run.",
+      "initial_green_guard": "The preserved initial author green guard failure and diagnosed urllib3 ::1 metadata probe are historical evidence; corrected author PASS is separately attributed."
+    }
+  },
+  "safety_review": {
+    "reviewed_helpers": [
+      "work/anka_alert_verify.py",
+      "work/anka_alert_roundtrip.py",
+      "work/anka_alert_capture.py",
+      "work/anka_alert_publish.py",
+      "work/anka_evidence.py"
+    ],
+    "source_effects": "New production code reads local SQLite and renders Qt rows; refresh only calls existing local alert evaluation. No notification transport, provider, credential, real-order, payment or email path was added.",
+    "reviewer_actions": "Read isolated candidate, evidence and helper files; read Git metadata/diffs; ran exactly one guarded isolated-state probe; wrote this report. No primary-project access, Git mutation, network request, external message or helper mutation was performed by reviewer.",
+    "probe_guard": "Installed before project imports and temporary state; rejects all Python socket audit events plus listed subprocess/process starts. No denied event occurred; state was confined to TemporaryDirectory and cleaned up.",
+    "root_guard_limits": "verify/capture deny selected audited DNS/connect/sendto/process events before project imports. They permit socket creation/bind; Python audits do not constrain native extension/Qt networking and are not an OS sandbox. Zero denied events is bounded evidence for those audited events only.",
+    "temporary_state": "Root verify uses a task-evidence isolated state path, capture uses TemporaryDirectory, and the reviewer probe uses its own TemporaryDirectory with ANKA_OFFLINE=1.",
+    "protected_primary": "Untouched and unread by reviewer. The reused primary helper compares the known 28 dirty-file hashes, HEAD, branch and status; it does not hash the entire checkout. Root must continue its own protection checks.",
+    "publication_limits": "Publication helper checks frozen hashes, review verdict, test/capture/roundtrip evidence, canonical remote and changed-file allowlist, then scans text for known sensitive patterns. This is useful gating, not exhaustive secret detection or permission to publish. Screenshot content requires human/agent visual inspection. No publication helper was executed by reviewer.",
+    "helper_assertions": "Rollback and publish reject optimized Python; capture relies on asserts without that explicit check, so its caller must use non-optimized Python. Reviewer probe recorded python_optimized=0."
+  },
+  "rollback": {
+    "status": "PENDING",
+    "responsible_actor": "root",
+    "execution_verified_by_reviewer": false,
+    "helper_static_assessment": "No blocking issue found for the explicitly frozen three-file candidate. Backups precede mutation; existing source is restored from base with CRLF checks; new test is retained by rename; reinstatement validates the fresh baseline report and byte-exact candidate hashes.",
+    "preconditions": [
+      "Candidate HEAD equals d78485bdd064028ed6add5fcdbb92789df474de0 and branch equals feature/anka-alert-history-20261013.",
+      "Frozen three source hashes match; index is empty; the new test is untracked; core.autocrlf is true.",
+      "All owned source paths resolve within the isolated candidate; roundtrip backup directory must not exist; primary preservation check succeeds.",
+      "No reviewer/test/helper is reading or writing candidate source during rollback, and no other writer changes the candidate.",
+      "Fresh baseline must be 19/19 with no failures, errors, skips or denied audited events, matching base hashes and starting after restoration.",
+      "Exact candidate reinstatement must be followed by the planned fresh targeted/Qt gate; frozen hashes and primary preservation must be rechecked."
+    ],
+    "limits": [
+      "This is a source-file rehearsal, not rollback of a user SQLite database or a deployed application.",
+      "Writes are sequential, not atomic across all files; interruption can leave a partial phase. Preserve backups and inspect the recorded phase before recovery.",
+      "No rollback, reinstatement, baseline execution or post-reinstatement execution was performed by this reviewer.",
+      "Static helper review does not establish that rollback has succeeded; root owns actual execution and evidence."
+    ]
+  },
+  "declined_to_judge": [
+    {
+      "scope": "Live data, credentials, licensing, financial decisions and actual order/payment/email execution",
+      "reason": "Explicitly outside this local alarm slice; no integration or external acceptance was exercised."
+    },
+    {
+      "scope": "Native desktop/mobile notifications and automatic background alert delivery",
+      "reason": "Explicitly excluded; the UI truthfully labels manual local checking and disconnected device notifications."
+    },
+    {
+      "scope": "Physical monitor/phone behavior, accessibility across all display scales, clean installer/packaged build and full professional UI acceptance",
+      "reason": "Available evidence is offscreen Qt. Existing broader UI limitations are outside this source diff."
+    },
+    {
+      "scope": "Performance with very large event/run histories",
+      "reason": "No load requirement or benchmark was provided; the full cursor scan is reported as a nonblocking scalability limitation."
+    },
+    {
+      "scope": "Repair and validation of arbitrary hand-edited/corrupt database rows or imported backups",
+      "reason": "Supported event writes validate prices and aware timestamps; this slice does not change backup validation or define a corruption-repair contract. History still assumes well-formed existing records; malformed-row hardening remains separate."
+    },
+    {
+      "scope": "Concurrent multi-process alert evaluation",
+      "reason": "No concurrency behavior is introduced; existing SQLite check_alerts semantics are reused. The single-process manual workflow and same-process multiple store handles are covered."
+    },
+    {
+      "scope": "Actual rollback, primary preservation, staging/commit/push and remote branch equality",
+      "reason": "Reviewer is read-only; these root-owned operational gates were not executed by reviewer and must retain separate evidence."
+    }
+  ],
+  "assessment": {
+    "ready_for_bounded_isolated_acceptance": "Yes, after root-owned operational gates",
+    "ready_to_merge_main_or_production": "No",
+    "reasoning": "Reviewed source meets the stated local history/all-symbol manual refresh requirements without modifying existing alert crossing or paper-trade algorithms. The independently executed missing-context/history-limit probe passed on the frozen hashes, and author/root tests are separately attributed. This verdict does not replace rollback or full-product acceptance."
+  },
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED",
+  "source_reads_and_probe_complete": true,
+  "candidate_files_released_to_root": true,
+  "generated_at_utc": "2026-10-13T13:00:51.0501895+00:00"
+}

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import heapq
 import io
 import json
 import math
@@ -371,6 +372,28 @@ class LocalStore:
                 "INSERT INTO alerts(symbol,threshold,previous) VALUES(?,?,?)",
                 (symbol, threshold, previous),
             ).lastrowid
+
+    def alert_history(self, limit: int = 100) -> list[dict]:
+        """Read persisted crossings, newest bar instant then alert ID first.
+
+        A bounded heap preserves check_alerts' ISO timestamp/offset precision
+        without loading the whole event history into memory.
+        """
+        if isinstance(limit, bool) or not isinstance(limit, int) or not 1 <= limit <= 500:
+            raise ValueError("Alarm geçmişi sınırı 1 ile 500 arasında tam sayı olmalı")
+        rows = self.connection.execute(
+            """SELECT a.id,a.symbol,a.threshold,e.price,e.bar_time
+               FROM alert_events AS e JOIN alerts AS a ON a.id=e.alert_id"""
+        )
+        newest = heapq.nlargest(
+            limit, rows,
+            key=lambda row: (datetime.fromisoformat(row[4]), row[0], row[4]),
+        )
+        return [
+            {"alert_id": identifier, "symbol": symbol, "threshold": threshold,
+             "price": price, "bar_time": bar_time}
+            for identifier, symbol, threshold, price, bar_time in newest
+        ]
 
     def check_alerts(self, symbol: str, price: float, bar_time: str) -> int:
         if not math.isfinite(price) or price <= 0:

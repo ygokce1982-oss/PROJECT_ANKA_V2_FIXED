@@ -1,0 +1,194 @@
+{
+  "scope": "Persisted local alert history and explicit all-symbol refresh",
+  "branch": "feature/anka-alert-history-20261013",
+  "base": "d78485bdd064028ed6add5fcdbb92789df474de0",
+  "source_sha256": {
+    "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+    "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+    "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+  },
+  "new_tests": 12,
+  "reports": {
+    "full": {
+      "mode": "full",
+      "started_utc": "2026-10-13T05:06:58.284861+00:00",
+      "finished_utc": "2026-10-13T05:08:29.503144+00:00",
+      "elapsed_seconds": 91.216,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 364,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+      },
+      "source_sha256_after": {
+        "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+      },
+      "status": "PASS"
+    },
+    "targeted": {
+      "mode": "targeted",
+      "started_utc": "2026-10-13T13:05:07.050477+00:00",
+      "finished_utc": "2026-10-13T13:05:26.813982+00:00",
+      "elapsed_seconds": 19.761,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+      },
+      "source_sha256_after": {
+        "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+      },
+      "status": "PASS"
+    },
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-13T13:04:30.877179+00:00",
+      "finished_utc": "2026-10-13T13:04:39.933656+00:00",
+      "elapsed_seconds": 8.977,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/offline_workbench.py": "6f77558bf81d2f7cc6f97bc8e24cd50380a48802a6d5fc0c42baa79a369601a6",
+        "ui/components/local_workbench.py": "10b8f76c93118cc3cfb5697d7aa62d7e1b588fd883c33f0e084564acf67aadc0"
+      },
+      "source_sha256_after": {
+        "core/offline_workbench.py": "6f77558bf81d2f7cc6f97bc8e24cd50380a48802a6d5fc0c42baa79a369601a6",
+        "ui/components/local_workbench.py": "10b8f76c93118cc3cfb5697d7aa62d7e1b588fd883c33f0e084564acf67aadc0"
+      },
+      "status": "PASS"
+    }
+  },
+  "rollback": {
+    "status": "PASS",
+    "base": "d78485bdd064028ed6add5fcdbb92789df474de0",
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-13T13:04:30.877179+00:00",
+      "finished_utc": "2026-10-13T13:04:39.933656+00:00",
+      "elapsed_seconds": 8.977,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/offline_workbench.py": "6f77558bf81d2f7cc6f97bc8e24cd50380a48802a6d5fc0c42baa79a369601a6",
+        "ui/components/local_workbench.py": "10b8f76c93118cc3cfb5697d7aa62d7e1b588fd883c33f0e084564acf67aadc0"
+      },
+      "source_sha256_after": {
+        "core/offline_workbench.py": "6f77558bf81d2f7cc6f97bc8e24cd50380a48802a6d5fc0c42baa79a369601a6",
+        "ui/components/local_workbench.py": "10b8f76c93118cc3cfb5697d7aa62d7e1b588fd883c33f0e084564acf67aadc0"
+      },
+      "status": "PASS"
+    },
+    "source_sha256": {
+      "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+      "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+      "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+    },
+    "primary28": "unchanged",
+    "completed_at_utc": "2026-10-13T13:05:00.126623+00:00"
+  },
+  "independent_review": "PASS_WITH_LIMITS",
+  "capture": {
+    "status": "PASS",
+    "route": "MainWindow -> Portfolio -> explicit local refresh",
+    "first_status": "Deneme portföyü · Yeni alarm: 2 · Kontrol edilen yerel sembol: 2 · Fiyatlanamayan pozisyonlar: yok · Kuru eksik: yok · Kurlar yalnız bu oturumda elle girilen deneme değerleridir.",
+    "repeat_new_events": 0,
+    "persisted_events": 2,
+    "screens": [
+      {
+        "file": "ANKA_Alarm_Gecmisi_1366x768_20261013.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "807a18e0dc9a4b72f6d26d64f745e7f925ae218738db66e00d7f275825b24827"
+      },
+      {
+        "file": "ANKA_Alarm_Gecmisi_1920x1080_20261013.png",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "8059ac6266f022d353e1035050a93435e8f3d24773216ee73b88aff854cbc3d8"
+      }
+    ],
+    "tables": [
+      {
+        "rows": 3,
+        "headers": [
+          "Ölçüm",
+          "Deneme değeri"
+        ]
+      },
+      {
+        "rows": 2,
+        "headers": [
+          "Sembol",
+          "Eşik",
+          "Gözlenen fiyat",
+          "Mum zamanı (saat dilimli)"
+        ]
+      }
+    ],
+    "source_sha256_before": {
+      "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+      "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+      "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+    },
+    "source_sha256_after": {
+      "core/offline_workbench.py": "b150e042da001697085bf0ecf50bea0d9bb2e7a1100572641ca772bf67e12b6d",
+      "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+      "tests/test_alert_history.py": "4af705bdf5d9633a42fd21219a0dcae4d056915df7c70c89849ae7da8917699a"
+    },
+    "guard_denied_events": [],
+    "font_registration": {
+      "segoeui.ttf": 0,
+      "segoeuib.ttf": 1,
+      "arial.ttf": 2,
+      "arialbd.ttf": 3
+    },
+    "scope": "Offline synthetic local bars; no live feed or native notification acceptance"
+  },
+  "limits": [
+    "Manual local refresh only; no native/mobile notifications or live feed.",
+    "History returns a bounded number of rows; entire event cursor is scanned.",
+    "Offscreen does not establish physical monitor or production installation acceptance.",
+    "Python audited network/process guard is not an OS sandbox."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}

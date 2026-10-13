@@ -340,8 +340,25 @@ class PaperPortfolioPage(QWidget):
         self.table.setHorizontalHeaderLabels(["Ölçüm", "Deneme değeri"])
         self.table.horizontalHeader().setStretchLastSection(True)
         layout.addWidget(self.table)
+        history_context = QLabel(
+            "Alarm geçmişi · Son 100 tetikleme · Örnek / yerel CSV\n"
+            "Elle kontrol edilir; fiyatlar sembolün para birimindedir. Cihaz bildirimi bağlı değil."
+        )
+        history_context.setWordWrap(True)
+        layout.addWidget(history_context)
+        self.alert_history_status = QLabel("Henüz tetiklenen alarm yok")
+        layout.addWidget(self.alert_history_status)
+        self.alert_history_table = QTableWidget(0, 4)
+        self.alert_history_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.alert_history_table.setHorizontalHeaderLabels(
+            ["Sembol", "Eşik", "Gözlenen fiyat", "Mum zamanı (saat dilimli)"]
+        )
+        self.alert_history_table.horizontalHeader().setStretchLastSection(True)
+        layout.addWidget(self.alert_history_table)
+        # Reopening displays saved events without evaluating new prices.
+        self.with_latest(lambda store, result: self.show_alert_history(store), require_latest=False)
 
-    def with_latest(self, operation):
+    def with_latest(self, operation, *, require_latest=True):
         store = None
         try:
             store = LocalStore(state_path())
@@ -357,7 +374,7 @@ class PaperPortfolioPage(QWidget):
                 self.symbol.setCurrentIndex(0)
             self.symbol.blockSignals(False)
             result = available.get(self.symbol.currentData())
-            if not result:
+            if require_latest and not result:
                 raise ValueError("Önce Grafik bölümünde yerel analiz çalıştırın")
             operation(store, result)
             return True
@@ -396,16 +413,34 @@ class PaperPortfolioPage(QWidget):
 
         self.with_latest(operation)
 
+    def show_alert_history(self, store):
+        history = store.alert_history()
+        self.alert_history_table.setRowCount(len(history))
+        for index, event in enumerate(history):
+            values = (
+                event["symbol"], f"{event['threshold']:.4f}",
+                f"{event['price']:.4f}", event["bar_time"],
+            )
+            for column, value in enumerate(values):
+                self.alert_history_table.setItem(index, column, QTableWidgetItem(value))
+        self.alert_history_table.resizeColumnsToContents()
+        self.alert_history_status.setText(
+            f"{len(history)} kayıt gösteriliyor · En yeni mum önce"
+            if history else "Henüz tetiklenen alarm yok"
+        )
+
     def refresh(self):
         def operation(store, result):
             records = store.latest_by_symbol()
             prices = {symbol: item["analysis"]["close"] for symbol, item in records.items()}
             report = store.portfolio(prices, fx_rates=self.fx_rates())
-            count = store.check_alerts(
-                result["symbol"], result["analysis"]["close"], result["analysis"]["last_bar_at"]
+            count = sum(
+                store.check_alerts(symbol, item["analysis"]["close"], item["analysis"]["last_bar_at"])
+                for symbol, item in records.items()
             )
+            self.show_alert_history(store)
             self.status.setText(
-                f"Deneme portföyü · Yeni alarm: {count} · "
+                f"Deneme portföyü · Yeni alarm: {count} · Kontrol edilen yerel sembol: {len(records)} · "
                 f"Fiyatlanamayan pozisyonlar: {', '.join(report['unpriced']) or 'yok'} · "
                 f"Kuru eksik: {', '.join(report.get('missing_fx', [])) or 'yok'} · "
                 "Kurlar yalnız bu oturumda elle girilen deneme değerleridir."
@@ -424,4 +459,4 @@ class PaperPortfolioPage(QWidget):
                 self.table.setItem(index, 0, QTableWidgetItem(name))
                 self.table.setItem(index, 1, QTableWidgetItem(f"{value:.4f}"))
 
-        self.with_latest(operation)
+        self.with_latest(operation, require_latest=False)

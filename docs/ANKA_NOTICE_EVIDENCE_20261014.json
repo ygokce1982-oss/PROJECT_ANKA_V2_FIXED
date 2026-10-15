@@ -1,0 +1,215 @@
+{
+  "scope": "Local analysis persistence to nonmodal in-app alert notice",
+  "branch": "feature/anka-local-alert-notice-20261014",
+  "base": "76eef2d2fc8b924008d94170166e00e659846599",
+  "source_sha256": {
+    "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+    "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+    "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+    "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+  },
+  "new_tests": 13,
+  "reports": {
+    "full": {
+      "mode": "full",
+      "started_utc": "2026-10-14T09:05:21.225412+00:00",
+      "finished_utc": "2026-10-14T09:06:49.214074+00:00",
+      "elapsed_seconds": 87.986,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 377,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+        "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+        "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+        "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+      },
+      "source_sha256_after": {
+        "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+        "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+        "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+        "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+      },
+      "status": "PASS"
+    },
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-14T17:07:37.615700+00:00",
+      "finished_utc": "2026-10-14T17:08:06.637489+00:00",
+      "elapsed_seconds": 29.018,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "ui/workspace.py": "4c7e06b25585ec761f2f7caea1a9724468d020f361e7a77cb9aa59e61798caf5",
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d"
+      },
+      "source_sha256_after": {
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "ui/workspace.py": "4c7e06b25585ec761f2f7caea1a9724468d020f361e7a77cb9aa59e61798caf5",
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d"
+      },
+      "status": "PASS"
+    },
+    "targeted": {
+      "mode": "targeted",
+      "started_utc": "2026-10-14T17:08:28.932846+00:00",
+      "finished_utc": "2026-10-14T17:09:14.432510+00:00",
+      "elapsed_seconds": 45.495,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 52,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+        "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+        "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+        "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+      },
+      "source_sha256_after": {
+        "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+        "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+        "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+        "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+      },
+      "status": "PASS"
+    }
+  },
+  "rollback": {
+    "status": "PASS",
+    "base": "76eef2d2fc8b924008d94170166e00e659846599",
+    "baseline": {
+      "mode": "baseline",
+      "started_utc": "2026-10-14T17:07:37.615700+00:00",
+      "finished_utc": "2026-10-14T17:08:06.637489+00:00",
+      "elapsed_seconds": 29.018,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "ui/workspace.py": "4c7e06b25585ec761f2f7caea1a9724468d020f361e7a77cb9aa59e61798caf5",
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d"
+      },
+      "source_sha256_after": {
+        "ui/components/local_workbench.py": "317314982894efee1f5c3e95f01c67705c108acf06e5472831f3db72090b2cd7",
+        "ui/workspace.py": "4c7e06b25585ec761f2f7caea1a9724468d020f361e7a77cb9aa59e61798caf5",
+        "ui/main_window.py": "1163ecf406ce5bf48098ad8b6c930ac7f9a32c20cef54fef15b1670ad100332d"
+      },
+      "status": "PASS"
+    },
+    "source_sha256": {
+      "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+      "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+      "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+      "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+    },
+    "primary_current36": "unchanged",
+    "historical28_match": false,
+    "completed_at_utc": "2026-10-14T17:08:21.584005+00:00"
+  },
+  "independent_review": "PASS_WITH_LIMITS",
+  "capture": {
+    "status": "PASS",
+    "route": "MainWindow -> local analysis save -> in-app banner -> history",
+    "notifications": [
+      [
+        "DEMO1",
+        1,
+        "SAMPLE"
+      ],
+      [
+        "DEMO2",
+        1,
+        "SAMPLE"
+      ]
+    ],
+    "notice_text": "DEMO2 · 1 yeni alarm · ÖRNEK · canlı veri değil\nYerel analiz sonrası uygulama içi bildirim. Cihaz/telefon bildirimi yok.",
+    "repeat_new_events": 0,
+    "persisted_events": 2,
+    "reopen_replays_notice": false,
+    "screens": [
+      {
+        "file": "ANKA_Yerel_Bildirim_1366x768_20261014.png",
+        "width": 1366,
+        "height": 768,
+        "sha256": "f4be7adff3555880a0f9f1a9bffd86207f5910654a4ae85a71001b94b55460bd"
+      },
+      {
+        "file": "ANKA_Yerel_Bildirim_1920x1080_20261014.png",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "711f2d2a368272f0beb9b60afd34629c19df64d14ccf482a2f09d96c243c56ed"
+      }
+    ],
+    "guard_denied_events": [],
+    "source_sha256_before": {
+      "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+      "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+      "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+      "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+    },
+    "source_sha256_after": {
+      "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+      "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+      "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+      "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+    },
+    "font_registration": {
+      "segoeui.ttf": 0,
+      "segoeuib.ttf": 1,
+      "arial.ttf": 2,
+      "arialbd.ttf": 3
+    },
+    "scope": "Offscreen synthetic local bars; no live feed, native notification or physical-device acceptance"
+  },
+  "historical28_match": false,
+  "primary_explanation": "Historical28 and14Oct36 snapshots remain preserved. Primary changed outside this isolated candidate: 15Oct audit47 then publication49 paths. Old28/36 are not currently identical. No primary writes by this slice; the immediate publication checkpoint is compared before/after publishing only. Source tests/review/rollback hashes remain unchanged.",
+  "limits": [
+    "Only local SAMPLE/CSV analysis path, no live feed or device/mobile notifications.",
+    "Banner shows the latest event batch in the window that performed the analysis; it is not an unread queue or cross-window broadcast.",
+    "Notification is not a durable delivery queue; sudden termination between database commit and UI delivery may miss the banner; persisted history remains.",
+    "Manual portfolio refresh remains its existing status/history workflow.",
+    "Existing bounded history result still scans all events; physical monitors and clean installation unverified.",
+    "Python audited network/process guard is not an OS sandbox."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED",
+  "primary_at_14oct_rollback_matches_36_snapshot": true,
+  "primary_publication": {
+    "publication_checkpoint_match": true,
+    "current_file_count": 49,
+    "checkpoint_captured_utc": "2026-10-15T13:05:13.459236+00:00",
+    "historical28_match": false,
+    "previous36_match": false,
+    "scope": "Publication phase only; historical drift preserved; no primary writes"
+  }
+}

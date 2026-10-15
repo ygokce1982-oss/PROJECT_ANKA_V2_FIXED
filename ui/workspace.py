@@ -1,3 +1,4 @@
+from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QLabel, QStackedWidget, QVBoxLayout, QWidget
 
 from ui.components.ai_panel import AIPage
@@ -24,6 +25,8 @@ class SimplePage(QWidget):
 
 
 class Workspace(QStackedWidget):
+    local_alerts_created = Signal(str, int, str)
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -38,6 +41,12 @@ class Workspace(QStackedWidget):
         self.addWidget(settings)
         settings.settings_changed.connect(self.apply_settings)
         settings.database_restored.connect(self.refresh_restored_state)
+        self.widget(1).local_alerts_created.connect(self.on_local_alerts_created)
+
+    def on_local_alerts_created(self, symbol, count, origin):
+        # Publish first: a history display failure must not hide a committed event.
+        self.local_alerts_created.emit(symbol, count, origin)
+        self.widget(4).refresh_alert_history()
 
     def apply_settings(self, values):
         analysis = self.widget(1)

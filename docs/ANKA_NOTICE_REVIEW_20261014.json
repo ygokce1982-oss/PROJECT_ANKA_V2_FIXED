@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "reviewer_role": "Fresh independent read-only reviewer",
+  "review_date": "2026-10-14",
+  "verdict": "PASS_WITH_LIMITS",
+  "scope": "Frozen bounded local SAMPLE/CSV analysis-to-in-app-notice slice, source review and one independent offline gap scenario.",
+  "candidate": "C:/Users/Asus/Documents/ANKA_Overnight/ANKA_LOCAL_ALERT_NOTICE_20261014",
+  "branch": "feature/anka-local-alert-notice-20261014",
+  "base_and_reviewed_head": "76eef2d2fc8b924008d94170166e00e659846599",
+  "source_sha256": {
+    "ui/components/local_workbench.py": "7ad24a36e497e5c075f75579e22570228a32505ced093815843fc5dba82af475",
+    "ui/workspace.py": "dd9be1ce24fc74fbb8165c8d1a02debc65e359fa0c98854c21a6606cd9fa2c3c",
+    "ui/main_window.py": "bc4a44a13ca9b68ca754f0170680c848ab64c2397d64e87a296223f40d11f2bb",
+    "tests/test_local_alert_notice.py": "77216845ccf226878cee37a9631e806ec4ac73c4082162a3f3e7aab9077c9b9c"
+  },
+  "source_integrity": {
+    "frozen_manifest_match_before_and_after_independent_probe": true,
+    "candidate_source_or_test_writes_by_reviewer": false,
+    "git_mutations_by_reviewer": false,
+    "core_crossing_engine_changed": false,
+    "reviewed_changes": "Three UI sources and one new test file; candidate journal changes belong to the root/author workflow."
+  },
+  "blocking_findings": [],
+  "findings": [
+    {
+      "severity": "LOW",
+      "fileline": "ui/main_window.py:125",
+      "why": "The banner holds the latest event batch for the analysis window. A later batch replaces its count/symbol/origin, and other application windows are not broadcast recipients. It is not an unread queue; this is acceptable for the bounded slice when disclosed.",
+      "blocking": false
+    },
+    {
+      "severity": "LOW",
+      "fileline": "ui/components/local_workbench.py:457",
+      "why": "Automatic history refresh is synchronous. Its existing LocalStore initialization and latest_by_symbol scan saved runs, and alert_history scans persisted events before bounding displayed rows. Large stores can delay UI delivery; no large-history performance acceptance is established.",
+      "related_filelines": [
+        "core/offline_workbench.py:193",
+        "core/offline_workbench.py:268",
+        "core/offline_workbench.py:388"
+      ],
+      "blocking": false
+    }
+  ],
+  "requirements_assessment": {
+    "successful_save_calls_existing_check_alerts_with_saved_symbol_close_timestamp": "PASS_SOURCE_AND_AUTHOR_TESTS",
+    "failed_save_never_checks_or_notifies": "PASS_SOURCE_AND_AUTHOR_TESTS",
+    "duplicate_old_no_recross_and_reopen_suppression": "PASS_EXISTING_ENGINE_AND_AUTHOR_TESTS",
+    "nonmodal_dismissible_plaintext_main_window_banner_across_tabs": "PASS_SOURCE_AND_AUTHOR_TESTS",
+    "truthful_saved_local_origin_symbol_and_new_event_count": "PASS_SOURCE_AUTHOR_TESTS_AND_INDEPENDENT_PROBE",
+    "notice_does_not_change_selected_page_or_paper_balances": "PASS_AUTHOR_TESTS_AND_INDEPENDENT_PROBE",
+    "database_closed_before_signal_delivery": "PASS_SOURCE_AND_AUTHOR_TEST",
+    "expected_alert_check_and_notice_display_failures_do_not_relabel_persisted_analysis_failed": "PASS_SOURCE_AND_AUTHOR_TESTS",
+    "history_action_does_not_evaluate_backlog_fx_or_trades": "PASS_INDEPENDENT_PROBE",
+    "native_mobile_live_order_or_provider_expansion": "NONE_IN_REVIEWED_DIFF"
+  },
+  "test_attribution": {
+    "author": {
+      "evidence": "work/notice_evidence/author_green2.json",
+      "tests_run": 37,
+      "new_tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "finished_utc": "2026-10-14T09:04:13.267711+00:00",
+      "attribution": "Read and evaluated recorded author evidence; reviewer did not rerun these 37 tests. Earlier red and failed cleanup evidence remain preserved in author_red and author_green records."
+    },
+    "root_full_regression": {
+      "evidence": "work/notice_evidence/full.json",
+      "tests_run": 377,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "finished_utc": "2026-10-14T09:06:49.214074+00:00",
+      "attribution": "Read recorded root full-suite evidence with matching frozen hashes; not independently rerun."
+    },
+    "independent_gap_probe": {
+      "evidence": "work/notice_evidence/reviewer_gap_probe.json",
+      "script": "work/notice_reviewer_gap_probe.py",
+      "command": "C:/Users/Asus/AppData/Local/Programs/Python/Python314/python.exe -E -B work/notice_reviewer_gap_probe.py",
+      "status": "PASS",
+      "exit_code": 0,
+      "scenario_count": 1,
+      "finished_utc": "2026-10-14T17:05:14.481592+00:00",
+      "observed": "A dismissed two-event SAMPLE banner reappeared on a genuine later one-event LOCAL_CSV crossing, with the new count and origin. Analysis kept the selected page. History action navigated correctly while check_alerts, portfolio valuation and trade methods were forbidden. All rows of alerts, alert_events, account, holdings, trades, runs and assets remained unchanged by the history action; an unrelated backlog symbol stayed unevaluated.",
+      "guard_denied_events": [],
+      "temporary_database_only": true
+    },
+    "capture": {
+      "evidence": "work/notice_evidence/capture.json",
+      "attribution": "Read root capture evidence and capture helper. Root reports viewing both actual Qt images; reviewer does not claim an independent visual or physical-monitor inspection."
+    },
+    "counts_are_separate_runs_not_additive": true
+  },
+  "helper_review": {
+    "scope": "Static review only; reviewer did not execute rollback, publication, finalization, or primary checking helpers.",
+    "files": [
+      "work/anka_notice_common.py",
+      "work/anka_notice_verify.py",
+      "work/anka_notice_roundtrip.py",
+      "work/anka_notice_publish.py",
+      "work/anka_notice_capture.py",
+      "work/anka_notice_finalize.py",
+      "work/anka_primary_current.py"
+    ],
+    "assessment": "No blocking source-integrity or safety issue found for the intended sequential isolated-worktree workflow. Roundtrip checks HEAD/branch, pinned file hashes and scope before explicit four-file handling, preserves exact-byte backups and retires the new test by rename. Reinstatement checks the baseline report and original hashes. Publication checks review release, exact source hashes, test reports, rollback, captures, allowed paths, sensitive-text patterns, and remote identity. Primary helper disables optional Git locks and fsmonitor, rejects unsafe paths/reparse points, verifies pinned manifests and compares current state twice.",
+    "later_disclosure_update": "Root reported only additions describing latest-batch, single-window and no unread-queue behavior in publication/final report text. Those strings were inspected; no frozen source or test change."
+  },
+  "safety_and_rollback_limits": {
+    "independent_probe": "Genuine platform metadata resolved before an audit guard. Guard installed before PySide/project imports and denied audited external network and process calls; no denied event occurred. Only temporary database/layout state was used. Python audit hooks are not an operating-system sandbox.",
+    "history_readonly_scope": "History action did not change observed database rows or evaluate alerts, FX or trades. LocalStore still opens a read/write SQLite connection and runs its existing idempotent schema/asset setup; this is not a SQLite read-only connection guarantee.",
+    "notification_delivery": "No durable delivery receipt or replay queue exists. A process interruption after event commit but before display may lose the banner; persisted event history remains. This is not a durable push-delivery acceptance.",
+    "rollback": "Actual rollback, baseline tests and exact reinstatement are still root's pending gates at review release. Static helper review does not establish successful rollback. Release permits root to perform those gates.",
+    "primary": "Reviewer did not read or write the primary checkout. The saved current audit and helper were reviewed. The current audit SHA256 is pinned and the historical manifest hash still matches its saved reference.",
+    "primary_current_audit_sha256": "186a1bd9f5e6c79aed27619a43aebf0c56fa7aeb651fa53767acf387832dd8e4",
+    "historical_manifest_sha256": "04ed6c17b1b480c05845eca60cd5749ff807557c815e2b4a0dd4992d3ea098a3",
+    "historical28_match": false,
+    "prework_primary_drift": "Saved audit records 36 current dirty paths: eight additions and changed bytes at scripts/anka_team.py and docs/TEAM_REPORT_20261009.md versus historical28. Historical and current manifests remain separate. No claim that old28 are unchanged or that the origin of drift is known.",
+    "current36_live_preservation": "Not independently checked by this reviewer; root must enforce the pinned current36 check before and after its pending actions. A manifest is not a recoverable content backup."
+  },
+  "declined_to_judge": [
+    "Actual rollback/reinstatement and remote publication have not been executed by this reviewer and were pending at release.",
+    "No live licensed provider, native/mobile notification, real order, clean installation, physical multi-monitor, or full production acceptance was tested.",
+    "No independent rerun of the full suite or author suite was needed; the independent probe adds one bounded scenario rather than duplicated suite totals.",
+    "No claim is made about attribution or correctness of unrelated primary-worktree changes."
+  ],
+  "candidate_files_released_to_root": true,
+  "release_meaning": "All candidate reads and the one independent probe are complete; reviewer will not continue touching candidate files. Root may begin its controlled rollback/reinstatement gates.",
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}

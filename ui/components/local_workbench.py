@@ -8,7 +8,7 @@ import sqlite3
 from dataclasses import replace
 from pathlib import Path
 
-from PySide6.QtCore import QPointF, QRectF, Qt
+from PySide6.QtCore import QPointF, QRectF, Qt, Signal
 from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -128,6 +128,9 @@ class PriceChart(QWidget):
 
 
 class LocalWorkbenchPage(QWidget):
+    # Newly persisted events only; never replay history when a page is opened.
+    local_alerts_created = Signal(str, int, str)
+
     def __init__(self):
         super().__init__()
         self.result = None
@@ -216,6 +219,8 @@ class LocalWorkbenchPage(QWidget):
 
     def run_bars(self, bars, origin):
         store = None
+        new_alerts = 0
+        alert_error = None
         try:
             store = LocalStore(state_path())
             result = store.execute(
@@ -224,6 +229,14 @@ class LocalWorkbenchPage(QWidget):
                 origin=origin,
                 currency=self.currency.currentText(),
             )
+            try:
+                new_alerts = store.check_alerts(
+                    result["symbol"], result["analysis"]["close"],
+                    result["analysis"]["last_bar_at"],
+                )
+            except (ValueError, OSError, sqlite3.Error) as error:
+                # execute() has already committed; an alert error cannot undo the analysis.
+                alert_error = str(error)
             self.result = result
             self.chart.values = [bar.close for bar in bars]
             self.chart.bars = bars
@@ -253,12 +266,23 @@ class LocalWorkbenchPage(QWidget):
             self.status.setText(
                 "Analiz kalıcı kayda yazıldı. " + data["explanation"] + " " + strategy["method"]
             )
+            if alert_error is not None:
+                self.status.setText(self.status.text() + " Alarm kontrolü başarısız: " + alert_error)
         except (ValueError, OSError, sqlite3.Error) as error:
             self.status.setText("Analiz başarısız: " + str(error))
             self.clear_analysis()
+            return
         finally:
             if store is not None:
                 store.close()
+        # Receivers may reopen SQLite. Release this connection before dispatch.
+        if new_alerts:
+            try:
+                self.local_alerts_created.emit(result["symbol"], new_alerts, result["origin"])
+            except Exception as error:
+                self.status.setText(
+                    self.status.text() + " Uygulama içi bildirim gösterilemedi: " + str(error)
+                )
 
     def import_csv(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Yerel fiyat verisi", "", "CSV (*.csv)")
@@ -342,7 +366,8 @@ class PaperPortfolioPage(QWidget):
         layout.addWidget(self.table)
         history_context = QLabel(
             "Alarm geçmişi · Son 100 tetikleme · Örnek / yerel CSV\n"
-            "Elle kontrol edilir; fiyatlar sembolün para birimindedir. Cihaz bildirimi bağlı değil."
+            "Yerel analiz kaydından sonra otomatik veya düğmeyle kontrol edilir; "
+            "fiyatlar sembolün para birimindedir. Cihaz bildirimi bağlı değil."
         )
         history_context.setWordWrap(True)
         layout.addWidget(history_context)
@@ -356,7 +381,7 @@ class PaperPortfolioPage(QWidget):
         self.alert_history_table.horizontalHeader().setStretchLastSection(True)
         layout.addWidget(self.alert_history_table)
         # Reopening displays saved events without evaluating new prices.
-        self.with_latest(lambda store, result: self.show_alert_history(store), require_latest=False)
+        self.refresh_alert_history()
 
     def with_latest(self, operation, *, require_latest=True):
         store = None
@@ -428,6 +453,15 @@ class PaperPortfolioPage(QWidget):
             f"{len(history)} kayıt gösteriliyor · En yeni mum önce"
             if history else "Henüz tetiklenen alarm yok"
         )
+
+    def refresh_alert_history(self):
+        """Reload saved events without evaluating prices, trades or FX rates."""
+        successful = self.with_latest(
+            lambda store, result: self.show_alert_history(store), require_latest=False
+        )
+        if not successful:
+            self.alert_history_status.setText("Alarm geçmişi yüklenemedi: " + self.status.text())
+        return successful
 
     def refresh(self):
         def operation(store, result):

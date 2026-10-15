@@ -91,6 +91,25 @@ class MainWindow(QMainWindow):
         prices.addWidget(QLabel("ÖRNEK PİYASA ÖZETİ"))
         outer.addWidget(strip)
 
+        self.local_alert_notice = QFrame()
+        self.local_alert_notice.setObjectName("LocalAlertNotice")
+        self.local_alert_notice.setStyleSheet(
+            "QFrame#LocalAlertNotice {background:#18352f;border:1px solid #52c6b2;}"
+        )
+        notice_layout = QHBoxLayout(self.local_alert_notice)
+        self.local_alert_notice_label = QLabel()
+        self.local_alert_notice_label.setTextFormat(Qt.TextFormat.PlainText)
+        self.local_alert_notice_label.setWordWrap(True)
+        notice_layout.addWidget(self.local_alert_notice_label, 1)
+        self.local_alert_history_button = QPushButton("Alarm geçmişi")
+        self.local_alert_history_button.clicked.connect(self.open_local_alert_history)
+        notice_layout.addWidget(self.local_alert_history_button)
+        self.local_alert_dismiss_button = QPushButton("Kapat")
+        self.local_alert_dismiss_button.clicked.connect(self.local_alert_notice.hide)
+        notice_layout.addWidget(self.local_alert_dismiss_button)
+        outer.addWidget(self.local_alert_notice)
+        self.local_alert_notice.hide()
+
         center = QHBoxLayout()
         center.setContentsMargins(0, 0, 0, 0)
         center.setSpacing(0)
@@ -101,6 +120,26 @@ class MainWindow(QMainWindow):
         outer.addLayout(center, 1)
         self.sidebar.currentRowChanged.connect(self.workspace.setCurrentIndex)
         self.workspace.currentChanged.connect(self.sidebar.setCurrentRow)
+        self.workspace.local_alerts_created.connect(self.show_local_alert_notice)
+
+    def show_local_alert_notice(self, symbol, count, origin):
+        try:
+            context = "ÖRNEK" if origin == "SAMPLE" else "YEREL CSV"
+            self.local_alert_notice_label.setText(
+                f"{symbol} · {count} yeni alarm · {context} · canlı veri değil\n"
+                "Yerel analiz sonrası uygulama içi bildirim. Cihaz/telefon bildirimi yok."
+            )
+            self.local_alert_notice.show()
+        except Exception as error:
+            # Qt slots report exceptions outside the emitter's try block.
+            self.statusBar().showMessage(
+                "Analiz ve alarm kaydedildi; uygulama içi bildirim gösterilemedi: " + str(error)
+            )
+
+    def open_local_alert_history(self):
+        self.workspace.widget(4).refresh_alert_history()
+        self.workspace.setCurrentIndex(4)
+        self.workspace.widget(4).alert_history_table.setFocus()
 
     def open_advanced_terminal(self):
         if self._advanced_terminal is None:

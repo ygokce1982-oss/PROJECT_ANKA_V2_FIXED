@@ -96,3 +96,8 @@ Kod commit `0bf85bf9260f3528dd76a37cb990abe31f3951e9`, `feature/anka-alert-histo
 14 Ekimde başarılı36 karşılaştırmasının ardından ana proje değişti: 15 Ekimde47, yayın öncesinde49 durum yolu gözlendi. Tarihsel28 ve36 karşılaştırmaları şu anda eşit değildir; başarısız kontroller ve eski manifestler saklandı. Değişikliklerin yapanı kesin doğrulanmadı. Bu dalın dört kaynak dosyası test, inceleme ve geri alma özetleriyle aynıdır.
 
 Bağımsız ürün incelemesi 14 Ekimde tamamlandı. Sonraki ana proje farkının ek inceleme oturumu kullanım sınırında kesildi; yeni bağımsız inceleme yapılmış sayılmadı. Yayın işlemi yalnız ayrı aday dalına yazacaktır. Ana projeye dosya yazımı yapılmaz; 2026-10-15T13:05:13.459236+00:00 anındaki 49 dosyanın HEAD/dal/durum/içerik özeti yayın öncesi ve sonrası karşılaştırılır. Bu sınırlı kontrol tarihsel farkları kapatmaz veya genel üretim kabulü sağlamaz.
+
+
+### Uzak SHA makbuzu
+
+Kod commit `c574218064fa5f98fb4696a09b5ed5462afb0895` uzak `feature/anka-local-alert-notice-20261014` dalıyla tam eşleşti (2026-10-15T13:08:47.646969+00:00). Genel kabul BLOCKED.

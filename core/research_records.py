@@ -6,12 +6,33 @@ import json
 import sqlite3
 import unicodedata
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlsplit
 
 KINDS = ("NEWS", "KAP", "CALENDAR")
 MAX_IMPORT_BYTES = 2 * 1024 * 1024
+
+
+def publication_age_label(published_at, *, now):
+    """Age of an imported publication timestamp; never a live-source health claim.
+
+    The 24-hour boundary is a display bucket, not a market freshness SLA.
+    CALENDAR uses the same publication field, not an inferred event time.
+    """
+    if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
+        raise ValueError("Referans saat zaman dilimi içermeli")
+    reference = now.astimezone(UTC)
+    try:
+        stamp = datetime.fromisoformat(published_at)
+        if stamp.tzinfo is None or stamp.utcoffset() is None:
+            return "Tarih geçersiz"
+        age = reference - stamp.astimezone(UTC)
+    except (TypeError, ValueError, OverflowError):
+        return "Tarih geçersiz"
+    if age < timedelta(0):
+        return "Gelecek tarih"
+    return "Son 24 saat" if age < timedelta(hours=24) else "24 saatten eski"
 
 
 def search_normalize(text):

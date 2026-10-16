@@ -1,0 +1,144 @@
+{
+  "scope": "Local imported publication age and failed-read stale-row clearing",
+  "base": "146b5192720b7ce33b90a51bf3c2cc57c74e3d16",
+  "branch": "feature/anka-research-age-20261016",
+  "source_sha256": {
+    "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+    "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+    "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+  },
+  "new_tests": 11,
+  "reports": {
+    "full_v2": {
+      "mode": "full_v2",
+      "started_utc": "2026-10-15T21:17:31.556151+00:00",
+      "finished_utc": "2026-10-15T21:18:38.494766+00:00",
+      "elapsed_seconds": 66.935,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 388,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+        "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+        "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+      },
+      "source_sha256_after": {
+        "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+        "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+        "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+      },
+      "status": "PASS"
+    },
+    "rollback": {
+      "mode": "rollback",
+      "started_utc": "2026-10-16T01:08:58.098157+00:00",
+      "finished_utc": "2026-10-16T01:09:00.743277+00:00",
+      "elapsed_seconds": 2.643,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/research_records.py": "28517d2d73c85370f4330c836c8570c86091d7b693b222b9b8c0ff155415a2bc",
+        "ui/components/research_page.py": "41706ccf4a110291fa304f7382ccbed20f4144228a598356b89eb6166269b12b"
+      },
+      "source_sha256_after": {
+        "core/research_records.py": "28517d2d73c85370f4330c836c8570c86091d7b693b222b9b8c0ff155415a2bc",
+        "ui/components/research_page.py": "41706ccf4a110291fa304f7382ccbed20f4144228a598356b89eb6166269b12b"
+      },
+      "status": "PASS"
+    },
+    "restored_targeted": {
+      "mode": "restored_targeted",
+      "started_utc": "2026-10-16T01:09:05.492098+00:00",
+      "finished_utc": "2026-10-16T01:09:08.653041+00:00",
+      "elapsed_seconds": 3.159,
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "tests_run": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "failure_ids": [],
+      "error_ids": [],
+      "guard_denied_events": [],
+      "source_sha256_before": {
+        "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+        "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+        "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+      },
+      "source_sha256_after": {
+        "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+        "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+        "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+      },
+      "status": "PASS"
+    }
+  },
+  "independent_review": "PASS_WITH_LIMITS",
+  "review_repair": "Initial review requested changes: failed import removed as-of context from retained rows. Fixed using retained view status and populated-table regression. Original review and failed reviewer-harness evidence retained locally.",
+  "rollback_files": {
+    "at_utc": "2026-10-16T01:08:54.959941+00:00",
+    "status": "PASS",
+    "restored_base_source": {
+      "core/research_records.py": "28517d2d73c85370f4330c836c8570c86091d7b693b222b9b8c0ff155415a2bc",
+      "ui/components/research_page.py": "41706ccf4a110291fa304f7382ccbed20f4144228a598356b89eb6166269b12b"
+    },
+    "removed_new_test": "tests/test_research_age.py",
+    "candidate_archive_verified": true,
+    "primary_start_match": true
+  },
+  "restored": {
+    "at_utc": "2026-10-16T01:09:03.212073+00:00",
+    "status": "PASS",
+    "source": {
+      "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+      "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+      "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+    },
+    "primary_start_match": true
+  },
+  "qt_capture": {
+    "sizes": [
+      "1366x768",
+      "1920x1080"
+    ],
+    "mode": "Real QWidget offscreen, synthetic records, fixed clock",
+    "source_sha256": {
+      "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+      "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+      "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+    },
+    "initial_missing_glyph_capture_repaired_by_explicit_font_loading": true
+  },
+  "primary_preservation": {
+    "current_count": 54,
+    "start_end_match": true,
+    "historical28_match": false,
+    "scope": "This isolated slice only; old manifests retained; no primary writes."
+  },
+  "limits": [
+    "24 hours is a display bucket, not a verified provider freshness SLA.",
+    "CALENDAR published_at is not an event timestamp.",
+    "Age is evaluated on local manual refresh/filter/import; explicit evaluation timestamp is shown.",
+    "No live feed, source verification, automated refresh or external link opening added.",
+    "Audit guard covers selected network/process events; it is not an OS sandbox.",
+    "Offscreen capture is not physical-monitor or clean-install acceptance."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}

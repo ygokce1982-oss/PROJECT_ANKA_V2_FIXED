@@ -1,0 +1,105 @@
+{
+  "review_id": "ANKA_RESEARCH_AGE_REVIEW_20261016_v2",
+  "reviewer": "independent research_age_reviewer subagent",
+  "verdict": "PASS_WITH_LIMITS",
+  "independent_source_review": "COMPLETED",
+  "scope": "Bounded follow-up source review of the R1 failed-import calculation-time fix within the previously reviewed local NEWS/KAP/CALENDAR publication-age scope",
+  "candidate": "C:/Users/Asus/Documents/ANKA_Overnight/ANKA_RESEARCH_AGE_20261016",
+  "branch": "feature/anka-research-age-20261016",
+  "base_and_head": "146b5192720b7ce33b90a51bf3c2cc57c74e3d16",
+  "source_sha256": {
+    "core/research_records.py": "2b7f3077c66be9d12666abd9f9ee3f7f067f714b48eb0b77d36c52d1c98a8835",
+    "ui/components/research_page.py": "ab7d2a93aadd24322cb2a4ffea63eede622f21e2a17674eaf062207d012ad770",
+    "tests/test_research_age.py": "eb5d88de783caab98de05805d0f35209c62ce43bf3f3bed186772d4ffed6bb4e"
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "previous_review": {
+    "path": "C:/Users/Asus/Documents/Codex/2026-10-12/referenced-chatgpt-conversation-this-is-an/outputs/ANKA_RESEARCH_AGE_REVIEW_20261016.json",
+    "verdict": "CHANGES_REQUESTED",
+    "preserved_without_modification": true,
+    "finding": "R1: failed import retained age rows but removed their calculation-time context"
+  },
+  "resolved_findings": [
+    {
+      "id": "R1",
+      "original_severity": "P2",
+      "status": "RESOLVED_BY_SOURCE_REVIEW_AND_MATCHING_SAVED_REGRESSION",
+      "source_locations": [
+        "ui/components/research_page.py:104",
+        "ui/components/research_page.py:117",
+        "ui/components/research_page.py:120"
+      ],
+      "test_location": "tests/test_research_age.py:131",
+      "reasoning": "Each completed refresh records its own status in _view_status, including either the exact calculation time/disclaimer for displayed rows or the read-failure status after clearing rows. Successful and failed imports compose only their current result with this stored refresh status. A failed import therefore retains the original timestamp that qualifies unchanged age rows; repeated failures cannot accumulate earlier import messages. A subsequent successful refresh replaces the age and reference timestamp together. Post-import query failures remain visible because refresh stores the failure status before the success import summary is composed.",
+      "coverage": "The new regression starts with a populated table, advances the clock by one day, fails JSON import twice, and asserts unchanged age, original calculation timestamp, source-freshness disclaimer, one error message and unchanged persisted records. It then refreshes and checks the age and timestamp advance. Existing successful-import and post-import-read-failure tests remain present in the matching 18-test saved run."
+    }
+  ],
+  "evidence_inspected": [
+    {
+      "path": "ui/components/research_page.py",
+      "scope": "Full current source read with line numbers; assessed _view_status initialization on constructor refresh, refresh success/failure, import success/failure and repeated failures"
+    },
+    {
+      "path": "tests/test_research_age.py",
+      "scope": "Full current test source read, including new failed-import regression and retained existing coverage"
+    },
+    {
+      "path": "work/research_age_evidence/frozen_v2.json",
+      "result": "All three source hashes independently read with Get-FileHash match the frozen manifest; core unchanged from v1"
+    },
+    {
+      "path": "work/research_age_evidence/targeted_v2.json; targeted_v2.txt",
+      "result": "Saved run 2026-10-15T21:16:51.282555+00:00 through 2026-10-15T21:16:54.731846+00:00 records 18 tests, zero failures/errors/skips, no guard denied events and matching before/after hashes; log footer agrees"
+    },
+    {
+      "path": "outputs/ANKA_RESEARCH_AGE_REVIEW_20261016.json",
+      "scope": "Read original verdict, R1, original scope and failed-harness limitation; original report retained"
+    },
+    {
+      "path": "candidate Git metadata",
+      "result": "Read-only status, branch and HEAD match expected candidate and base. Expected modifications are the two source files, new age test and operation JSONL."
+    }
+  ],
+  "independent_tests_run_in_this_followup": 0,
+  "full_v2_status": "NOT_INSPECTED; parent-owned run in progress when follow-up assigned. No waiting or rerun performed. This report does not assert full_v2 completion.",
+  "unresolved_prior_harness_limitation": {
+    "status": "HARNESS_ERROR_RESULT_UNAVAILABLE",
+    "original_attempts": 1,
+    "description": "The v1 optional independent probe failed during TemporaryDirectory cleanup because its working directory was inside that temporary directory, producing WinError 32/5 before emitting results. This remains a reviewer harness failure, not a confirmed application runtime failure or a passed independent probe.",
+    "retry_performed": false,
+    "independent_runtime_success_claimed": false
+  },
+  "limitations": [
+    "PASS_WITH_LIMITS applies to independently completed source review of this exact frozen candidate and R1 closure. Matching parent-produced deterministic evidence was inspected; no independent test run is claimed.",
+    "The original 387-test full result and v2-named screenshots from the first review belong to the original source hashes. They are historical context, not full-regression or new screenshot evidence for the changed UI/test hashes in this report.",
+    "The full_v2 result, rollback rehearsal, primary preservation, publication and remote SHA remain parent-owned gates; this review does not complete them.",
+    "No live source freshness, calendar event-time validation, physical display, packaged installation, production acceptance or full autonomy is established.",
+    "The prior failed optional reviewer harness remains recorded and was not retried."
+  ],
+  "declined_behaviors": [
+    {
+      "behavior": "Rerun tests or wait for full_v2",
+      "reason": "Bounded follow-up instruction; source review plus matching saved targeted evidence was sufficient"
+    },
+    {
+      "behavior": "Additional runtime probe or prior-probe retry",
+      "reason": "Not required for exact fix review; prior harness failure retained"
+    },
+    {
+      "behavior": "Candidate source/Git/log writes, primary project access, network/model APIs or subagents",
+      "reason": "Explicit read-only and bounded-review exclusions"
+    }
+  ],
+  "global_gates": {
+    "FULL_AUTONOMY": "BLOCKED",
+    "PRODUCTION_ACCEPTANCE": "BLOCKED"
+  },
+  "candidate_files_released_to_root": true,
+  "released_files": [
+    "core/research_records.py",
+    "ui/components/research_page.py",
+    "tests/test_research_age.py"
+  ],
+  "reviewed_utc": "2026-10-15T21:18:04.5054619+00:00"
+}

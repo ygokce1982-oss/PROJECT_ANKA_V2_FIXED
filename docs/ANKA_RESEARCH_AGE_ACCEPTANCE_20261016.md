@@ -9,3 +9,8 @@ NEWS/KAP/CALENDAR kayıtları içe aktarılan yayın tarihine göre “Son 24 sa
 - Ana projeye yazılmadı. Bu dilimin başlangıcındaki 54 değişik yol, içerik/HEAD/dal/durum özeti sonunda aynıydı. Tarihsel28 manifesti artık eşit değildir; eski kayıtlar korunur ve günler boyunca değişmediği iddia edilmez.
 - 24 saat bir gösterim eşiğidir; canlı sağlayıcı tazeliği veya takvim etkinliği zamanı değildir. Lisanslı canlı akış, kaynağa gitme, otomatik yenileme ve fiziksel cihaz kabulü açık kalır.
 - **FULL_AUTONOMY=BLOCKED; PRODUCTION_ACCEPTANCE=BLOCKED.** Uzak gönderim bekleniyor.
+
+
+### Uzak SHA makbuzu
+
+Kod `0a753ae4202b02d14276898b344077f80fa26de6`, uzak `feature/anka-research-age-20261016` ile tam eşleşti (2026-10-16T01:11:08.343398+00:00). Genel kabul BLOCKED.

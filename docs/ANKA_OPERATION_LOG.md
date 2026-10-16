@@ -146,3 +146,8 @@ Kayıtlı sağlayıcılar öncelik sırasıyla denenir; boş veri, sağlayıcı 
 - **FULL_AUTONOMY=BLOCKED; PRODUCTION_ACCEPTANCE=BLOCKED.** Uzak gönderim bu kayıt anında bekliyor.
 
 Kanıt: [test/geri alma](ANKA_PROVIDER_FAILOVER_EVIDENCE_20261016.json), [bağımsız inceleme](ANKA_PROVIDER_FAILOVER_REVIEW_20261016.json).
+
+
+### Uzak SHA makbuzu
+
+Kod `57e307eea4845486d1feb74732f06fe29e0f3c67`, uzak `feature/anka-provider-failover-core-20261016` ile tam eşleşti (2026-10-16T17:18:46.783715+00:00). Genel kabul BLOCKED.

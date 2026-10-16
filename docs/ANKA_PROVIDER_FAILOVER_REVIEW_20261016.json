@@ -1,0 +1,205 @@
+{
+  "verdict": "PASS_WITH_LIMITS",
+  "summary": "No blocking correctness, security or registry API regression found in the exact frozen core-only candidate. Approval is limited to the reviewed source contract and offline evidence; it is not production or live-data acceptance.",
+  "reviewer": "independent provider_archive_review agent",
+  "reviewed_utc": "2026-10-16T17:17:09.806883+00:00",
+  "base_commit": "2e64385232e7e4370723ff370c5ae8e347a97042",
+  "source_root": "work/provider_failover_evidence/candidate",
+  "source_sha256": {
+    "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+    "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+  },
+  "blocking_findings": [],
+  "candidate_files_released_to_root": true,
+  "source_restored_by_reviewer": false,
+  "product_or_primary_files_written_by_reviewer": false,
+  "checkout_state_at_review": "PARKED: provider_manager.py matches base; candidate test is absent from checkout; existing documentation changes left untouched.",
+  "checkout_manager_sha256": "7c6d884c581b730a5fa994a311370b57aa0e42848713b3da91eb3d9055bc5858",
+  "prior_review_attempt": "Prior service usage-limit interruption produced no completed report and is not treated as a negative code verdict.",
+  "contract_review": [
+    {
+      "area": "Registry compatibility",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        50,
+        72
+      ],
+      "conclusion": "Public providers dictionary and register/remove/get/list semantics are preserved. Replacement keeps normal dict insertion semantics, absent removal is a no-op, get returns the original instance or None. Registry methods now use the same RLock as fetch."
+    },
+    {
+      "area": "Priority validation",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        83,
+        94
+      ],
+      "conclusion": "Full iterable is materialized before fetching. Empty names/chains, whitespace-only names, mixed non-string entries, repeated labels, scalar str/bytes, non-iterables and noncallable acceptance are rejected before any manager-controlled fetch. Priority iteration order is preserved."
+    },
+    {
+      "area": "Ordered acceptance and exhaustion",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        96,
+        116
+      ],
+      "conclusion": "Missing registrations are recorded and skipped; each fetched nonempty payload must receive literal True from provider validation and, if supplied, the consumer. Exceptions at fetch, size check, provider validation and consumer acceptance advance to the next name. First success stops the chain; exhaustion raises an explicit error with immutable ordered attempts."
+    },
+    {
+      "area": "Sanitized trace and payload repr",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        18,
+        38,
+        111,
+        116
+      ],
+      "conclusion": "Attempt reasons contain exception class names, not exception messages. Final exhaustion is raised after the except block, avoiding an implicit chain to the handled provider exception. Returned data is excluded from dataclass repr. Trusted configuration labels remain visible by design."
+    },
+    {
+      "area": "Serialization",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        52,
+        72,
+        96,
+        116
+      ],
+      "conclusion": "The shared per-manager RLock covers registry methods and the complete fetch/validate/consumer cycle. Existing concurrency tests cover two fetch callers and concurrent removal; independent probe additionally covers register/get/list while consumer acceptance is active."
+    },
+    {
+      "area": "No automatic side effects",
+      "file": "core/providers/provider_manager.py",
+      "lines": [
+        1,
+        15,
+        50,
+        57
+      ],
+      "conclusion": "Construction creates only a dict and RLock; no provider, session, credential, order, UI or network configuration is added. Fetch calls occur only for explicitly registered names supplied by the caller."
+    }
+  ],
+  "tests_claimed": {
+    "existing_evidence": {
+      "full": {
+        "tests_run": 405,
+        "status": "PASS",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "started_utc": "2026-10-16T05:18:05.252103+00:00",
+        "finished_utc": "2026-10-16T05:19:20.572490+00:00",
+        "json_path": "work/provider_failover_evidence/full.json",
+        "text_log_path": "work/provider_failover_evidence/full.txt",
+        "execution": "Historical evidence inspected, not rerun by reviewer"
+      },
+      "targeted": {
+        "tests_run": 34,
+        "status": "PASS",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "started_utc": "2026-10-16T05:17:41.246670+00:00",
+        "finished_utc": "2026-10-16T05:17:43.428463+00:00",
+        "json_path": "work/provider_failover_evidence/targeted.json",
+        "text_log_path": "work/provider_failover_evidence/targeted.txt",
+        "execution": "Historical evidence inspected, not rerun by reviewer"
+      },
+      "rollback": {
+        "tests_run": 17,
+        "status": "PASS",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "started_utc": "2026-10-16T09:14:17.593866+00:00",
+        "finished_utc": "2026-10-16T09:14:23.912579+00:00",
+        "json_path": "work/provider_failover_evidence/rollback.json",
+        "text_log_path": "work/provider_failover_evidence/rollback.txt",
+        "execution": "Historical evidence inspected, not rerun by reviewer"
+      }
+    },
+    "historical_red_evidence": {
+      "path": "work/provider_failover_evidence/red.json",
+      "status": "FAIL",
+      "tests_run": 18,
+      "errors": 1,
+      "meaning": "Baseline cannot import the new ProviderFailoverError API; retained import-level red evidence, not a claim that every new behavioral assertion was independently demonstrated to fail."
+    },
+    "candidate_tests_inspected": {
+      "path": "tests/test_provider_failover.py",
+      "test_methods": 17,
+      "scope": "Offline mocks, validation/acceptance/fallback/error/repr/registry/concurrency; Matriks adapter test sessions are Mock objects with synthetic fake-local-token strings."
+    },
+    "independent_probe": {
+      "execution": "Python314/python.exe -E -B -; candidate manager and base_provider loaded directly into an in-memory package; no source restore or probe file written.",
+      "completed_utc": "2026-10-16T17:15:56.336644+00:00",
+      "python": "3.14.6",
+      "tests_run": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "denied_events": [],
+      "guard": "Audit hook rejected socket events, subprocess launches and file-write opens; none occurred.",
+      "test_ids": [
+        "test_validation_exception_preserves_order_and_skips_consumer",
+        "test_exhaustion_traceback_has_no_provider_exception_context",
+        "test_length_failure_advances_and_does_not_call_validate",
+        "test_generator_late_invalid_entry_rejects_before_fetch",
+        "test_registry_calls_wait_through_consumer_acceptance"
+      ],
+      "source_sha256": {
+        "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+        "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+      },
+      "result": "All 5 probes passed. This independent bounded probe is separate from historical full/targeted/rollback counts; counts must not be added."
+    },
+    "full_suite_rerun_by_reviewer": false
+  },
+  "limits": [
+    "This verdict applies only to the two exact hashes above and the stated core contract; any source change requires a new source-matched assessment.",
+    "Existing full405 and targeted34 are inspected historical executions with matching before/after hashes and text logs. They were not independently rerun. Historical rollback17 applies to the base, not the candidate.",
+    "Serialization is per manager and through its methods. Direct public-dict mutation, direct fetch calls on instances returned by get_provider, and sharing one instance across multiple managers are outside that guarantee.",
+    "The RLock permits same-thread reentrant callbacks; no callback recursion policy is added. Providers and callbacks must bound their own work and avoid cross-thread waits that require the same manager lock.",
+    "Provider requests and consumer callbacks execute synchronously while holding the lock. No total deadline, cancellation, worker shutdown or UI responsiveness guarantee is provided.",
+    "Only None and zero-length Sized payloads are intrinsically rejected; other semantic validity, iterator payloads, price age and provenance require appropriate provider and consumer validation.",
+    "Accepted payloads remain raw mutable objects; repr protection is not blanket log redaction and does not make payloads safe to serialize or publish.",
+    "Exception class names and trusted provider labels are intentionally visible; raw exception messages are excluded from manager-produced traces. Raw provider-side logging is outside this module.",
+    "The three registry concurrency probe outcomes rely on bounded event-based test scheduling plus source inspection, not an exhaustive concurrency proof."
+  ],
+  "declined_to_judge": [
+    {
+      "behavior": "Live provider connectivity, quotas, accounts, credentials and license entitlement",
+      "reason": "Prohibited and outside the offline core review; no network/provider/account operations performed. Synthetic Mock-session fixture tokens are not live credential evidence."
+    },
+    {
+      "behavior": "Quote age, freshness, provenance, market data normalization and historical-bar suitability as live quotes",
+      "reason": "These policies belong to the consumer/integration layer; this candidate deliberately exposes an optional callback and does not implement live acceptance."
+    },
+    {
+      "behavior": "UI integration, physical-device behavior, worker cancellation and application shutdown",
+      "reason": "No UI or worker source is changed; existing handoff lists these as separate unresolved integration work."
+    },
+    {
+      "behavior": "Order execution, balances, autonomous trading and production readiness",
+      "reason": "Not implemented or exercised by this change. Global acceptance remains blocked."
+    },
+    {
+      "behavior": "External direct provider-dictionary mutation and cross-manager provider sharing",
+      "reason": "Public dict is retained for compatibility, but such synchronization is explicitly outside the per-manager method contract."
+    },
+    {
+      "behavior": "Global secret redaction of caller-provided labels, arbitrary payload logging and malicious dynamically generated exception class names",
+      "reason": "Names are trusted configuration and this module guarantees raw payload omission from repr plus exception-message omission, not sanitization of arbitrary Python code or every caller log path."
+    },
+    {
+      "behavior": "ProviderManager pickling, manager deep-copy and unordered set priority semantics",
+      "reason": "No established usage or compatibility promise was found; priority accepts Iterable and follows its iteration order. Callers needing stable priorities must supply a deliberately ordered iterable."
+    }
+  ],
+  "review_read_diagnostics": [
+    "An attempted read of tests/test_provider_manager.py found no such base test file; rg confirmed no existing manager consumers/tests in the accepted checkout.",
+    "Two initial PowerShell rg glob paths were rejected as invalid Windows paths; corrected directory searches with -g were used. These were read-only command errors, not product test failures."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}

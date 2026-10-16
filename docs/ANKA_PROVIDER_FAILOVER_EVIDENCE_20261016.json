@@ -1,0 +1,161 @@
+{
+  "scope": "Generic provider failover core only",
+  "base": "2e64385232e7e4370723ff370c5ae8e347a97042",
+  "branch": "feature/anka-provider-failover-core-20261016",
+  "source_sha256": {
+    "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+    "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+  },
+  "new_tests": 17,
+  "reports": {
+    "full": {
+      "mode": "full",
+      "started_utc": "2026-10-16T05:18:05.252103+00:00",
+      "finished_utc": "2026-10-16T05:19:20.572490+00:00",
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "elapsed_seconds": 75.319,
+      "tests_run": 405,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "denied_events": [],
+      "source_before": {
+        "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+        "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+      },
+      "source_after": {
+        "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+        "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+      },
+      "failure_ids": [],
+      "error_ids": [],
+      "status": "PASS"
+    },
+    "rollback": {
+      "mode": "rollback",
+      "started_utc": "2026-10-16T09:14:17.593866+00:00",
+      "finished_utc": "2026-10-16T09:14:23.912579+00:00",
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "elapsed_seconds": 6.318,
+      "tests_run": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "denied_events": [],
+      "source_before": {
+        "core/providers/provider_manager.py": "7c6d884c581b730a5fa994a311370b57aa0e42848713b3da91eb3d9055bc5858"
+      },
+      "source_after": {
+        "core/providers/provider_manager.py": "7c6d884c581b730a5fa994a311370b57aa0e42848713b3da91eb3d9055bc5858"
+      },
+      "failure_ids": [],
+      "error_ids": [],
+      "status": "PASS"
+    },
+    "restored_targeted": {
+      "mode": "restored_targeted",
+      "started_utc": "2026-10-16T17:17:47.785302+00:00",
+      "finished_utc": "2026-10-16T17:17:50.495599+00:00",
+      "host": "DESKTOP-5C7PG1Q",
+      "python": "3.14.6",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "elapsed_seconds": 2.709,
+      "tests_run": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "denied_events": [],
+      "source_before": {
+        "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+        "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+      },
+      "source_after": {
+        "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+        "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+      },
+      "failure_ids": [],
+      "error_ids": [],
+      "status": "PASS"
+    }
+  },
+  "independent_review": "PASS_WITH_LIMITS",
+  "review_scope_decisions": [
+    {
+      "behavior": "Live provider connectivity, quotas, accounts, credentials and license entitlement",
+      "reason": "Prohibited and outside the offline core review; no network/provider/account operations performed. Synthetic Mock-session fixture tokens are not live credential evidence.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "Quote age, freshness, provenance, market data normalization and historical-bar suitability as live quotes",
+      "reason": "These policies belong to the consumer/integration layer; this candidate deliberately exposes an optional callback and does not implement live acceptance.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "UI integration, physical-device behavior, worker cancellation and application shutdown",
+      "reason": "No UI or worker source is changed; existing handoff lists these as separate unresolved integration work.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "Order execution, balances, autonomous trading and production readiness",
+      "reason": "Not implemented or exercised by this change. Global acceptance remains blocked.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "External direct provider-dictionary mutation and cross-manager provider sharing",
+      "reason": "Public dict is retained for compatibility, but such synchronization is explicitly outside the per-manager method contract.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "Global secret redaction of caller-provided labels, arbitrary payload logging and malicious dynamically generated exception class names",
+      "reason": "Names are trusted configuration and this module guarantees raw payload omission from repr plus exception-message omission, not sanitization of arbitrary Python code or every caller log path.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    },
+    {
+      "behavior": "ProviderManager pickling, manager deep-copy and unordered set priority semantics",
+      "reason": "No established usage or compatibility promise was found; priority accepts Iterable and follows its iteration order. Callers needing stable priorities must supply a deliberately ordered iterable.",
+      "root_disposition": "Accepted as a disclosed limit of this core-only slice; no wider acceptance implied."
+    }
+  ],
+  "prior_review_attempt": "Service usage limit prevented completion; no verdict was claimed. Archive remained parked until completed independent review.",
+  "rollback_files": {
+    "status": "PASS",
+    "mode": "park",
+    "at_utc": "2026-10-16T09:14:13.655715+00:00",
+    "source": {
+      "core/providers/provider_manager.py": "7c6d884c581b730a5fa994a311370b57aa0e42848713b3da91eb3d9055bc5858"
+    },
+    "new_test_removed": true,
+    "primary_slice_match": true
+  },
+  "restored": {
+    "status": "PASS",
+    "at_utc": "2026-10-16T17:17:45.459848+00:00",
+    "source": {
+      "core/providers/provider_manager.py": "175ad411bc20cab13eb705f63bb226e90f3a70836ce0a14a11c09f4ff0f26877",
+      "tests/test_provider_failover.py": "e8982c948591c2f6168c60a14615bfa727af46d7c001686d22ffa2f413534e24"
+    },
+    "primary_slice_match": true
+  },
+  "primary_preservation": {
+    "current_count": 54,
+    "publication_checkpoint_match": true,
+    "original_slice_match": true,
+    "historical28_match": false,
+    "primary_written": false
+  },
+  "limits": [
+    "No automatic providers, credentials or network sessions.",
+    "No price freshness, provenance, licensed feed, UI quote integration or trading acceptance.",
+    "Synchronous lock serializes fetch and registry methods; provider bounds I/O. Cancellation is not added.",
+    "Direct concurrent mutation of compatibility providers dictionary is unsupported.",
+    "Result data is raw; only repr hides it. Provider labels are trusted configuration.",
+    "Offline Python audit guard is not an OS sandbox.",
+    "Existing pending-worker shutdown finding remains open before UI quote integration."
+  ],
+  "FULL_AUTONOMY": "BLOCKED",
+  "PRODUCTION_ACCEPTANCE": "BLOCKED"
+}
